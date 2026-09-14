@@ -1,0 +1,15 @@
+# Standarkan akhir baris supaya konsisten di semua komputer tim,
+# apapun OS-nya (Windows/Mac/Linux) — mencegah "conflict palsu"
+# yang cuma disebabkan beda LF vs CRLF, bukan perubahan isi sebenarnya.
+
+* text=auto eol=lf
+
+# File yang memang wajib CRLF di Windows (solution file Visual Studio
+# kadang rewel kalau bukan CRLF)
+*.sln text eol=crlf
+
+# File biner — jangan disentuh sama sekali oleh konversi baris
+*.png binary
+*.jpg binary
+*.ico binary
+*.dll binary
