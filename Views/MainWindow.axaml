@@ -15,8 +15,58 @@
         <vm:MainViewModel />
     </Design.DataContext>
 
-    <TextBox Text="{Binding Greeting}"
-             HorizontalAlignment="Center"
-             VerticalAlignment="Center" />
+    <Grid RowDefinitions="Auto,*"
+      Background="#F4F7F6">
+
+    <Border Grid.Row="0"
+            Background="#163B32"
+            Padding="28,16">
+        <StackPanel Spacing="2">
+            <TextBlock Text="SiagaApi"
+                       FontSize="26"
+                       FontWeight="Bold"
+                       Foreground="White" />
+            <TextBlock Text="Dashboard pemantauan Karhutla"
+                       Foreground="#D1FAE5" />
+        </StackPanel>
+    </Border>
+
+    <Grid Grid.Row="1"
+          ColumnDefinitions="220,*">
+
+        <Border Background="#0F2D26"
+                Padding="20">
+            <StackPanel Spacing="18">
+                <TextBlock Text="NAVIGASI"
+                           FontSize="12"
+                           FontWeight="Bold"
+                           Foreground="#9CC9B8" />
+
+                <TextBlock Text="Dashboard"
+                           FontWeight="Bold"
+                           Foreground="White" />
+                <TextBlock Text="Hotspot"
+                           Foreground="#D1FAE5" />
+                <TextBlock Text="Simulasi"
+                           Foreground="#D1FAE5" />
+                <TextBlock Text="Laporan Warga"
+                           Foreground="#D1FAE5" />
+                <TextBlock Text="Subscriber"
+                           Foreground="#D1FAE5" />
+            </StackPanel>
+        </Border>
+
+        <StackPanel Grid.Column="1"
+                    Margin="32"
+                    Spacing="8">
+            <TextBlock Text="Dashboard"
+                       FontSize="24"
+                       FontWeight="Bold"
+                       Foreground="#1D2939" />
+            <TextBlock Text="Ringkasan hotspot, cuaca, dan laporan lapangan akan tampil di sini."
+                       Foreground="#667085" />
+        </StackPanel>
+    </Grid>
+</Grid>
 
 </Window>
