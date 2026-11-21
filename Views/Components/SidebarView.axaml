@@ -1,0 +1,158 @@
+<UserControl
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    x:Class="SiagaApi.Views.Components.SidebarView">
+
+    <UserControl.Resources>
+
+        <!-- SIDEBAR BUTTON THEME -->
+        <ControlTheme x:Key="SidebarNavButtonTheme"
+                      TargetType="Button">
+
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="#A0ABB4"/>
+            <Setter Property="HorizontalContentAlignment" Value="Left"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="Padding" Value="14,10"/>
+            <Setter Property="FontSize" Value="15"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Cursor" Value="Hand"/>
+
+            <Setter Property="Template">
+                <ControlTemplate>
+                    <Border Background="{TemplateBinding Background}"
+                            CornerRadius="7">
+
+                        <ContentPresenter
+                            Content="{TemplateBinding Content}"
+                            ContentTemplate="{TemplateBinding ContentTemplate}"
+                            Foreground="{TemplateBinding Foreground}"
+                            FontSize="{TemplateBinding FontSize}"
+                            FontWeight="{TemplateBinding FontWeight}"
+                            HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                            VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                            Margin="{TemplateBinding Padding}"/>
+
+                    </Border>
+                </ControlTemplate>
+            </Setter>
+
+            <!-- NORMAL MENU HOVER -->
+            <Style Selector="^:pointerover">
+                <Setter Property="Background" Value="#34434C"/>
+                <Setter Property="Foreground" Value="#FFFFFF"/>
+            </Style>
+
+            <!-- PRESSED -->
+            <Style Selector="^:pressed">
+                <Setter Property="Background" Value="#252E35"/>
+                <Setter Property="Foreground" Value="#FFFFFF"/>
+            </Style>
+
+        </ControlTheme>
+
+    </UserControl.Resources>
+
+    <UserControl.Styles>
+
+        <!-- SELECTED PAGE -->
+        <Style Selector="Button.nav-button.selected">
+            <Setter Property="Background" Value="#252E35"/>
+            <Setter Property="Foreground" Value="#E5E9ED"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+        </Style>
+
+        <!-- SELECTED PAGE HOVER: NO VISUAL CHANGE -->
+        <Style Selector="Button.nav-button.selected:pointerover">
+            <Setter Property="Background" Value="#252E35"/>
+            <Setter Property="Foreground" Value="#E5E9ED"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+        </Style>
+
+        <!-- LOGOUT LINK -->
+        <Style Selector="TextBlock.logout-link">
+            <Setter Property="Foreground" Value="#95A2AD"/>
+            <Setter Property="TextDecorations" Value="{x:Null}"/>
+            <Setter Property="Cursor" Value="Hand"/>
+        </Style>
+
+        <Style Selector="TextBlock.logout-link:pointerover">
+            <Setter Property="Foreground" Value="#E5E9ED"/>
+            <Setter Property="TextDecorations" Value="Underline"/>
+        </Style>
+
+    </UserControl.Styles>
+
+    <Border Background="#1C2329"
+            BorderBrush="#303A42"
+            BorderThickness="0,0,1,0">
+
+        <Grid RowDefinitions="Auto,*,Auto">
+
+            <!-- BRAND -->
+            <TextBlock Grid.Row="0"
+                       Text="SiagaApi"
+                       FontSize="25"
+                       FontWeight="Bold"
+                       Foreground="#F15A24"
+                       Margin="26,24,20,24"/>
+
+            <!-- NAVIGATION -->
+            <StackPanel Grid.Row="1"
+                        Margin="14,0"
+                        Spacing="5">
+
+                <Button Content="Dashboard"
+                        Classes="nav-button selected"
+                        Theme="{StaticResource SidebarNavButtonTheme}"/>
+
+                <Button Content="Peta &amp; Simulasi"
+                        Classes="nav-button"
+                        Theme="{StaticResource SidebarNavButtonTheme}"/>
+
+                <Button Content="Laporan Warga"
+                        Classes="nav-button"
+                        Theme="{StaticResource SidebarNavButtonTheme}"/>
+
+                <Button Content="Langganan"
+                        Classes="nav-button"
+                        Theme="{StaticResource SidebarNavButtonTheme}"/>
+
+                <Button Content="Riwayat &amp; Tren"
+                        Classes="nav-button"
+                        Theme="{StaticResource SidebarNavButtonTheme}"/>
+
+                <Button Content="Pengaturan"
+                        Classes="nav-button"
+                        Theme="{StaticResource SidebarNavButtonTheme}"/>
+
+            </StackPanel>
+
+            <!-- FOOTER -->
+            <StackPanel Grid.Row="2"
+                        Margin="26,12,20,25"
+                        Spacing="5">
+
+                <TextBlock Text="FIRMS · Cuaca · Database"
+                           FontSize="13"
+                           Foreground="#95A2AD"/>
+
+                <TextBlock Text="Terhubung"
+                           FontSize="13"
+                           Foreground="#72C58B"
+                           Margin="0,0,0,16"/>
+
+                <TextBlock Text="Operator Budi"
+                           FontSize="14"
+                           Foreground="#E5E9ED"/>
+
+                <TextBlock Text="Keluar"
+                           Classes="logout-link"
+                           FontSize="13"/>
+
+            </StackPanel>
+
+        </Grid>
+    </Border>
+
+</UserControl>

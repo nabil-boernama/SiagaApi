@@ -389,7 +389,18 @@
                         Content="Masuk"
                         Theme="{StaticResource LoginButtonTheme}"
                         HorizontalAlignment="Stretch"
-                        Margin="0,0,0,13"/>
+                        Margin="0,0,0,13"
+                        Click="LoginButton_Click"/>
+
+                    <Button
+                        Content="Preview Dashboard (Development)"
+                        Background="#303A42"
+                        Foreground="#E5E9ED"
+                        HorizontalAlignment="Stretch"
+                        Padding="10"
+                        CornerRadius="7"
+                        Margin="0,0,0,13"
+                        Click="PreviewDashboard_Click"/>
 
 
                     <!-- FORGOT PASSWORD -->

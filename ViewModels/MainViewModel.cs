@@ -12,16 +12,29 @@ public partial class MainViewModel : ViewModelBase
 
     public MainViewModel()
     {
-        _currentPage = new LoginViewModel(NavigateToRegister);
+        _currentPage = CreateLoginViewModel();
+    }
+
+    private LoginViewModel CreateLoginViewModel()
+    {
+        return new LoginViewModel(
+            NavigateToRegister,
+            NavigateToDashboard
+        );
     }
 
     public void NavigateToLogin()
     {
-        CurrentPage = new LoginViewModel(NavigateToRegister);
+        CurrentPage = CreateLoginViewModel();
     }
 
     public void NavigateToRegister()
     {
         CurrentPage = new RegisterViewModel(NavigateToLogin);
+    }
+
+    public void NavigateToDashboard()
+    {
+        CurrentPage = new DashboardViewModel();
     }
 }
