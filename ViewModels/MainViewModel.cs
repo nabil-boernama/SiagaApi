@@ -19,7 +19,8 @@ public partial class MainViewModel : ViewModelBase
     {
         return new LoginViewModel(
             NavigateToRegister,
-            NavigateToDashboard
+            NavigateToDashboard,
+            NavigateToForgotPassword
         );
     }
 
@@ -31,6 +32,11 @@ public partial class MainViewModel : ViewModelBase
     public void NavigateToRegister()
     {
         CurrentPage = new RegisterViewModel(NavigateToLogin);
+    }
+
+    public void NavigateToForgotPassword()
+    {
+        CurrentPage = new ForgotPasswordViewModel(NavigateToLogin);
     }
 
     public void NavigateToDashboard()

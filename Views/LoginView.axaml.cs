@@ -38,4 +38,14 @@ public partial class LoginView : UserControl
     {
         // Autentikasi akan diimplementasikan nanti.
     }
+
+    private void ForgotPassword_Click(
+    object? sender,
+    Avalonia.Input.PointerPressedEventArgs e)
+{
+    if (DataContext is LoginViewModel viewModel)
+    {
+        viewModel.NavigateToForgotPassword();
+    }
+}
 }
