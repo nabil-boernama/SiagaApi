@@ -1,0 +1,415 @@
+<UserControl
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:vm="using:SiagaApi.ViewModels"
+    xmlns:components="using:SiagaApi.Views.Components"
+    x:Class="SiagaApi.Views.LaporanWargaView"
+    x:DataType="vm:LaporanWargaViewModel"
+    Background="#14181B">
+
+    <UserControl.Resources>
+
+        <SolidColorBrush x:Key="BackgroundBrush" Color="#14181B"/>
+        <SolidColorBrush x:Key="PanelBrush" Color="#1C2329"/>
+        <SolidColorBrush x:Key="InputBrush" Color="#14181B"/>
+        <SolidColorBrush x:Key="BorderBrush" Color="#303A42"/>
+        <SolidColorBrush x:Key="AccentBrush" Color="#F15A24"/>
+        <SolidColorBrush x:Key="AccentHoverBrush" Color="#E64F1F"/>
+        <SolidColorBrush x:Key="AccentPressedBrush" Color="#D94C1C"/>
+        <SolidColorBrush x:Key="TextBrush" Color="#E5E9ED"/>
+        <SolidColorBrush x:Key="MutedBrush" Color="#95A2AD"/>
+
+        <!-- TOMBOL ORANYE: MENGIKUTI REGISTER VIEW -->
+        <ControlTheme x:Key="PrimaryButtonTheme" TargetType="Button">
+
+            <Setter Property="Background" Value="#F15A24"/>
+            <Setter Property="Foreground" Value="#14181B"/>
+            <Setter Property="FontSize" Value="15"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Height" Value="44"/>
+            <Setter Property="Padding" Value="12,10"/>
+            <Setter Property="HorizontalAlignment" Value="Stretch"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Cursor" Value="Hand"/>
+
+            <Setter Property="Template">
+                <ControlTemplate>
+                    <Border Background="{TemplateBinding Background}"
+                            CornerRadius="7">
+                        <ContentPresenter
+                            Content="{TemplateBinding Content}"
+                            ContentTemplate="{TemplateBinding ContentTemplate}"
+                            HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                            VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                            Margin="{TemplateBinding Padding}"/>
+                    </Border>
+                </ControlTemplate>
+            </Setter>
+
+            <Style Selector="^:pointerover">
+                <Setter Property="Background" Value="#E64F1F"/>
+            </Style>
+
+            <Style Selector="^:pressed">
+                <Setter Property="Background" Value="#D94C1C"/>
+            </Style>
+
+            <Style Selector="^:disabled">
+                <Setter Property="Background" Value="#713B2A"/>
+                <Setter Property="Foreground" Value="#95A2AD"/>
+            </Style>
+
+        </ControlTheme>
+
+    </UserControl.Resources>
+
+    <!-- INPUT STYLE: SAMA DENGAN REGISTER VIEW -->
+    <UserControl.Styles>
+
+        <Style Selector="TextBox">
+            <Setter Property="Height" Value="44"/>
+            <Setter Property="Padding" Value="12,10"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Foreground" Value="#FFFFFF"/>
+            <Setter Property="Background" Value="#14181B"/>
+            <Setter Property="BorderBrush" Value="#303A42"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="CaretBrush" Value="#FFFFFF"/>
+            <Setter Property="SelectionBrush" Value="#805A3528"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+        </Style>
+
+        <Style Selector="TextBox:pointerover">
+            <Setter Property="Background" Value="#14181B"/>
+            <Setter Property="Foreground" Value="#FFFFFF"/>
+            <Setter Property="BorderBrush" Value="#667681"/>
+        </Style>
+
+        <Style Selector="TextBox:focus">
+            <Setter Property="Background" Value="#14181B"/>
+            <Setter Property="Foreground" Value="#FFFFFF"/>
+            <Setter Property="BorderBrush" Value="#95A2AD"/>
+            <Setter Property="BorderThickness" Value="1.5"/>
+        </Style>
+
+        <Style Selector="TextBox /template/ Border#PART_BorderElement">
+            <Setter Property="Background" Value="#14181B"/>
+            <Setter Property="BorderBrush" Value="#303A42"/>
+        </Style>
+
+        <Style Selector="TextBox:pointerover /template/ Border#PART_BorderElement">
+            <Setter Property="Background" Value="#14181B"/>
+            <Setter Property="BorderBrush" Value="#667681"/>
+        </Style>
+
+        <Style Selector="TextBox:focus /template/ Border#PART_BorderElement">
+            <Setter Property="Background" Value="#14181B"/>
+            <Setter Property="BorderBrush" Value="#95A2AD"/>
+        </Style>
+
+        <!-- STYLE KHUSUS TEXTBOX DESKRIPSI -->
+        <Style Selector="TextBox.multiline-input">
+            <Setter Property="Height" Value="102"/>
+            <Setter Property="MinHeight" Value="102"/>
+            <Setter Property="VerticalContentAlignment" Value="Top"/>
+            <Setter Property="TextWrapping" Value="Wrap"/>
+        </Style>
+
+        <!-- COMBOBOX -->
+        <Style Selector="ComboBox">
+            <Setter Property="MinHeight" Value="44"/>
+            <Setter Property="Padding" Value="10,8"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Foreground" Value="#FFFFFF"/>
+            <Setter Property="Background" Value="#14181B"/>
+            <Setter Property="BorderBrush" Value="#303A42"/>
+            <Setter Property="BorderThickness" Value="1"/>
+        </Style>
+
+        <Style Selector="ComboBox:pointerover">
+            <Setter Property="BorderBrush" Value="#667681"/>
+        </Style>
+
+        <Style Selector="ComboBox:focus">
+            <Setter Property="BorderBrush" Value="#95A2AD"/>
+        </Style>
+
+    </UserControl.Styles>
+
+    <Grid ColumnDefinitions="260,*">
+
+        <!-- SIDEBAR -->
+        <components:SidebarView Grid.Column="0"/>
+
+        <!-- MAIN CONTENT -->
+        <Grid Grid.Column="1"
+              Margin="38,34,38,30"
+              RowDefinitions="Auto,*">
+
+            <!-- HEADER -->
+            <StackPanel Grid.Row="0"
+                        Spacing="3"
+                        Margin="0,0,0,22">
+
+                <TextBlock
+                    Text="Laporan warga"
+                    FontSize="28"
+                    FontWeight="Bold"
+                    Foreground="#E5E9ED"/>
+
+                <TextBlock
+                    Text="Diinput operator dari telepon, radio, atau WhatsApp"
+                    FontSize="14"
+                    Foreground="#95A2AD"/>
+
+            </StackPanel>
+
+            <!-- CONTENT -->
+            <Grid Grid.Row="1"
+                  ColumnDefinitions="0.95*,1.7*"
+                  ColumnSpacing="22"
+                  VerticalAlignment="Top">
+
+                <!-- FORM TAMBAH LAPORAN -->
+                <Border Grid.Column="0"
+                        Background="#1C2329"
+                        BorderBrush="#303A42"
+                        BorderThickness="1"
+                        CornerRadius="12"
+                        Padding="19">
+
+                    <StackPanel Spacing="12">
+
+                        <TextBlock
+                            Text="TAMBAH LAPORAN BARU"
+                            FontSize="12"
+                            FontWeight="SemiBold"
+                            Foreground="#95A2AD"
+                            Margin="0,0,0,2"/>
+
+                        <!-- NAMA PELAPOR -->
+                        <StackPanel Spacing="6">
+
+                            <TextBlock
+                                Text="Nama pelapor"
+                                FontSize="13"
+                                Foreground="#95A2AD"/>
+
+                            <TextBox
+                                Text="{Binding NamaPelapor, Mode=TwoWay}"
+                                PlaceholderText="Masukkan nama pelapor"/>
+
+                        </StackPanel>
+
+                        <!-- WILAYAH -->
+                        <StackPanel Spacing="6">
+
+                            <TextBlock
+                                Text="Wilayah"
+                                FontSize="13"
+                                Foreground="#95A2AD"/>
+
+                            <ComboBox
+                                ItemsSource="{Binding WilayahList}"
+                                SelectedItem="{Binding SelectedWilayah, Mode=TwoWay}"/>
+
+                        </StackPanel>
+
+                        <!-- KEPARAHAN -->
+                        <StackPanel Spacing="6">
+
+                            <TextBlock
+                                Text="Tingkat keparahan"
+                                FontSize="13"
+                                Foreground="#95A2AD"/>
+
+                            <ComboBox
+                                ItemsSource="{Binding KeparahanList}"
+                                SelectedItem="{Binding SelectedKeparahan, Mode=TwoWay}"/>
+
+                        </StackPanel>
+
+                        <!-- DESKRIPSI -->
+                        <StackPanel Spacing="6">
+
+                            <TextBlock
+                                Text="Deskripsi kejadian"
+                                FontSize="13"
+                                Foreground="#95A2AD"/>
+
+                            <TextBox
+                                Classes="multiline-input"
+                                Text="{Binding Deskripsi, Mode=TwoWay}"
+                                PlaceholderText="Tuliskan detail kejadian..."
+                                AcceptsReturn="True"
+                                TextWrapping="Wrap"
+                                VerticalContentAlignment="Top"/>
+
+                        </StackPanel>
+
+                        <!-- PESAN -->
+                        <TextBlock
+                            Text="{Binding Message}"
+                            Foreground="#78C99A"
+                            FontSize="12"
+                            TextWrapping="Wrap"/>
+
+                        <!-- BUTTON -->
+                        <Button
+                            Content="Simpan laporan"
+                            Theme="{StaticResource PrimaryButtonTheme}"
+                            HorizontalAlignment="Left"
+                            Padding="17,10"
+                            Click="SaveReport_Click"/>
+
+                    </StackPanel>
+                </Border>
+
+                <!-- TABEL LAPORAN -->
+                <Border Grid.Column="1"
+                        Background="#1C2329"
+                        BorderBrush="#303A42"
+                        BorderThickness="1"
+                        CornerRadius="12"
+                        Padding="19">
+
+                    <StackPanel Spacing="12">
+
+                        <TextBlock
+                            Text="LAPORAN MASUK · TERBARU DULU"
+                            FontSize="12"
+                            FontWeight="SemiBold"
+                            Foreground="#95A2AD"/>
+
+                        <!-- TABLE HEADER -->
+                        <Grid ColumnDefinitions="0.65*,0.8*,0.95*,1.3*,1.2*"
+                              Margin="0,0,0,2">
+
+                            <TextBlock Text="WAKTU"
+                                       FontSize="11"
+                                       FontWeight="SemiBold"
+                                       Foreground="#95A2AD"
+                                       Margin="8,0"/>
+
+                            <TextBlock Grid.Column="1"
+                                       Text="WILAYAH"
+                                       FontSize="11"
+                                       FontWeight="SemiBold"
+                                       Foreground="#95A2AD"
+                                       Margin="8,0"/>
+
+                            <TextBlock Grid.Column="2"
+                                       Text="KEPARAHAN"
+                                       FontSize="11"
+                                       FontWeight="SemiBold"
+                                       Foreground="#95A2AD"
+                                       Margin="8,0"/>
+
+                            <TextBlock Grid.Column="3"
+                                       Text="COCOK HOTSPOT"
+                                       FontSize="11"
+                                       FontWeight="SemiBold"
+                                       Foreground="#95A2AD"
+                                       Margin="8,0"/>
+
+                            <TextBlock Grid.Column="4"
+                                       Text="STATUS"
+                                       FontSize="11"
+                                       FontWeight="SemiBold"
+                                       Foreground="#95A2AD"
+                                       Margin="8,0"/>
+
+                        </Grid>
+
+                        <Border Height="1" Background="#303A42"/>
+
+                        <!-- REPORT ITEMS -->
+                        <ItemsControl ItemsSource="{Binding Reports}">
+
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+
+                                    <StackPanel Spacing="0">
+
+                                        <Grid ColumnDefinitions="0.65*,0.8*,0.95*,1.3*,1.2*"
+                                              MinHeight="41">
+
+                                            <TextBlock
+                                                Text="{Binding Waktu}"
+                                                FontSize="13"
+                                                Foreground="#E5E9ED"
+                                                VerticalAlignment="Center"
+                                                Margin="8,0"/>
+
+                                            <TextBlock
+                                                Grid.Column="1"
+                                                Text="{Binding Wilayah}"
+                                                FontSize="13"
+                                                Foreground="#E5E9ED"
+                                                VerticalAlignment="Center"
+                                                Margin="8,0"/>
+
+                                            <TextBlock
+                                                Grid.Column="2"
+                                                Text="{Binding Keparahan}"
+                                                FontSize="13"
+                                                Foreground="#E5E9ED"
+                                                VerticalAlignment="Center"
+                                                Margin="8,0"
+                                                TextWrapping="Wrap"/>
+
+                                            <TextBlock
+                                                Grid.Column="3"
+                                                Text="{Binding CocokHotspot}"
+                                                FontSize="12"
+                                                Foreground="#E5E9ED"
+                                                VerticalAlignment="Center"
+                                                Margin="8,0"
+                                                TextWrapping="Wrap"/>
+
+                                            <Border
+                                                Grid.Column="4"
+                                                Background="{Binding StatusBackground}"
+                                                BorderBrush="#28543A"
+                                                BorderThickness="1"
+                                                CornerRadius="15"
+                                                Padding="9,4"
+                                                HorizontalAlignment="Left"
+                                                VerticalAlignment="Center"
+                                                Margin="5,0">
+
+                                                <TextBlock
+                                                    Text="{Binding Status}"
+                                                    FontSize="11"
+                                                    FontWeight="SemiBold"
+                                                    Foreground="{Binding StatusForeground}"/>
+
+                                            </Border>
+
+                                        </Grid>
+
+                                        <Border Height="1" Background="#303A42"/>
+
+                                    </StackPanel>
+
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+
+                        </ItemsControl>
+
+                        <TextBlock
+                            Text="Verifikasi otomatis: laporan dicocokkan dengan hotspot FIRMS dalam radius 5 km."
+                            FontSize="12"
+                            Foreground="#95A2AD"
+                            TextWrapping="Wrap"
+                            Margin="0,2,0,0"/>
+
+                    </StackPanel>
+                </Border>
+
+            </Grid>
+        </Grid>
+    </Grid>
+</UserControl>

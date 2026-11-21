@@ -56,6 +56,13 @@ public partial class MainViewModel : ViewModelBase
                 );
                 break;
 
+            case "Laporan Warga":
+                CurrentPage = new LaporanWargaViewModel(
+                    NavigateToPage,
+                    NavigateToLogin
+                );
+                break;
+
             default:
                 CurrentPage = new PagePlaceholderViewModel(
                     page,
