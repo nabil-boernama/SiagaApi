@@ -1,0 +1,509 @@
+<UserControl
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:vm="using:SiagaApi.ViewModels"
+    xmlns:components="using:SiagaApi.Views.Components"
+    xmlns:primitives="using:Avalonia.Controls.Primitives"
+    xmlns:controls="using:Avalonia.Controls"
+    x:Class="SiagaApi.Views.PetaSimulasiView"
+    x:DataType="vm:PetaSimulasiViewModel"
+    Background="#14181B">
+
+    <UserControl.Resources>
+
+        <!-- BUTTON THEME -->
+        <ControlTheme x:Key="SimulationButtonTheme"
+                      TargetType="Button">
+
+            <Setter Property="Background" Value="#F15A24"/>
+            <Setter Property="Foreground" Value="#14181B"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Cursor" Value="Hand"/>
+
+            <Setter Property="Template">
+                <ControlTemplate>
+                    <Border Background="{TemplateBinding Background}"
+                            CornerRadius="7">
+                        <ContentPresenter
+                            Content="{TemplateBinding Content}"
+                            ContentTemplate="{TemplateBinding ContentTemplate}"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Margin="{TemplateBinding Padding}"/>
+                    </Border>
+                </ControlTemplate>
+            </Setter>
+
+            <Style Selector="^:pointerover">
+                <Setter Property="Background" Value="#E64F1F"/>
+                <Setter Property="Foreground" Value="#14181B"/>
+            </Style>
+
+            <Style Selector="^:pressed">
+                <Setter Property="Background" Value="#D94C1C"/>
+            </Style>
+
+            <Style Selector="^:disabled">
+                <Setter Property="Background" Value="#713B2A"/>
+                <Setter Property="Foreground" Value="#95A2AD"/>
+            </Style>
+
+        </ControlTheme>
+
+    </UserControl.Resources>
+
+
+    <!-- ROOT -->
+    <Grid ColumnDefinitions="260,*">
+
+        <components:SidebarView Grid.Column="0"/>
+
+        <Grid Grid.Column="1"
+              Margin="38,34,38,30"
+              RowDefinitions="Auto,*">
+
+            <!-- HEADER -->
+            <StackPanel Grid.Row="0"
+                        Spacing="3"
+                        Margin="0,0,0,22">
+
+                <TextBlock
+                    Text="Simulasi penyebaran — Klaster Rumbai"
+                    FontSize="28"
+                    FontWeight="Bold"
+                    Foreground="#E5E9ED"/>
+
+                <TextBlock
+                    Text="47 titik · skenario hipotetis yang dipicu operator, 50 kali simulasi · sel 375 m"
+                    FontSize="14"
+                    Foreground="#95A2AD"/>
+
+            </StackPanel>
+
+
+            <!-- CONTENT -->
+            <Grid Grid.Row="1"
+                  ColumnDefinitions="2.65*,0.95*"
+                  ColumnSpacing="22">
+
+
+                <!-- MAP -->
+                <Grid Grid.Column="0"
+                      RowDefinitions="*,Auto"
+                      RowSpacing="12">
+
+                    <Border Grid.Row="0"
+                            Background="#1C2329"
+                            BorderBrush="#303A42"
+                            BorderThickness="1"
+                            CornerRadius="12"
+                            Padding="15">
+
+                        <Border Background="#1B2D23"
+                                CornerRadius="8"
+                                ClipToBounds="True">
+
+                            <Viewbox Stretch="Uniform">
+
+                                <Canvas Width="760" Height="580">
+
+                                    <!-- GRID -->
+                                    <Path
+                                        Data="M 0,48 L 760,48 M 0,96 L 760,96 M 0,144 L 760,144 M 0,192 L 760,192 M 0,240 L 760,240 M 0,288 L 760,288 M 0,336 L 760,336 M 0,384 L 760,384 M 0,432 L 760,432 M 0,480 L 760,480 M 0,528 L 760,528 M 48,0 L 48,580 M 96,0 L 96,580 M 144,0 L 144,580 M 192,0 L 192,580 M 240,0 L 240,580 M 288,0 L 288,580 M 336,0 L 336,580 M 384,0 L 384,580 M 432,0 L 432,580 M 480,0 L 480,580 M 528,0 L 528,580 M 576,0 L 576,580 M 624,0 L 624,580 M 672,0 L 672,580 M 720,0 L 720,580"
+                                        Stroke="#FFFFFF"
+                                        StrokeThickness="0.7"
+                                        Opacity="0.055"/>
+
+                                    <!-- RIVER -->
+                                    <Path
+                                        Data="M -20,420 C 100,385 175,445 280,480 C 400,535 540,560 780,520"
+                                        Stroke="#397BB8"
+                                        StrokeThickness="15"
+                                        Fill="Transparent"/>
+
+                                    <!-- T+6 AREA -->
+                                    <Path
+                                        Data="M 180,355 C 160,265 245,150 365,115 C 465,85 535,120 535,195 C 540,280 455,360 350,410 C 265,450 195,425 180,355 Z"
+                                        Fill="#E5A72B"
+                                        Opacity="0.13"
+                                        Stroke="#E5A72B"
+                                        StrokeThickness="2"
+                                        StrokeDashArray="5,5"/>
+
+                                    <!-- T+3 AREA -->
+                                    <Path
+                                        Data="M 215,340 C 200,285 260,220 335,205 C 410,185 465,210 450,270 C 435,330 365,375 290,370 C 245,368 225,360 215,340 Z"
+                                        Fill="#E5A72B"
+                                        Opacity="0.32"
+                                        Stroke="#F4C65E"
+                                        StrokeThickness="2.5"/>
+
+                                    <!-- T+1 AREA -->
+                                    <Path
+                                        Data="M 235,345 C 225,315 260,280 300,270 C 340,258 365,278 355,310 C 345,340 305,360 270,365 C 250,365 240,358 235,345 Z"
+                                        Fill="#E46C37"
+                                        Opacity="0.75"
+                                        Stroke="#F2A17D"
+                                        StrokeThickness="1.5"/>
+
+                                    <!-- HOTSPOTS -->
+                                    <Ellipse Canvas.Left="240" Canvas.Top="330"
+                                             Width="14" Height="14"
+                                             Fill="#E7462D"
+                                             Stroke="#14181B"
+                                             StrokeThickness="2"/>
+
+                                    <Ellipse Canvas.Left="250" Canvas.Top="315"
+                                             Width="14" Height="14"
+                                             Fill="#E7462D"
+                                             Stroke="#14181B"
+                                             StrokeThickness="2"/>
+
+                                    <Ellipse Canvas.Left="265" Canvas.Top="300"
+                                             Width="14" Height="14"
+                                             Fill="#E7462D"
+                                             Stroke="#14181B"
+                                             StrokeThickness="2"/>
+
+                                    <Ellipse Canvas.Left="290" Canvas.Top="285"
+                                             Width="14" Height="14"
+                                             Fill="#E7462D"
+                                             Stroke="#14181B"
+                                             StrokeThickness="2"/>
+
+                                    <!-- TIME LABELS -->
+                                    <Border Canvas.Left="340" Canvas.Top="335"
+                                            Background="#14181B"
+                                            CornerRadius="5"
+                                            Padding="8,4">
+                                        <TextBlock Text="t+1"
+                                                   FontSize="12"
+                                                   Foreground="#E5E9ED"/>
+                                    </Border>
+
+                                    <Border Canvas.Left="440" Canvas.Top="270"
+                                            Background="#14181B"
+                                            CornerRadius="5"
+                                            Padding="8,4">
+                                        <TextBlock Text="t+3"
+                                                   FontSize="12"
+                                                   Foreground="#E5E9ED"/>
+                                    </Border>
+
+                                    <Border Canvas.Left="535" Canvas.Top="125"
+                                            Background="#14181B"
+                                            CornerRadius="5"
+                                            Padding="8,4">
+                                        <TextBlock Text="t+6"
+                                                   FontSize="12"
+                                                   Foreground="#E5E9ED"/>
+                                    </Border>
+
+                                    <!-- DESTINATION -->
+                                    <Rectangle Canvas.Left="525" Canvas.Top="168"
+                                               Width="13" Height="13"
+                                               Fill="#E5E9ED"
+                                               Stroke="#14181B"
+                                               StrokeThickness="1"/>
+
+                                    <Border Canvas.Left="545" Canvas.Top="160"
+                                            Background="#14181B"
+                                            CornerRadius="5"
+                                            Padding="8,5">
+                                        <TextBlock Text="Desa Palas ±4 km"
+                                                   FontSize="12"
+                                                   Foreground="#E5E9ED"/>
+                                    </Border>
+
+                                    <!-- WIND -->
+                                    <Border Canvas.Left="12" Canvas.Top="12"
+                                            Background="#14181B"
+                                            CornerRadius="7"
+                                            Padding="12,7">
+                                        <TextBlock
+                                            Text="Angin barat daya → timur laut · 18 km/j"
+                                            FontSize="13"
+                                            Foreground="#E5E9ED"/>
+                                    </Border>
+
+                                    <!-- SCALE -->
+                                    <StackPanel Canvas.Left="620"
+                                                Canvas.Top="535"
+                                                Spacing="3">
+                                        <TextBlock Text="≈ 2 km"
+                                                   FontSize="11"
+                                                   Foreground="#E5E9ED"/>
+                                        <Border Width="90"
+                                                Height="2"
+                                                Background="#E5E9ED"/>
+                                    </StackPanel>
+
+                                </Canvas>
+                            </Viewbox>
+
+                        </Border>
+                    </Border>
+
+
+                    <!-- LEGEND -->
+                    <WrapPanel Grid.Row="1"
+                               Orientation="Horizontal"
+                               VerticalAlignment="Center">
+
+                        <TextBlock Text="● Hotspot asli"
+                                   Foreground="#95A2AD"
+                                   FontSize="12"
+                                   Margin="0,0,18,0"/>
+
+                        <TextBlock Text="Oranye: peluang tinggi (t+1)"
+                                   Foreground="#95A2AD"
+                                   FontSize="12"
+                                   Margin="0,0,18,0"/>
+
+                        <TextBlock Text="Kuning: peluang sedang (t+3)"
+                                   Foreground="#95A2AD"
+                                   FontSize="12"
+                                   Margin="0,0,18,0"/>
+
+                        <TextBlock Text="Garis putus: jangkauan t+6"
+                                   Foreground="#95A2AD"
+                                   FontSize="12"
+                                   Margin="0,0,18,0"/>
+
+                        <TextBlock Text="Biru: sungai / sekat"
+                                   Foreground="#95A2AD"
+                                   FontSize="12"/>
+
+                    </WrapPanel>
+
+                </Grid>
+
+
+                <!-- RIGHT PANEL -->
+                <Grid Grid.Column="1"
+                      RowDefinitions="Auto,Auto,*"
+                      RowSpacing="16">
+
+
+                    <!-- TIME CONTROL -->
+                    <Border Grid.Row="0"
+                            Background="#1C2329"
+                            BorderBrush="#303A42"
+                            BorderThickness="1"
+                            CornerRadius="11"
+                            Padding="18">
+
+                        <StackPanel Spacing="12">
+
+                            <TextBlock
+                                Text="{Binding SimulationTimeText}"
+                                FontSize="12"
+                                FontWeight="SemiBold"
+                                Foreground="#95A2AD"/>
+
+
+                            <Slider
+                                Minimum="0"
+                                Maximum="6"
+                                TickFrequency="1"
+                                IsSnapToTickEnabled="True"
+                                Value="{Binding SimulationHour, Mode=TwoWay}"
+                                Background="#493A32"
+                                Foreground="#F15A24"
+                                HorizontalAlignment="Stretch">
+
+                                <Slider.Resources>
+                                    <SolidColorBrush x:Key="SliderThumbBackground" Color="#F15A24"/>
+                                    <SolidColorBrush x:Key="SliderThumbBackgroundPointerOver" Color="#E64F1F"/>
+                                    <SolidColorBrush x:Key="SliderThumbBackgroundPressed" Color="#D94C1C"/>
+                                </Slider.Resources>
+
+                                <Slider.Styles>
+
+                                    <!-- NORMAL: bagian aktif -->
+                                    <Style Selector="Slider /template/ RepeatButton#PART_DecreaseButton">
+                                        <Setter Property="Background" Value="#F15A24"/>
+                                    </Style>
+
+                                    <!-- NORMAL: bagian belum aktif -->
+                                    <Style Selector="Slider /template/ RepeatButton#PART_IncreaseButton">
+                                        <Setter Property="Background" Value="#493A32"/>
+                                    </Style>
+
+                                    <!-- NORMAL: lingkaran -->
+                                    <Style Selector="Slider /template/ Thumb">
+                                        <Setter Property="Background" Value="#F15A24"/>
+                                        <Setter Property="BorderBrush" Value="#F15A24"/>
+                                    </Style>
+
+                                    <!-- HOVER: bagian aktif -->
+                                    <Style Selector="Slider:pointerover /template/ RepeatButton#PART_DecreaseButton">
+                                        <Setter Property="Background" Value="#E64F1F"/>
+                                    </Style>
+
+                                    <!-- HOVER: bagian belum aktif tetap gelap -->
+                                    <Style Selector="Slider:pointerover /template/ RepeatButton#PART_IncreaseButton">
+                                        <Setter Property="Background" Value="#493A32"/>
+                                    </Style>
+
+                                    <!-- HOVER: lingkaran -->
+                                    <Style Selector="Slider:pointerover /template/ Thumb">
+                                        <Setter Property="Background" Value="#E64F1F"/>
+                                        <Setter Property="BorderBrush" Value="#E64F1F"/>
+                                    </Style>
+
+                                    <!-- PRESSED: bagian aktif -->
+                                    <Style Selector="Slider:pressed /template/ RepeatButton#PART_DecreaseButton">
+                                        <Setter Property="Background" Value="#D94C1C"/>
+                                    </Style>
+
+                                    <!-- PRESSED: bagian belum aktif tetap gelap -->
+                                    <Style Selector="Slider:pressed /template/ RepeatButton#PART_IncreaseButton">
+                                        <Setter Property="Background" Value="#493A32"/>
+                                    </Style>
+
+                                    <!-- PRESSED: lingkaran -->
+                                    <Style Selector="Slider:pressed /template/ Thumb">
+                                        <Setter Property="Background" Value="#D94C1C"/>
+                                        <Setter Property="BorderBrush" Value="#D94C1C"/>
+                                    </Style>
+
+                                </Slider.Styles>
+                            </Slider>
+
+
+                            <Grid ColumnDefinitions="*,*">
+
+                                <TextBlock Text="t+0"
+                                           FontSize="12"
+                                           Foreground="#95A2AD"/>
+
+                                <TextBlock Grid.Column="1"
+                                           Text="t+6"
+                                           FontSize="12"
+                                           Foreground="#95A2AD"
+                                           HorizontalAlignment="Right"/>
+
+                            </Grid>
+
+                        </StackPanel>
+                    </Border>
+
+
+                    <!-- WEATHER -->
+                    <Border Grid.Row="1"
+                            Background="#1C2329"
+                            BorderBrush="#303A42"
+                            BorderThickness="1"
+                            CornerRadius="11"
+                            Padding="18">
+
+                        <StackPanel Spacing="0">
+
+                            <Grid ColumnDefinitions="*,Auto"
+                                  Margin="0,9,0,13">
+                                <TextBlock Text="Kecepatan&#10;angin"
+                                           Foreground="#95A2AD"
+                                           FontSize="13"/>
+                                <TextBlock Grid.Column="1"
+                                           Text="18 km/jam"
+                                           Foreground="#E5E9ED"
+                                           FontSize="14"/>
+                            </Grid>
+
+                            <Border Height="1" Background="#303A42"/>
+
+                            <Grid ColumnDefinitions="*,Auto"
+                                  Margin="0,13">
+                                <TextBlock Text="Arah angin"
+                                           Foreground="#95A2AD"
+                                           FontSize="13"/>
+                                <TextBlock Grid.Column="1"
+                                           Text="Barat daya&#10;(225°)"
+                                           Foreground="#E5E9ED"
+                                           FontSize="14"/>
+                            </Grid>
+
+                            <Border Height="1" Background="#303A42"/>
+
+                            <Grid ColumnDefinitions="*,Auto"
+                                  Margin="0,13">
+                                <TextBlock Text="Kelembapan"
+                                           Foreground="#95A2AD"
+                                           FontSize="13"/>
+                                <TextBlock Grid.Column="1"
+                                           Text="38%"
+                                           Foreground="#E5E9ED"
+                                           FontSize="14"/>
+                            </Grid>
+
+                            <Border Height="1" Background="#303A42"/>
+
+                            <Grid ColumnDefinitions="*,Auto"
+                                  Margin="0,13,0,9">
+                                <TextBlock Text="Hari tanpa&#10;hujan"
+                                           Foreground="#95A2AD"
+                                           FontSize="13"/>
+                                <TextBlock Grid.Column="1"
+                                           Text="11 hari"
+                                           Foreground="#E5E9ED"
+                                           FontSize="14"/>
+                            </Grid>
+
+                        </StackPanel>
+                    </Border>
+
+
+                    <!-- SIMULATION RESULT -->
+                    <Border Grid.Row="2"
+                            Background="#1C2329"
+                            BorderBrush="#303A42"
+                            BorderThickness="1"
+                            CornerRadius="11"
+                            Padding="18">
+
+                        <StackPanel Spacing="10">
+
+                            <TextBlock
+                                Text="{Binding SimulationResultLabel}"
+                                FontSize="12"
+                                FontWeight="SemiBold"
+                                Foreground="#95A2AD"/>
+
+                            <TextBlock
+                                Text="{Binding SimulationArea}"
+                                FontSize="31"
+                                FontWeight="Bold"
+                                Foreground="#E5E9ED"/>
+
+                            <TextBlock
+                                Text="Peluang ≥ 50% di ±140 ha · estimasi simulasi, bukan pengukuran"
+                                FontSize="12"
+                                Foreground="#95A2AD"
+                                TextWrapping="Wrap"/>
+
+                            <TextBlock
+                                Text="{Binding SimulationDescription}"
+                                FontSize="14"
+                                Foreground="#E5E9ED"
+                                TextWrapping="Wrap"
+                                Margin="0,4,0,6"/>
+
+                            <Button
+                                Content="Jalankan ulang simulasi"
+                                Theme="{StaticResource SimulationButtonTheme}"
+                                FontWeight="SemiBold"
+                                HorizontalAlignment="Left"
+                                Padding="17,11"
+                                Click="RunSimulation_Click"/>
+
+                        </StackPanel>
+                    </Border>
+
+                </Grid>
+
+            </Grid>
+        </Grid>
+    </Grid>
+
+</UserControl>

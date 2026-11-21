@@ -43,16 +43,26 @@ public partial class MainViewModel : ViewModelBase
 
     public void NavigateToPage(string page)
     {
-        if (page == "Dashboard")
+        switch (page)
         {
-            NavigateToDashboard();
-            return;
-        }
+            case "Dashboard":
+                NavigateToDashboard();
+                break;
 
-        CurrentPage = new PagePlaceholderViewModel(
-            page,
-            NavigateToPage,
-            NavigateToLogin
-        );
+            case "Peta & Simulasi":
+                CurrentPage = new PetaSimulasiViewModel(
+                    NavigateToPage,
+                    NavigateToLogin
+                );
+                break;
+
+            default:
+                CurrentPage = new PagePlaceholderViewModel(
+                    page,
+                    NavigateToPage,
+                    NavigateToLogin
+                );
+                break;
+        }
     }
 }
