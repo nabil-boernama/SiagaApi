@@ -4,7 +4,7 @@ using SiagaApi.ViewModels.Components;
 
 namespace SiagaApi.ViewModels;
 
-public class DashboardViewModel : ViewModelBase
+public class DashboardViewModel : ViewModelBase, INavigationViewModel
 {
     public ObservableCollection<StatCardViewModel> Statistics { get; } = new();
 
@@ -16,7 +16,23 @@ public class DashboardViewModel : ViewModelBase
         set => SetProperty(ref _lastUpdated, value);
     }
 
-    public DashboardViewModel()
+    // Callback untuk navigasi halaman
+    private readonly Action<string>? _navigateToPage;
+    private readonly Action? _logout;
+
+    public string ActivePage => "Dashboard";
+
+    public DashboardViewModel(
+    Action<string> navigateToPage,
+    Action logout)
+    {
+        _navigateToPage = navigateToPage;
+        _logout = logout;
+
+        InitializeStatistics();
+    }
+
+    private void InitializeStatistics()
     {
         Statistics.Add(new StatCardViewModel
         {
@@ -45,6 +61,16 @@ public class DashboardViewModel : ViewModelBase
             Value = "5",
             Description = "2 cocok dengan hotspot"
         });
+    }
+
+    public void NavigateToPage(string page)
+    {
+        _navigateToPage?.Invoke(page);
+    }
+
+    public void Logout()
+    {
+        _logout?.Invoke();
     }
 
     public void RefreshData()

@@ -35,6 +35,24 @@ public partial class MainViewModel : ViewModelBase
 
     public void NavigateToDashboard()
     {
-        CurrentPage = new DashboardViewModel();
+        CurrentPage = new DashboardViewModel(
+            NavigateToPage,
+            NavigateToLogin
+        );
+    }
+
+    public void NavigateToPage(string page)
+    {
+        if (page == "Dashboard")
+        {
+            NavigateToDashboard();
+            return;
+        }
+
+        CurrentPage = new PagePlaceholderViewModel(
+            page,
+            NavigateToPage,
+            NavigateToLogin
+        );
     }
 }

@@ -1,11 +1,12 @@
 <UserControl
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    x:Class="SiagaApi.Views.Components.SidebarView">
+    x:Class="SiagaApi.Views.Components.SidebarView"
+    Loaded="SidebarView_Loaded">
 
     <UserControl.Resources>
 
-        <!-- SIDEBAR BUTTON THEME -->
+        <!-- THEME MENU SIDEBAR -->
         <ControlTheme x:Key="SidebarNavButtonTheme"
                       TargetType="Button">
 
@@ -17,6 +18,7 @@
             <Setter Property="FontSize" Value="15"/>
             <Setter Property="BorderThickness" Value="0"/>
             <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="HorizontalAlignment" Value="Stretch"/>
 
             <Setter Property="Template">
                 <ControlTemplate>
@@ -37,51 +39,74 @@
                 </ControlTemplate>
             </Setter>
 
-            <!-- NORMAL MENU HOVER -->
+            <!-- HOVER: TIDAK MENGUBAH WARNA -->
             <Style Selector="^:pointerover">
                 <Setter Property="Background" Value="#34434C"/>
-                <Setter Property="Foreground" Value="#FFFFFF"/>
+                <Setter Property="Foreground" Value="#A0ABB4"/>
             </Style>
 
-            <!-- PRESSED -->
+            <!-- PRESSED: TETAP -->
             <Style Selector="^:pressed">
-                <Setter Property="Background" Value="#252E35"/>
-                <Setter Property="Foreground" Value="#FFFFFF"/>
+                <Setter Property="Background" Value="Transparent"/>
+                <Setter Property="Foreground" Value="#A0ABB4"/>
+            </Style>
+
+        </ControlTheme>
+
+
+        <!-- THEME KELUAR -->
+        <ControlTheme x:Key="LogoutButtonTheme"
+                      TargetType="Button">
+
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="#95A2AD"/>
+            <Setter Property="HorizontalContentAlignment" Value="Left"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="Padding" Value="0"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Cursor" Value="Hand"/>
+
+            <Setter Property="Template">
+                <ControlTemplate>
+                    <Border Background="{TemplateBinding Background}">
+                        <ContentPresenter
+                            Content="{TemplateBinding Content}"
+                            ContentTemplate="{TemplateBinding ContentTemplate}"
+                            HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                            VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                    </Border>
+                </ControlTemplate>
+            </Setter>
+
+            <!-- HOVER: WARNA TETAP -->
+            <Style Selector="^:pointerover">
+                <Setter Property="Background" Value="Transparent"/>
+                <Setter Property="Foreground" Value="#95A2AD"/>
             </Style>
 
         </ControlTheme>
 
     </UserControl.Resources>
 
+
     <UserControl.Styles>
 
-        <!-- SELECTED PAGE -->
+        <!-- MENU AKTIF -->
         <Style Selector="Button.nav-button.selected">
             <Setter Property="Background" Value="#252E35"/>
             <Setter Property="Foreground" Value="#E5E9ED"/>
             <Setter Property="FontWeight" Value="SemiBold"/>
         </Style>
 
-        <!-- SELECTED PAGE HOVER: NO VISUAL CHANGE -->
+        <!-- MENU AKTIF SAAT HOVER -->
         <Style Selector="Button.nav-button.selected:pointerover">
             <Setter Property="Background" Value="#252E35"/>
             <Setter Property="Foreground" Value="#E5E9ED"/>
             <Setter Property="FontWeight" Value="SemiBold"/>
         </Style>
 
-        <!-- LOGOUT LINK -->
-        <Style Selector="TextBlock.logout-link">
-            <Setter Property="Foreground" Value="#95A2AD"/>
-            <Setter Property="TextDecorations" Value="{x:Null}"/>
-            <Setter Property="Cursor" Value="Hand"/>
-        </Style>
-
-        <Style Selector="TextBlock.logout-link:pointerover">
-            <Setter Property="Foreground" Value="#E5E9ED"/>
-            <Setter Property="TextDecorations" Value="Underline"/>
-        </Style>
-
     </UserControl.Styles>
+
 
     <Border Background="#1C2329"
             BorderBrush="#303A42"
@@ -97,36 +122,50 @@
                        Foreground="#F15A24"
                        Margin="26,24,20,24"/>
 
+
             <!-- NAVIGATION -->
             <StackPanel Grid.Row="1"
                         Margin="14,0"
                         Spacing="5">
 
                 <Button Content="Dashboard"
+                        Tag="Dashboard"
                         Classes="nav-button selected"
-                        Theme="{StaticResource SidebarNavButtonTheme}"/>
+                        Theme="{StaticResource SidebarNavButtonTheme}"
+                        Click="NavigationButton_Click"/>
 
                 <Button Content="Peta &amp; Simulasi"
+                        Tag="Peta &amp; Simulasi"
                         Classes="nav-button"
-                        Theme="{StaticResource SidebarNavButtonTheme}"/>
+                        Theme="{StaticResource SidebarNavButtonTheme}"
+                        Click="NavigationButton_Click"/>
 
                 <Button Content="Laporan Warga"
+                        Tag="Laporan Warga"
                         Classes="nav-button"
-                        Theme="{StaticResource SidebarNavButtonTheme}"/>
+                        Theme="{StaticResource SidebarNavButtonTheme}"
+                        Click="NavigationButton_Click"/>
 
                 <Button Content="Langganan"
+                        Tag="Langganan"
                         Classes="nav-button"
-                        Theme="{StaticResource SidebarNavButtonTheme}"/>
+                        Theme="{StaticResource SidebarNavButtonTheme}"
+                        Click="NavigationButton_Click"/>
 
                 <Button Content="Riwayat &amp; Tren"
+                        Tag="Riwayat &amp; Tren"
                         Classes="nav-button"
-                        Theme="{StaticResource SidebarNavButtonTheme}"/>
+                        Theme="{StaticResource SidebarNavButtonTheme}"
+                        Click="NavigationButton_Click"/>
 
                 <Button Content="Pengaturan"
+                        Tag="Pengaturan"
                         Classes="nav-button"
-                        Theme="{StaticResource SidebarNavButtonTheme}"/>
+                        Theme="{StaticResource SidebarNavButtonTheme}"
+                        Click="NavigationButton_Click"/>
 
             </StackPanel>
+
 
             <!-- FOOTER -->
             <StackPanel Grid.Row="2"
@@ -146,9 +185,18 @@
                            FontSize="14"
                            Foreground="#E5E9ED"/>
 
-                <TextBlock Text="Keluar"
-                           Classes="logout-link"
-                           FontSize="13"/>
+                <!-- LOGOUT -->
+                <Button Theme="{StaticResource LogoutButtonTheme}"
+                        Click="LogoutButton_Click"
+                        PointerEntered="LogoutButton_PointerEntered"
+                        PointerExited="LogoutButton_PointerExited">
+
+                    <TextBlock x:Name="LogoutText"
+                               Text="Keluar"
+                               Foreground="#95A2AD"
+                               FontSize="13"/>
+
+                </Button>
 
             </StackPanel>
 

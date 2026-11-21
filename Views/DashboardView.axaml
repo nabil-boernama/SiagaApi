@@ -91,22 +91,6 @@
 
     </UserControl.Resources>
 
-    <UserControl.Styles>
-
-        <!-- SIDEBAR EXIT LINK -->
-        <Style Selector="TextBlock.logout-link">
-            <Setter Property="Foreground" Value="#95A2AD"/>
-            <Setter Property="TextDecorations" Value="{x:Null}"/>
-            <Setter Property="Cursor" Value="Hand"/>
-        </Style>
-
-        <Style Selector="TextBlock.logout-link:pointerover">
-            <Setter Property="Foreground" Value="#E5E9ED"/>
-            <Setter Property="TextDecorations" Value="Underline"/>
-        </Style>
-
-    </UserControl.Styles>
-
     <Grid ColumnDefinitions="250,*">
 
         <!-- SIDEBAR -->
