@@ -70,6 +70,13 @@ public partial class MainViewModel : ViewModelBase
                 );
                 break;
 
+            case "Riwayat & Tren":
+                CurrentPage = new RiwayatTrenViewModel(
+                    NavigateToPage,
+                    NavigateToLogin
+                );
+                break;
+
             default:
                 CurrentPage = new PagePlaceholderViewModel(
                     page,

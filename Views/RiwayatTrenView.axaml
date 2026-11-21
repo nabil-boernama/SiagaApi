@@ -1,0 +1,316 @@
+<UserControl
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:vm="using:SiagaApi.ViewModels"
+    xmlns:components="using:SiagaApi.Views.Components"
+    x:Class="SiagaApi.Views.RiwayatTrenView"
+    x:DataType="vm:RiwayatTrenViewModel"
+    Background="#14181B">
+
+    <UserControl.Resources>
+        <SolidColorBrush x:Key="PanelBrush" Color="#1C2329"/>
+        <SolidColorBrush x:Key="BorderBrush" Color="#303A42"/>
+        <SolidColorBrush x:Key="TextBrush" Color="#E5E9ED"/>
+        <SolidColorBrush x:Key="MutedBrush" Color="#95A2AD"/>
+    </UserControl.Resources>
+
+    <UserControl.Styles>
+
+        <!-- DROPDOWN -->
+        <Style Selector="ComboBox">
+            <Setter Property="MinHeight" Value="44"/>
+            <Setter Property="Padding" Value="10,8"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Foreground" Value="#FFFFFF"/>
+            <Setter Property="Background" Value="#14181B"/>
+            <Setter Property="BorderBrush" Value="#303A42"/>
+            <Setter Property="BorderThickness" Value="1"/>
+        </Style>
+
+        <Style Selector="ComboBox:pointerover">
+            <Setter Property="BorderBrush" Value="#667681"/>
+        </Style>
+
+        <Style Selector="ComboBox:focus">
+            <Setter Property="BorderBrush" Value="#95A2AD"/>
+        </Style>
+
+        <!-- BAR CHART NORMAL -->
+        <Style Selector="Border.chart-bar">
+            <Setter Property="Background" Value="#7A3A20"/>
+        </Style>
+
+        <!-- BAR CHART PEAK -->
+        <Style Selector="Border.chart-bar.peak">
+            <Setter Property="Background" Value="#F15A24"/>
+        </Style>
+
+        <!-- BAR CHART HOVER -->
+        <Style Selector="Border.chart-bar:pointerover">
+            <Setter Property="Background" Value="#D94C1C"/>
+        </Style>
+
+    </UserControl.Styles>
+
+    <Grid ColumnDefinitions="260,*">
+
+        <!-- SIDEBAR -->
+        <components:SidebarView Grid.Column="0"/>
+
+        <!-- MAIN CONTENT -->
+        <Grid Grid.Column="1"
+              Margin="38,30,38,30"
+              RowDefinitions="Auto,*">
+
+            <!-- HEADER -->
+            <Grid Grid.Row="0"
+                  ColumnDefinitions="*,288"
+                  ColumnSpacing="24"
+                  Margin="0,0,0,21">
+
+                <StackPanel Grid.Column="0"
+                            Spacing="3"
+                            VerticalAlignment="Center">
+
+                    <TextBlock
+                        Text="Riwayat &amp; tren"
+                        FontSize="28"
+                        FontWeight="Bold"
+                        Foreground="#E5E9ED"/>
+
+                    <TextBlock
+                        Text="Jumlah hotspot per hari, 12–25 Oktober 2026"
+                        FontSize="14"
+                        Foreground="#95A2AD"/>
+
+                </StackPanel>
+
+                <!-- FILTER WILAYAH -->
+                <StackPanel Grid.Column="1"
+                            Spacing="6">
+
+                    <TextBlock
+                        Text="Wilayah"
+                        FontSize="13"
+                        Foreground="#95A2AD"/>
+
+                    <ComboBox
+                        ItemsSource="{Binding WilayahList}"
+                        SelectedItem="{Binding SelectedWilayah, Mode=TwoWay}"/>
+
+                </StackPanel>
+
+            </Grid>
+
+            <!-- CONTENT -->
+            <Grid Grid.Row="1"
+                  RowDefinitions="Auto,*"
+                  RowSpacing="20"
+                  VerticalAlignment="Top">
+
+                <!-- SUMMARY CARDS -->
+                <Grid Grid.Row="0"
+                      ColumnDefinitions="*,*,*"
+                      ColumnSpacing="16">
+
+                    <!-- TOTAL -->
+                    <Border Grid.Column="0"
+                            Background="#1C2329"
+                            BorderBrush="#303A42"
+                            BorderThickness="1"
+                            CornerRadius="12"
+                            Padding="19">
+
+                        <StackPanel Spacing="9">
+
+                            <TextBlock
+                                Text="TOTAL 14 HARI"
+                                FontSize="12"
+                                FontWeight="SemiBold"
+                                Foreground="#95A2AD"/>
+
+                            <TextBlock
+                                Text="{Binding TotalHotspot}"
+                                FontSize="38"
+                                FontWeight="Bold"
+                                Foreground="#E5E9ED"/>
+
+                            <TextBlock
+                                Text="Titik panas terdeteksi FIRMS"
+                                FontSize="14"
+                                Foreground="#95A2AD"/>
+
+                        </StackPanel>
+                    </Border>
+
+                    <!-- PEAK -->
+                    <Border Grid.Column="1"
+                            Background="#1C2329"
+                            BorderBrush="#303A42"
+                            BorderThickness="1"
+                            CornerRadius="12"
+                            Padding="19">
+
+                        <StackPanel Spacing="9">
+
+                            <TextBlock
+                                Text="PUNCAK HARIAN"
+                                FontSize="12"
+                                FontWeight="SemiBold"
+                                Foreground="#95A2AD"/>
+
+                            <TextBlock
+                                Text="{Binding PuncakHarian}"
+                                FontSize="38"
+                                FontWeight="Bold"
+                                Foreground="#E5E9ED"/>
+
+                            <TextBlock
+                                Text="{Binding TanggalPuncak}"
+                                FontSize="14"
+                                Foreground="#95A2AD"/>
+
+                        </StackPanel>
+                    </Border>
+
+                    <!-- AVERAGE -->
+                    <Border Grid.Column="2"
+                            Background="#1C2329"
+                            BorderBrush="#303A42"
+                            BorderThickness="1"
+                            CornerRadius="12"
+                            Padding="19">
+
+                        <StackPanel Spacing="9">
+
+                            <TextBlock
+                                Text="RATA-RATA HARIAN"
+                                FontSize="12"
+                                FontWeight="SemiBold"
+                                Foreground="#95A2AD"/>
+
+                            <TextBlock
+                                Text="{Binding RataRataHarian}"
+                                FontSize="38"
+                                FontWeight="Bold"
+                                Foreground="#E5E9ED"/>
+
+                            <TextBlock
+                                Text="{Binding PerbandinganRataRata}"
+                                FontSize="14"
+                                Foreground="#95A2AD"/>
+
+                        </StackPanel>
+                    </Border>
+
+                </Grid>
+
+                <!-- BAR CHART -->
+                <Border Grid.Row="1"
+                        Background="#1C2329"
+                        BorderBrush="#303A42"
+                        BorderThickness="1"
+                        CornerRadius="12"
+                        Padding="19"
+                        MinHeight="450">
+
+                    <Grid RowDefinitions="Auto,*,Auto"
+                          RowSpacing="10">
+
+                        <TextBlock
+                            Grid.Row="0"
+                            Text="HOTSPOT PER HARI · OKTOBER 2026"
+                            FontSize="12"
+                            FontWeight="SemiBold"
+                            Foreground="#95A2AD"/>
+
+                        <!-- BARS -->
+                        <Grid Grid.Row="1"
+                              RowDefinitions="*,Auto"
+                              Margin="0,15,0,0">
+
+                            <ItemsControl
+                                Grid.Row="0"
+                                ItemsSource="{Binding HotspotHarian}"
+                                VerticalAlignment="Stretch">
+
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <StackPanel
+                                            Orientation="Horizontal"
+                                            HorizontalAlignment="Stretch"/>
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate x:DataType="vm:HotspotHarianViewModel">
+
+                                        <Grid Width="70"
+                                              Height="330"
+                                              RowDefinitions="Auto,*,Auto"
+                                              Margin="0,0,0,0">
+
+                                            <!-- VALUE -->
+                                            <TextBlock
+                                                Grid.Row="0"
+                                                Text="{Binding Jumlah}"
+                                                FontSize="12"
+                                                Foreground="#95A2AD"
+                                                HorizontalAlignment="Center"
+                                                Margin="0,0,0,7"/>
+
+                                            <!-- BAR -->
+                                            <Grid Grid.Row="1"
+                                                  VerticalAlignment="Stretch">
+
+                                                <Border
+                                                    Classes="chart-bar"
+                                                    Classes.peak="{Binding IsPeak}"
+                                                    Height="{Binding TinggiBatang}"
+                                                    CornerRadius="5,5,0,0"
+                                                    VerticalAlignment="Bottom"
+                                                    HorizontalAlignment="Center"
+                                                    Width="53"/>
+
+                                            </Grid>
+
+                                            <!-- DATE -->
+                                            <TextBlock
+                                                Grid.Row="2"
+                                                Text="{Binding Tanggal}"
+                                                FontSize="12"
+                                                Foreground="#95A2AD"
+                                                HorizontalAlignment="Center"
+                                                Margin="0,8,0,0"/>
+
+                                        </Grid>
+
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+
+                            <!-- BASELINE -->
+                            <Border
+                                Grid.Row="1"
+                                Height="1"
+                                Background="#303A42"
+                                VerticalAlignment="Bottom"/>
+
+                        </Grid>
+
+                        <!-- FOOTNOTE -->
+                        <TextBlock
+                            Grid.Row="2"
+                            Text="Jumlah hotspot belum menunjukkan luas kebakaran. Tutupan awan dapat menyembunyikan deteksi."
+                            FontSize="13"
+                            Foreground="#95A2AD"
+                            TextWrapping="Wrap"
+                            Margin="0,4,0,0"/>
+
+                    </Grid>
+                </Border>
+
+            </Grid>
+        </Grid>
+    </Grid>
+</UserControl>
