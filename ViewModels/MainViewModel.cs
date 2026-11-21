@@ -63,6 +63,13 @@ public partial class MainViewModel : ViewModelBase
                 );
                 break;
 
+            case "Langganan":
+                CurrentPage = new LanggananViewModel(
+                    NavigateToPage,
+                    NavigateToLogin
+                );
+                break;
+
             default:
                 CurrentPage = new PagePlaceholderViewModel(
                     page,
