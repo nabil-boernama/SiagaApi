@@ -12,17 +12,16 @@ public partial class MainViewModel : ViewModelBase
 
     public MainViewModel()
     {
-        // Halaman pertama yang ditampilkan adalah Login
-        _currentPage = new LoginViewModel();
+        _currentPage = new LoginViewModel(NavigateToRegister);
     }
 
     public void NavigateToLogin()
     {
-        CurrentPage = new LoginViewModel();
+        CurrentPage = new LoginViewModel(NavigateToRegister);
     }
 
     public void NavigateToRegister()
     {
-        CurrentPage = new RegisterViewModel();
+        CurrentPage = new RegisterViewModel(NavigateToLogin);
     }
 }

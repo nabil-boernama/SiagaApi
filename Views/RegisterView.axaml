@@ -275,8 +275,11 @@
                             <TextBlock Text="Sudah punya akun?"
                                        FontSize="14"
                                        Foreground="{StaticResource MutedBrush}"/>
-                            <TextBlock Text="Masuk"
-                                       Classes="login-link"/>
+                            <TextBlock
+                                x:Name="LoginLink"
+                                Text="Masuk"
+                                Classes="login-link"
+                                Cursor="Hand"/>
                         </StackPanel>
 
                     </StackPanel>

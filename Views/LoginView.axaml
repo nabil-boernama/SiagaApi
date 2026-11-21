@@ -412,9 +412,11 @@
                             Foreground="#95A2AD"/>
 
                         <TextBlock
+                            x:Name="RegisterLink"
                             Text="Daftar"
                             FontSize="14"
-                            Classes="register-link"/>
+                            Classes="register-link"
+                            Cursor="Hand"/>
 
                     </StackPanel>
 
