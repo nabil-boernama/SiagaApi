@@ -1,0 +1,22 @@
+<Window
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:vm="using:SiagaApi.ViewModels"
+    xmlns:local="using:SiagaApi"
+    x:Class="SiagaApi.Views.MainWindow"
+    x:DataType="vm:MainViewModel"
+    Title="SiagaApi"
+    Width="1280"
+    Height="850"
+    MinWidth="950"
+    MinHeight="700"
+    WindowStartupLocation="CenterScreen"
+    Background="#14181B">
+
+    <Window.DataTemplates>
+        <local:ViewLocator/>
+    </Window.DataTemplates>
+
+    <ContentControl Content="{Binding CurrentPage}"/>
+
+</Window>

@@ -1,0 +1,810 @@
+<UserControl
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:vm="using:SiagaApi.ViewModels"
+    xmlns:components="using:SiagaApi.Views.Components"
+    x:Class="SiagaApi.Views.DashboardView"
+    x:DataType="vm:DashboardViewModel"
+    Background="#14181B">
+
+    <UserControl.Resources>
+
+        <!-- ORANGE BUTTON THEME -->
+        <ControlTheme x:Key="DashboardPrimaryButtonTheme"
+                      TargetType="Button">
+
+            <Setter Property="Background" Value="#F15A24"/>
+            <Setter Property="Foreground" Value="#14181B"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Cursor" Value="Hand"/>
+
+            <Setter Property="Template">
+                <ControlTemplate>
+                    <Border Background="{TemplateBinding Background}"
+                            CornerRadius="7">
+
+                        <ContentPresenter
+                            Content="{TemplateBinding Content}"
+                            ContentTemplate="{TemplateBinding ContentTemplate}"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Margin="{TemplateBinding Padding}"/>
+
+                    </Border>
+                </ControlTemplate>
+            </Setter>
+
+            <!-- HOVER -->
+            <Style Selector="^:pointerover">
+                <Setter Property="Background" Value="#E64F1F"/>
+            </Style>
+
+            <!-- PRESSED -->
+            <Style Selector="^:pressed">
+                <Setter Property="Background" Value="#D94C1C"/>
+            </Style>
+
+            <!-- DISABLED -->
+            <Style Selector="^:disabled">
+                <Setter Property="Background" Value="#713B2A"/>
+                <Setter Property="Foreground" Value="#95A2AD"/>
+            </Style>
+
+        </ControlTheme>
+
+        <!-- TITIK BUTTON THEME -->
+        <ControlTheme x:Key="MapToggleButtonTheme"
+                      TargetType="Button">
+
+            <Setter Property="Background" Value="#252E35"/>
+            <Setter Property="Foreground" Value="#E5E9ED"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Cursor" Value="Hand"/>
+
+            <Setter Property="Template">
+                <ControlTemplate>
+                    <Border Background="{TemplateBinding Background}"
+                            CornerRadius="6">
+
+                        <ContentPresenter
+                            Content="{TemplateBinding Content}"
+                            ContentTemplate="{TemplateBinding ContentTemplate}"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Margin="{TemplateBinding Padding}"/>
+
+                    </Border>
+                </ControlTemplate>
+            </Setter>
+
+            <Style Selector="^:pointerover">
+                <Setter Property="Background" Value="#34434C"/>
+                <Setter Property="Foreground" Value="#FFFFFF"/>
+            </Style>
+
+            <Style Selector="^:pressed">
+                <Setter Property="Background" Value="#1C262D"/>
+            </Style>
+
+        </ControlTheme>
+
+        <!-- DROPDOWN COLOR RESOURCES -->
+        <SolidColorBrush x:Key="ComboBoxDropDownGlyphForeground" Color="#FFFFFF"/>
+        <SolidColorBrush x:Key="ComboBoxDropDownGlyphForegroundFocused" Color="#FFFFFF"/>
+        <SolidColorBrush x:Key="ComboBoxDropDownGlyphForegroundFocusedPressed" Color="#FFFFFF"/>
+
+        <SolidColorBrush x:Key="ComboBoxDropDownBackground" Color="#1C2329"/>
+        <SolidColorBrush x:Key="ComboBoxDropDownBorderBrush" Color="#303A42"/>
+
+        <SolidColorBrush x:Key="ComboBoxItemBackground" Color="#1C2329"/>
+        <SolidColorBrush x:Key="ComboBoxItemBackgroundPointerOver" Color="#14181B"/>
+        <SolidColorBrush x:Key="ComboBoxItemBackgroundSelected" Color="#1C2329"/>
+        <SolidColorBrush x:Key="ComboBoxItemBackgroundSelectedPointerOver" Color="#14181B"/>
+
+    </UserControl.Resources>
+
+    <!-- DROPDOWN STYLES -->
+    <UserControl.Styles>
+
+        <!-- COMBOBOX -->
+        <Style Selector="ComboBox">
+            <Setter Property="MinHeight" Value="44"/>
+            <Setter Property="Padding" Value="10,8"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Foreground" Value="#FFFFFF"/>
+            <Setter Property="Background" Value="#1C2329"/>
+            <Setter Property="BorderBrush" Value="#303A42"/>
+            <Setter Property="BorderThickness" Value="1"/>
+        </Style>
+
+        <!-- COMBOBOX HOVER -->
+        <Style Selector="ComboBox:pointerover">
+            <Setter Property="Foreground" Value="#FFFFFF"/>
+            <Setter Property="Background" Value="#14181B"/>
+            <Setter Property="BorderBrush" Value="#303A42"/>
+        </Style>
+
+        <!-- DROPDOWN ARROW -->
+        <Style Selector="ComboBox /template/ PathIcon#DropDownGlyph">
+            <Setter Property="Foreground" Value="#FFFFFF"/>
+        </Style>
+
+        <!-- DROPDOWN OPTIONS -->
+        <Style Selector="ComboBoxItem">
+            <Setter Property="Foreground" Value="#FFFFFF"/>
+            <Setter Property="Background" Value="#1C2329"/>
+            <Setter Property="Padding" Value="12,9"/>
+            <Setter Property="FontSize" Value="14"/>
+        </Style>
+
+        <!-- OPTION TEXT -->
+        <Style Selector="ComboBoxItem TextBlock">
+            <Setter Property="Foreground" Value="#FFFFFF"/>
+        </Style>
+
+        <!-- OPTION HOVER -->
+        <Style Selector="ComboBoxItem:pointerover">
+            <Setter Property="Foreground" Value="#FFFFFF"/>
+            <Setter Property="Background" Value="#14181B"/>
+        </Style>
+
+        <!-- OPTION HOVER TEXT -->
+        <Style Selector="ComboBoxItem:pointerover TextBlock">
+            <Setter Property="Foreground" Value="#FFFFFF"/>
+        </Style>
+
+        <!-- SELECTED OPTION -->
+        <Style Selector="ComboBoxItem:selected">
+            <Setter Property="Foreground" Value="#FFFFFF"/>
+            <Setter Property="Background" Value="#1C2329"/>
+        </Style>
+
+        <!-- SELECTED OPTION TEXT -->
+        <Style Selector="ComboBoxItem:selected TextBlock">
+            <Setter Property="Foreground" Value="#FFFFFF"/>
+        </Style>
+
+        <!-- SELECTED OPTION HOVER -->
+        <Style Selector="ComboBoxItem:selected:pointerover">
+            <Setter Property="Foreground" Value="#FFFFFF"/>
+            <Setter Property="Background" Value="#14181B"/>
+        </Style>
+
+        <!-- SELECTED OPTION HOVER TEXT -->
+        <Style Selector="ComboBoxItem:selected:pointerover TextBlock">
+            <Setter Property="Foreground" Value="#FFFFFF"/>
+        </Style>
+
+    </UserControl.Styles>
+
+    <Grid ColumnDefinitions="250,*">
+
+        <!-- SIDEBAR -->
+        <components:SidebarView Grid.Column="0"/>
+
+        <!-- MAIN CONTENT -->
+        <Grid Grid.Column="1"
+              Margin="30,26,30,25"
+              RowDefinitions="Auto,Auto,*">
+
+            <!-- HEADER -->
+            <Grid Grid.Row="0"
+                  ColumnDefinitions="*,Auto"
+                  Margin="0,0,0,22">
+
+                <StackPanel Spacing="3">
+                    <TextBlock Text="Dashboard — Provinsi Riau"
+                               FontSize="27"
+                               FontWeight="Bold"
+                               Foreground="#E5E9ED"/>
+
+                    <TextBlock
+                        Text="{Binding LastUpdated, StringFormat='Hotspot 24 jam per kabupaten/kota · data terakhir {0}'}"
+                        FontSize="14"
+                        Foreground="#95A2AD"/>
+                </StackPanel>
+
+                <Button Grid.Column="1"
+                        Content="Perbarui data"
+                        Theme="{StaticResource DashboardPrimaryButtonTheme}"
+                        FontWeight="SemiBold"
+                        Padding="20,11"
+                        CornerRadius="7"
+                        VerticalAlignment="Center"
+                        Click="RefreshData_Click"/>
+
+            </Grid>
+
+            <!-- STATISTICS -->
+            <Grid Grid.Row="1"
+                  ColumnDefinitions="*,*,*,*"
+                  ColumnSpacing="12"
+                  Margin="0,0,0,20">
+
+                <components:StatCardView
+                    Grid.Column="0"
+                    DataContext="{Binding Statistics[0]}"/>
+
+                <components:StatCardView
+                    Grid.Column="1"
+                    DataContext="{Binding Statistics[1]}"/>
+
+                <components:StatCardView
+                    Grid.Column="2"
+                    DataContext="{Binding Statistics[2]}"/>
+
+                <components:StatCardView
+                    Grid.Column="3"
+                    DataContext="{Binding Statistics[3]}"/>
+
+            </Grid>
+
+            <!-- MAP AND DETAIL -->
+            <Grid Grid.Row="2"
+                  ColumnDefinitions="2.25*,1.05*"
+                  ColumnSpacing="16">
+
+                <!-- MAIN MAP PANEL -->
+                <Border Grid.Column="0"
+                        Background="#1C2329"
+                        BorderBrush="#303A42"
+                        BorderThickness="1"
+                        CornerRadius="11"
+                        Padding="19">
+
+                    <Grid RowDefinitions="Auto,*,Auto">
+
+                        <!-- MAP HEADER -->
+                        <Grid Grid.Row="0"
+                              ColumnDefinitions="*,Auto,Auto"
+                              ColumnSpacing="12"
+                              Margin="0,0,0,12">
+
+                            <TextBlock
+                                Text="HOTSPOT PER KABUPATEN/KOTA · PETA ILUSTRATIF"
+                                FontSize="12"
+                                FontWeight="SemiBold"
+                                Foreground="#95A2AD"
+                                VerticalAlignment="Center"/>
+
+                            <StackPanel Grid.Column="1"
+                                        Orientation="Horizontal"
+                                        Spacing="3">
+
+                                <Button Content="Choropleth"
+                                        Theme="{StaticResource DashboardPrimaryButtonTheme}"
+                                        Padding="12,7"
+                                        CornerRadius="6"
+                                        FontWeight="SemiBold"/>
+
+                                <Button Content="Titik"
+                                        Theme="{StaticResource MapToggleButtonTheme}"
+                                        Padding="12,7"
+                                        CornerRadius="6"/>
+
+                            </StackPanel>
+
+                            <ComboBox Grid.Column="2"
+                                      Width="190"
+                                      MinWidth="190"
+                                      SelectedIndex="0"
+                                      HorizontalContentAlignment="Stretch">
+
+                                <ComboBoxItem Content="Tanpa peta dasar"/>
+                                <ComboBoxItem Content="Peta jalan"/>
+                                <ComboBoxItem Content="Satelit"/>
+
+                            </ComboBox>
+
+                        </Grid>
+
+                        <!-- MAIN ILLUSTRATIVE MAP -->
+                        <Border Grid.Row="1"
+                                Background="#151B1F"
+                                CornerRadius="8"
+                                ClipToBounds="True">
+
+                            <Grid>
+
+                                <Canvas Width="700"
+                                        Height="450"
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center">
+
+                                    <Path Data="M 35,75 L 205,45 L 230,150 L 155,195 L 45,185 Z"
+                                          Fill="#303940"
+                                          Stroke="#14181B"
+                                          StrokeThickness="2"/>
+
+                                    <Path Data="M 205,45 L 335,35 L 375,120 L 305,170 L 230,150 Z"
+                                          Fill="#914D2D"
+                                          Stroke="#14181B"
+                                          StrokeThickness="2"/>
+
+                                    <Path Data="M 335,35 L 410,20 L 425,75 L 375,120 Z"
+                                          Fill="#62402F"
+                                          Stroke="#14181B"
+                                          StrokeThickness="2"/>
+
+                                    <Path Data="M 410,20 L 520,35 L 575,120 L 480,155 L 425,75 Z"
+                                          Fill="#62402F"
+                                          Stroke="#14181B"
+                                          StrokeThickness="2"/>
+
+                                    <Path Data="M 155,195 L 230,150 L 305,170 L 340,225 L 210,270 Z"
+                                          Fill="#914D2D"
+                                          Stroke="#14181B"
+                                          StrokeThickness="2"/>
+
+                                    <Path Data="M 305,170 L 375,120 L 425,75 L 480,155 L 455,215 L 340,225 Z"
+                                          Fill="#62402F"
+                                          Stroke="#14181B"
+                                          StrokeThickness="2"/>
+
+                                    <Path Data="M 340,225 L 455,215 L 445,255 L 325,270 Z"
+                                          Fill="#F15A24"
+                                          Stroke="#E5E9ED"
+                                          StrokeThickness="3"/>
+
+                                    <Path Data="M 455,215 L 530,220 L 560,310 L 480,345 L 390,305 L 445,255 Z"
+                                          Fill="#C6532A"
+                                          Stroke="#14181B"
+                                          StrokeThickness="2"/>
+
+                                    <Path Data="M 210,270 L 325,270 L 390,305 L 360,390 L 230,400 L 155,350 Z"
+                                          Fill="#62402F"
+                                          Stroke="#14181B"
+                                          StrokeThickness="2"/>
+
+                                    <Path Data="M 390,305 L 480,345 L 500,415 L 425,455 L 360,390 Z"
+                                          Fill="#62402F"
+                                          Stroke="#14181B"
+                                          StrokeThickness="2"/>
+
+                                    <Path Data="M 480,345 L 560,310 L 635,345 L 660,435 L 585,465 L 500,415 Z"
+                                          Fill="#914D2D"
+                                          Stroke="#14181B"
+                                          StrokeThickness="2"/>
+
+                                    <Path Data="M 600,70 L 675,65 L 685,120 L 610,130 Z"
+                                          Fill="#303940"
+                                          Stroke="#14181B"
+                                          StrokeThickness="2"/>
+
+                                    <!-- REGION LABELS -->
+                                    <TextBlock Canvas.Left="105"
+                                               Canvas.Top="115"
+                                               Text="R. Hulu&#10;4"
+                                               TextAlignment="Center"
+                                               Foreground="#E5E9ED"
+                                               FontSize="13"/>
+
+                                    <TextBlock Canvas.Left="265"
+                                               Canvas.Top="90"
+                                               Text="R. Hilir&#10;17"
+                                               TextAlignment="Center"
+                                               Foreground="#FFFFFF"
+                                               FontSize="13"
+                                               FontWeight="SemiBold"/>
+
+                                    <TextBlock Canvas.Left="360"
+                                               Canvas.Top="45"
+                                               Text="Dumai&#10;6"
+                                               TextAlignment="Center"
+                                               Foreground="#E5E9ED"
+                                               FontSize="13"/>
+
+                                    <TextBlock Canvas.Left="460"
+                                               Canvas.Top="70"
+                                               Text="Bengkalis&#10;9"
+                                               TextAlignment="Center"
+                                               Foreground="#E5E9ED"
+                                               FontSize="13"/>
+
+                                    <TextBlock Canvas.Left="225"
+                                               Canvas.Top="210"
+                                               Text="Kampar&#10;10"
+                                               TextAlignment="Center"
+                                               Foreground="#FFFFFF"
+                                               FontSize="13"/>
+
+                                    <TextBlock Canvas.Left="390"
+                                               Canvas.Top="165"
+                                               Text="Siak&#10;6"
+                                               TextAlignment="Center"
+                                               Foreground="#E5E9ED"
+                                               FontSize="13"/>
+
+                                    <TextBlock Canvas.Left="340"
+                                               Canvas.Top="226"
+                                               Text="Pekanbaru&#10;47"
+                                               TextAlignment="Center"
+                                               Foreground="#14181B"
+                                               FontWeight="Bold"
+                                               FontSize="13"/>
+
+                                    <TextBlock Canvas.Left="465"
+                                               Canvas.Top="270"
+                                               Text="Pelalawan&#10;18"
+                                               TextAlignment="Center"
+                                               Foreground="#FFFFFF"
+                                               FontSize="13"/>
+
+                                    <TextBlock Canvas.Left="240"
+                                               Canvas.Top="330"
+                                               Text="Kuansing&#10;5"
+                                               TextAlignment="Center"
+                                               Foreground="#E5E9ED"
+                                               FontSize="13"/>
+
+                                    <TextBlock Canvas.Left="405"
+                                               Canvas.Top="360"
+                                               Text="Inhu&#10;7"
+                                               TextAlignment="Center"
+                                               Foreground="#E5E9ED"
+                                               FontSize="13"/>
+
+                                    <TextBlock Canvas.Left="555"
+                                               Canvas.Top="390"
+                                               Text="Inhil&#10;11"
+                                               TextAlignment="Center"
+                                               Foreground="#FFFFFF"
+                                               FontSize="13"/>
+
+                                    <TextBlock Canvas.Left="615"
+                                               Canvas.Top="85"
+                                               Text="Meranti&#10;2"
+                                               TextAlignment="Center"
+                                               Foreground="#E5E9ED"
+                                               FontSize="12"/>
+
+                                </Canvas>
+
+                                <!-- ZOOM CONTROLS -->
+                                <StackPanel HorizontalAlignment="Right"
+                                            VerticalAlignment="Top"
+                                            Margin="0,12,12,0"
+                                            Spacing="5">
+
+                                    <Button Content="+"
+                                            Theme="{StaticResource DashboardPrimaryButtonTheme}"
+                                            Width="36"
+                                            Height="36"
+                                            FontSize="20"
+                                            FontWeight="Bold"/>
+
+                                    <Button Content="−"
+                                            Theme="{StaticResource DashboardPrimaryButtonTheme}"
+                                            Width="36"
+                                            Height="36"
+                                            FontSize="20"
+                                            FontWeight="Bold"/>
+
+                                </StackPanel>
+
+                            </Grid>
+                        </Border>
+
+                        <!-- LEGEND -->
+                        <StackPanel Grid.Row="2"
+                                    Orientation="Horizontal"
+                                    Spacing="12"
+                                    Margin="0,12,0,0">
+
+                            <TextBlock Text="Jumlah hotspot:"
+                                       Foreground="#95A2AD"
+                                       FontSize="12"
+                                       VerticalAlignment="Center"/>
+
+                            <TextBlock Text="■ 0–4"
+                                       Foreground="#95A2AD"
+                                       FontSize="12"/>
+
+                            <TextBlock Text="■ 5–9"
+                                       Foreground="#914D2D"
+                                       FontSize="12"/>
+
+                            <TextBlock Text="■ 10–17"
+                                       Foreground="#A6532E"
+                                       FontSize="12"/>
+
+                            <TextBlock Text="■ 18–30"
+                                       Foreground="#C6532A"
+                                       FontSize="12"/>
+
+                            <TextBlock Text="■ 31+"
+                                       Foreground="#F15A24"
+                                       FontSize="12"/>
+
+                        </StackPanel>
+
+                    </Grid>
+                </Border>
+
+                <!-- DETAIL PANEL -->
+                <Border Grid.Column="1"
+                        Background="#1C2329"
+                        BorderBrush="#303A42"
+                        BorderThickness="1"
+                        CornerRadius="11"
+                        Padding="18">
+
+                    <Grid RowDefinitions="Auto,Auto,Auto,*,Auto,Auto">
+
+                        <TextBlock Grid.Row="0"
+                                   Text="ZOOM · KOTA PEKANBARU (RUMBAI)"
+                                   FontSize="12"
+                                   FontWeight="SemiBold"
+                                   Foreground="#95A2AD"
+                                   Margin="0,0,0,12"/>
+
+                        <!-- MINI MAP -->
+                        <Border Grid.Row="1"
+                                Height="185"
+                                Background="#1B3025"
+                                CornerRadius="8"
+                                Padding="12"
+                                ClipToBounds="True">
+
+                            <Grid ClipToBounds="True">
+
+                                <!-- AREA / DASHED BOUNDARY -->
+                                <Path Data="M 24,42 L 165,2 L 292,44 L 276,145 L 134,174 L 36,133 Z"
+                                      Stroke="#D5DED8"
+                                      StrokeThickness="1.5"
+                                      StrokeDashArray="4,3"
+                                      Fill="#263C30"
+                                      Stretch="Uniform"
+                                      HorizontalAlignment="Stretch"
+                                      VerticalAlignment="Stretch"/>
+
+                                <!-- BLUE RIVER -->
+                                <Path Data="M 0,112 C 45,98 78,105 120,112 S 205,122 255,111 S 300,103 330,97"
+                                      Stroke="#4384B8"
+                                      StrokeThickness="6"
+                                      Fill="Transparent"
+                                      Stretch="Uniform"
+                                      HorizontalAlignment="Stretch"
+                                      VerticalAlignment="Stretch"/>
+
+                                <!-- HOTSPOT 92% -->
+                                <Grid Width="55"
+                                      Height="25"
+                                      HorizontalAlignment="Left"
+                                      VerticalAlignment="Top"
+                                      Margin="105,48,0,0">
+
+                                    <Ellipse Width="19"
+                                             Height="19"
+                                             Fill="#E7462D"
+                                             Stroke="#14181B"
+                                             StrokeThickness="1.5"
+                                             HorizontalAlignment="Left"
+                                             VerticalAlignment="Center"/>
+
+                                    <TextBlock Text="92%"
+                                               FontSize="11"
+                                               FontWeight="SemiBold"
+                                               Foreground="#E5E9ED"
+                                               VerticalAlignment="Center"
+                                               Margin="23,0,0,0"/>
+                                </Grid>
+
+                                <!-- HOTSPOT 76% -->
+                                <Grid Width="55"
+                                      Height="25"
+                                      HorizontalAlignment="Left"
+                                      VerticalAlignment="Top"
+                                      Margin="205,34,0,0">
+
+                                    <Ellipse Width="16"
+                                             Height="16"
+                                             Fill="#E5A72B"
+                                             Stroke="#14181B"
+                                             StrokeThickness="1.5"
+                                             HorizontalAlignment="Left"
+                                             VerticalAlignment="Center"/>
+
+                                    <TextBlock Text="76%"
+                                               FontSize="11"
+                                               FontWeight="SemiBold"
+                                               Foreground="#E5E9ED"
+                                               VerticalAlignment="Center"
+                                               Margin="20,0,0,0"/>
+                                </Grid>
+
+                                <!-- HOTSPOT 88% -->
+                                <Grid Width="55"
+                                      Height="25"
+                                      HorizontalAlignment="Left"
+                                      VerticalAlignment="Top"
+                                      Margin="135,65,0,0">
+
+                                    <Ellipse Width="16"
+                                             Height="16"
+                                             Fill="#E7462D"
+                                             Stroke="#14181B"
+                                             StrokeThickness="1.5"
+                                             HorizontalAlignment="Left"
+                                             VerticalAlignment="Center"/>
+
+                                    <TextBlock Text="88%"
+                                               FontSize="11"
+                                               FontWeight="SemiBold"
+                                               Foreground="#E5E9ED"
+                                               VerticalAlignment="Center"
+                                               Margin="20,0,0,0"/>
+                                </Grid>
+
+                                <!-- HOTSPOT 64% -->
+                                <Grid Width="55"
+                                      Height="25"
+                                      HorizontalAlignment="Left"
+                                      VerticalAlignment="Top"
+                                      Margin="58,86,0,0">
+
+                                    <Ellipse Width="14"
+                                             Height="14"
+                                             Fill="#E5A72B"
+                                             Stroke="#14181B"
+                                             StrokeThickness="1.5"
+                                             HorizontalAlignment="Left"
+                                             VerticalAlignment="Center"/>
+
+                                    <TextBlock Text="64%"
+                                               FontSize="11"
+                                               FontWeight="SemiBold"
+                                               Foreground="#E5E9ED"
+                                               VerticalAlignment="Center"
+                                               Margin="18,0,0,0"/>
+                                </Grid>
+
+                                <!-- HOTSPOT 41% -->
+                                <Grid Width="55"
+                                      Height="25"
+                                      HorizontalAlignment="Left"
+                                      VerticalAlignment="Top"
+                                      Margin="230,105,0,0">
+
+                                    <Ellipse Width="12"
+                                             Height="12"
+                                             Fill="#E5A72B"
+                                             Stroke="#14181B"
+                                             StrokeThickness="1.5"
+                                             HorizontalAlignment="Left"
+                                             VerticalAlignment="Center"/>
+
+                                    <TextBlock Text="41%"
+                                               FontSize="11"
+                                               FontWeight="SemiBold"
+                                               Foreground="#E5E9ED"
+                                               VerticalAlignment="Center"
+                                               Margin="16,0,0,0"/>
+                                </Grid>
+
+                                <!-- HOTSPOT 18% -->
+                                <Grid Width="55"
+                                      Height="25"
+                                      HorizontalAlignment="Left"
+                                      VerticalAlignment="Top"
+                                      Margin="165,132,0,0">
+
+                                    <Ellipse Width="9"
+                                             Height="9"
+                                             Fill="#53A879"
+                                             Stroke="#14181B"
+                                             StrokeThickness="1"
+                                             HorizontalAlignment="Left"
+                                             VerticalAlignment="Center"/>
+
+                                    <TextBlock Text="18%"
+                                               FontSize="11"
+                                               FontWeight="SemiBold"
+                                               Foreground="#E5E9ED"
+                                               VerticalAlignment="Center"
+                                               Margin="14,0,0,0"/>
+                                </Grid>
+
+                            </Grid>
+                        </Border>
+
+                        <!-- DESCRIPTION -->
+                        <TextBlock Grid.Row="2"
+                                   Text="Warna titik seperti SiPongi: merah 80–100%, kuning 30–79%, hijau 0–29%"
+                                   Foreground="#95A2AD"
+                                   FontSize="12"
+                                   TextWrapping="Wrap"
+                                   Margin="0,10,0,10"/>
+
+                        <!-- HOTSPOT LIST -->
+                        <StackPanel Grid.Row="3"
+                                    Spacing="0">
+
+                            <Grid ColumnDefinitions="*,50,90"
+                                  Margin="0,5,0,9">
+
+                                <TextBlock Text="0.512, 101.447"
+                                           Foreground="#E5E9ED"
+                                           FontSize="12"/>
+
+                                <TextBlock Grid.Column="1"
+                                           Text="92%"
+                                           Foreground="#E5E9ED"/>
+
+                                <TextBlock Grid.Column="2"
+                                           Text="Diperkuat"
+                                           Foreground="#72C58B"
+                                           FontSize="12"/>
+
+                            </Grid>
+
+                            <Border Height="1"
+                                    Background="#303A42"/>
+
+                            <Grid ColumnDefinitions="*,50,90"
+                                  Margin="0,9,0,9">
+
+                                <TextBlock Text="0.489, 101.502"
+                                           Foreground="#E5E9ED"
+                                           FontSize="12"/>
+
+                                <TextBlock Grid.Column="1"
+                                           Text="88%"
+                                           Foreground="#E5E9ED"/>
+
+                                <TextBlock Grid.Column="2"
+                                           Text="Diperkuat"
+                                           Foreground="#72C58B"
+                                           FontSize="12"/>
+
+                            </Grid>
+
+                            <Border Height="1"
+                                    Background="#303A42"/>
+
+                            <Grid ColumnDefinitions="*,50,90"
+                                  Margin="0,9,0,9">
+
+                                <TextBlock Text="0.221, 102.455"
+                                           Foreground="#E5E9ED"
+                                           FontSize="12"/>
+
+                                <TextBlock Grid.Column="1"
+                                           Text="41%"
+                                           Foreground="#E5E9ED"/>
+
+                                <TextBlock Grid.Column="2"
+                                           Text="Indikasi"
+                                           Foreground="#E5A72B"
+                                           FontSize="12"/>
+
+                            </Grid>
+
+                            <Border Height="1"
+                                    Background="#303A42"/>
+
+                        </StackPanel>
+
+                        <!-- SIMULATION BUTTON -->
+                        <Button Grid.Row="4"
+                                Content="Simulasikan klaster ini"
+                                Theme="{StaticResource DashboardPrimaryButtonTheme}"
+                                FontWeight="SemiBold"
+                                HorizontalAlignment="Stretch"
+                                Padding="12"
+                                CornerRadius="7"
+                                Margin="0,12,0,10"/>
+
+                        <TextBlock Grid.Row="5"
+                                   Text="Titik muncul saat zoom ke tingkat kabupaten. Hotspot adalah indikasi, bukan kebakaran terverifikasi."
+                                   Foreground="#95A2AD"
+                                   FontSize="12"
+                                   TextWrapping="Wrap"/>
+
+                    </Grid>
+                </Border>
+
+            </Grid>
+        </Grid>
+    </Grid>
+</UserControl>

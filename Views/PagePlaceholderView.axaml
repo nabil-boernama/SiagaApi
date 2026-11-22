@@ -1,0 +1,31 @@
+<UserControl
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:components="using:SiagaApi.Views.Components"
+    xmlns:vm="using:SiagaApi.ViewModels"
+    x:Class="SiagaApi.Views.PagePlaceholderView"
+    x:DataType="vm:PagePlaceholderViewModel"
+    Background="#14181B">
+
+    <Grid ColumnDefinitions="250,*">
+
+        <components:SidebarView Grid.Column="0"/>
+
+        <StackPanel Grid.Column="1"
+                    Margin="35"
+                    Spacing="12"
+                    VerticalAlignment="Top">
+
+            <TextBlock Text="{Binding PageTitle}"
+                       FontSize="28"
+                       FontWeight="Bold"
+                       Foreground="#E5E9ED"/>
+
+            <TextBlock Text="Halaman ini sedang dalam tahap pengembangan."
+                       FontSize="15"
+                       Foreground="#95A2AD"/>
+
+        </StackPanel>
+
+    </Grid>
+</UserControl>
