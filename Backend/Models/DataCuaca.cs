@@ -10,6 +10,7 @@ namespace SiagaApi.Backend.Models
             public double KecepatanAngin { get; set; }
             public double ArahAngin { get; set; }
             public DateTime Waktu { get; set; }
+            public string Sumber { get; set; } = string.Empty;
 
             public int WilayahId { get; set; }
             public Wilayah? Wilayah { get; set; }

@@ -34,4 +34,32 @@ namespace SiagaApi.Backend.Models
         Diverifikasi,
         Ditolak
     }
+
+    public enum StatusLangganan
+    {
+        Aktif,
+        Dijeda
+    }
+
+    public enum HasilNotifikasi
+    {
+        Terkirim,
+        Dilewati,
+        Gagal
+    }
+
+    public enum PeranOperator
+    {
+        SuperAdmin,
+        Admin,
+        Operator
+    }
+
+    public enum StatusAkun
+    {
+        Menunggu,
+        Aktif,
+        Ditolak,
+        Nonaktif
+    }
 }

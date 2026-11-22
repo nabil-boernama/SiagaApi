@@ -480,3 +480,11 @@ $RECYCLE.BIN/
 
 # Vim temporary swap files
 *.swp
+
+# Konfigurasi lokal berisi password database asli (lihat appsettings.example.json)
+appsettings.json
+appsettings.Development.json
+appsettings.Local.json
+
+# Akun awal berisi hash kata sandi super admin (lihat Database/akun_awal.example.sql)
+Database/akun_awal.sql

@@ -5,511 +5,203 @@
     xmlns:components="using:SiagaApi.Views.Components"
     x:Class="SiagaApi.Views.LanggananView"
     x:DataType="vm:LanggananViewModel"
-    Background="#14181B">
+    Background="{StaticResource Latar}">
 
-    <UserControl.Resources>
+    <Grid ColumnDefinitions="Auto,*">
 
-        <SolidColorBrush x:Key="PanelBrush" Color="#1C2329"/>
-        <SolidColorBrush x:Key="InputBrush" Color="#14181B"/>
-        <SolidColorBrush x:Key="BorderBrush" Color="#303A42"/>
-        <SolidColorBrush x:Key="AccentBrush" Color="#F15A24"/>
-        <SolidColorBrush x:Key="TextBrush" Color="#E5E9ED"/>
-        <SolidColorBrush x:Key="MutedBrush" Color="#95A2AD"/>
-
-        <!-- PRIMARY BUTTON THEME -->
-        <ControlTheme x:Key="PrimaryButtonTheme" TargetType="Button">
-
-            <Setter Property="Background" Value="#F15A24"/>
-            <Setter Property="Foreground" Value="#14181B"/>
-            <Setter Property="FontSize" Value="15"/>
-            <Setter Property="FontWeight" Value="Bold"/>
-            <Setter Property="Height" Value="44"/>
-            <Setter Property="Padding" Value="12,10"/>
-            <Setter Property="HorizontalAlignment" Value="Left"/>
-            <Setter Property="HorizontalContentAlignment" Value="Center"/>
-            <Setter Property="VerticalContentAlignment" Value="Center"/>
-            <Setter Property="BorderThickness" Value="0"/>
-            <Setter Property="Cursor" Value="Hand"/>
-
-            <Setter Property="Template">
-                <ControlTemplate>
-                    <Border Background="{TemplateBinding Background}"
-                            CornerRadius="7">
-
-                        <ContentPresenter
-                            Content="{TemplateBinding Content}"
-                            ContentTemplate="{TemplateBinding ContentTemplate}"
-                            HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                            VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-                            Margin="{TemplateBinding Padding}"/>
-
-                    </Border>
-                </ControlTemplate>
-            </Setter>
-
-            <Style Selector="^:pointerover">
-                <Setter Property="Background" Value="#E64F1F"/>
-            </Style>
-
-            <Style Selector="^:pressed">
-                <Setter Property="Background" Value="#D94C1C"/>
-            </Style>
-
-            <Style Selector="^:disabled">
-                <Setter Property="Background" Value="#713B2A"/>
-                <Setter Property="Foreground" Value="#95A2AD"/>
-            </Style>
-
-        </ControlTheme>
-
-        <!-- DROPDOWN COLOR RESOURCES -->
-        <SolidColorBrush x:Key="ComboBoxDropDownGlyphForeground" Color="#FFFFFF"/>
-        <SolidColorBrush x:Key="ComboBoxDropDownGlyphForegroundFocused" Color="#FFFFFF"/>
-        <SolidColorBrush x:Key="ComboBoxDropDownGlyphForegroundFocusedPressed" Color="#FFFFFF"/>
-
-        <SolidColorBrush x:Key="ComboBoxDropDownBackground" Color="#1C2329"/>
-        <SolidColorBrush x:Key="ComboBoxDropDownBorderBrush" Color="#303A42"/>
-
-        <SolidColorBrush x:Key="ComboBoxItemBackground" Color="#1C2329"/>
-        <SolidColorBrush x:Key="ComboBoxItemBackgroundPointerOver" Color="#14181B"/>
-        <SolidColorBrush x:Key="ComboBoxItemBackgroundSelected" Color="#1C2329"/>
-        <SolidColorBrush x:Key="ComboBoxItemBackgroundSelectedPointerOver" Color="#14181B"/>
-
-    </UserControl.Resources>
-
-    <UserControl.Styles>
-
-        <!-- TEXTBOX STYLE -->
-        <Style Selector="TextBox">
-            <Setter Property="Height" Value="44"/>
-            <Setter Property="Padding" Value="12,10"/>
-            <Setter Property="FontSize" Value="14"/>
-            <Setter Property="Foreground" Value="#FFFFFF"/>
-            <Setter Property="Background" Value="#14181B"/>
-            <Setter Property="BorderBrush" Value="#303A42"/>
-            <Setter Property="BorderThickness" Value="1"/>
-            <Setter Property="CaretBrush" Value="#FFFFFF"/>
-            <Setter Property="SelectionBrush" Value="#805A3528"/>
-            <Setter Property="VerticalContentAlignment" Value="Center"/>
-        </Style>
-
-        <Style Selector="TextBox:pointerover">
-            <Setter Property="Background" Value="#14181B"/>
-            <Setter Property="Foreground" Value="#FFFFFF"/>
-            <Setter Property="BorderBrush" Value="#667681"/>
-        </Style>
-
-        <Style Selector="TextBox:focus">
-            <Setter Property="Background" Value="#14181B"/>
-            <Setter Property="Foreground" Value="#FFFFFF"/>
-            <Setter Property="BorderBrush" Value="#95A2AD"/>
-            <Setter Property="BorderThickness" Value="1.5"/>
-        </Style>
-
-        <Style Selector="TextBox /template/ Border#PART_BorderElement">
-            <Setter Property="Background" Value="#14181B"/>
-            <Setter Property="BorderBrush" Value="#303A42"/>
-        </Style>
-
-        <Style Selector="TextBox:pointerover /template/ Border#PART_BorderElement">
-            <Setter Property="Background" Value="#14181B"/>
-            <Setter Property="BorderBrush" Value="#667681"/>
-        </Style>
-
-        <Style Selector="TextBox:focus /template/ Border#PART_BorderElement">
-            <Setter Property="Background" Value="#14181B"/>
-            <Setter Property="BorderBrush" Value="#95A2AD"/>
-        </Style>
-
-        <!-- DROPDOWN -->
-        <Style Selector="ComboBox">
-            <Setter Property="MinHeight" Value="44"/>
-            <Setter Property="Padding" Value="10,8"/>
-            <Setter Property="FontSize" Value="14"/>
-            <Setter Property="Foreground" Value="#FFFFFF"/>
-            <Setter Property="Background" Value="#1C2329"/>
-            <Setter Property="BorderBrush" Value="#303A42"/>
-            <Setter Property="BorderThickness" Value="1"/>
-        </Style>
-
-        <!-- COMBOBOX HOVER -->
-        <Style Selector="ComboBox:pointerover">
-            <Setter Property="Foreground" Value="#FFFFFF"/>
-            <Setter Property="Background" Value="#14181B"/>
-            <Setter Property="BorderBrush" Value="#303A42"/>
-        </Style>
-
-        <!-- DROPDOWN ARROW -->
-        <Style Selector="ComboBox /template/ PathIcon#DropDownGlyph">
-            <Setter Property="Foreground" Value="#FFFFFF"/>
-        </Style>
-
-        <!-- DROPDOWN OPTIONS -->
-        <Style Selector="ComboBoxItem">
-            <Setter Property="Foreground" Value="#FFFFFF"/>
-            <Setter Property="Background" Value="#1C2329"/>
-            <Setter Property="Padding" Value="12,9"/>
-            <Setter Property="FontSize" Value="14"/>
-        </Style>
-
-        <Style Selector="ComboBoxItem TextBlock">
-            <Setter Property="Foreground" Value="#FFFFFF"/>
-        </Style>
-
-        <!-- OPTION HOVER -->
-        <Style Selector="ComboBoxItem:pointerover">
-            <Setter Property="Foreground" Value="#FFFFFF"/>
-            <Setter Property="Background" Value="#14181B"/>
-        </Style>
-
-        <Style Selector="ComboBoxItem:pointerover TextBlock">
-            <Setter Property="Foreground" Value="#FFFFFF"/>
-        </Style>
-
-        <!-- SELECTED OPTION -->
-        <Style Selector="ComboBoxItem:selected">
-            <Setter Property="Foreground" Value="#FFFFFF"/>
-            <Setter Property="Background" Value="#1C2329"/>
-        </Style>
-
-        <Style Selector="ComboBoxItem:selected TextBlock">
-            <Setter Property="Foreground" Value="#FFFFFF"/>
-        </Style>
-
-        <!-- SELECTED OPTION HOVER -->
-        <Style Selector="ComboBoxItem:selected:pointerover">
-            <Setter Property="Foreground" Value="#FFFFFF"/>
-            <Setter Property="Background" Value="#14181B"/>
-        </Style>
-
-        <Style Selector="ComboBoxItem:selected:pointerover TextBlock">
-            <Setter Property="Foreground" Value="#FFFFFF"/>
-        </Style>
-
-    </UserControl.Styles>
-
-    <Grid ColumnDefinitions="260,*">
-
-        <!-- SIDEBAR -->
         <components:SidebarView Grid.Column="0"/>
 
         <Grid Grid.Column="1"
-              Margin="38,34,38,30"
               RowDefinitions="Auto,*">
 
-            <!-- HEADER -->
-            <StackPanel Grid.Row="0"
-                        Spacing="3"
-                        Margin="0,0,0,22">
+            <components:BilahAtasView Grid.Row="0"
+                                      Judul="Langganan warga"/>
 
-                <TextBlock
-                    Text="Langganan warga"
-                    FontSize="28"
-                    FontWeight="Bold"
-                    Foreground="#E5E9ED"/>
-
-                <TextBlock
-                    Text="Warga memilih wilayah pantauan; sistem mengirim email saat ada indikasi hotspot baru"
-                    FontSize="14"
-                    Foreground="#95A2AD"
-                    TextWrapping="Wrap"/>
-
-            </StackPanel>
-
-            <!-- CONTENT -->
             <Grid Grid.Row="1"
-                  ColumnDefinitions="0.95*,1.8*"
-                  ColumnSpacing="20"
-                  VerticalAlignment="Top">
+                  ColumnDefinitions="*,368">
 
-                <!-- FORM -->
-                <Border Grid.Column="0"
-                        Background="#1C2329"
-                        BorderBrush="#303A42"
-                        BorderThickness="1"
-                        CornerRadius="12"
-                        Padding="19"
-                        VerticalAlignment="Top">
+                <!-- ================= TABEL LANGGANAN ================= -->
+                <Grid Grid.Column="0"
+                      RowDefinitions="Auto,Auto,*,Auto">
 
-                    <StackPanel Spacing="12">
-
-                        <TextBlock
-                            Text="TAMBAH LANGGANAN"
-                            FontSize="12"
-                            FontWeight="SemiBold"
-                            Foreground="#95A2AD"/>
-
-                        <!-- EMAIL -->
-                        <StackPanel Spacing="6">
-
-                            <TextBlock
-                                Text="Email warga"
-                                FontSize="13"
-                                Foreground="#95A2AD"/>
-
-                            <TextBox
-                                Text="{Binding Email, Mode=TwoWay}"/>
-
+                    <Grid Grid.Row="0"
+                          ColumnDefinitions="Auto,*"
+                          Margin="24,16">
+                        <StackPanel Orientation="Horizontal"
+                                    Spacing="10">
+                            <Button Theme="{StaticResource TombolCip}" Classes.aktif="{Binding SaringSemua}" Tag="Semua" Click="Saring_Click">
+                                <StackPanel Orientation="Horizontal" Spacing="7"><TextBlock Text="Semua"/><TextBlock Text="{Binding JumlahSemua}" Classes="mono" FontSize="12" Foreground="{StaticResource Teks3}"/></StackPanel>
+                            </Button>
+                            <Button Theme="{StaticResource TombolCip}" Classes.aktif="{Binding SaringAktif}" Tag="Aktif" Click="Saring_Click">
+                                <StackPanel Orientation="Horizontal" Spacing="7"><TextBlock Text="Aktif"/><TextBlock Text="{Binding JumlahAktif}" Classes="mono" FontSize="12" Foreground="{StaticResource Teks3}"/></StackPanel>
+                            </Button>
+                            <Button Theme="{StaticResource TombolCip}" Classes.aktif="{Binding SaringDijeda}" Tag="Dijeda" Click="Saring_Click">
+                                <StackPanel Orientation="Horizontal" Spacing="7"><TextBlock Text="Dijeda"/><TextBlock Text="{Binding JumlahDijeda}" Classes="mono" FontSize="12" Foreground="{StaticResource Teks3}"/></StackPanel>
+                            </Button>
                         </StackPanel>
+                        <Grid Grid.Column="1"
+                              Margin="10,0,0,0">
+                            <TextBox Text="{Binding Cari, Mode=TwoWay}"
+                                     PlaceholderText="Cari email atau wilayah"
+                                     Padding="36,8,12,8"
+                                     MinHeight="38"/>
+                            <components:Ikon Nama="search" Ukuran="15" Warna="{StaticResource Teks3}" HorizontalAlignment="Left" Margin="12,0,0,0"/>
+                        </Grid>
+                    </Grid>
 
-                        <!-- WILAYAH -->
-                        <StackPanel Spacing="6">
+                    <Border Grid.Row="1"
+                            Background="{StaticResource Permukaan}"
+                            BorderBrush="{StaticResource Garis}"
+                            BorderThickness="0,0,0,1"
+                            Padding="24,10">
+                        <Grid ColumnDefinitions="*,170,100,120,190">
+                            <TextBlock Text="EMAIL" Classes="kolom"/>
+                            <TextBlock Grid.Column="1" Text="WILAYAH" Classes="kolom"/>
+                            <TextBlock Grid.Column="2" Text="SEJAK" Classes="kolom"/>
+                            <TextBlock Grid.Column="3" Text="STATUS" Classes="kolom"/>
+                        </Grid>
+                    </Border>
 
-                            <TextBlock
-                                Text="Wilayah dipantau"
-                                FontSize="13"
-                                Foreground="#95A2AD"/>
+                    <ScrollViewer Grid.Row="2"
+                                  VerticalScrollBarVisibility="Auto">
+                        <ItemsControl ItemsSource="{Binding Subscriptions}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate x:DataType="vm:LanggananItemViewModel">
+                                    <Border BorderBrush="{StaticResource Garis}"
+                                            BorderThickness="0,0,0,1"
+                                            Padding="24,11">
+                                        <Grid ColumnDefinitions="*,170,100,120,190">
+                                            <TextBlock Text="{Binding Email}" Classes="sel" FontWeight="Medium"/>
+                                            <TextBlock Grid.Column="1" Text="{Binding Wilayah}" Classes="sel"/>
+                                            <TextBlock Grid.Column="2" Text="{Binding Sejak}" Classes="sel mono redup"/>
+                                            <Border Grid.Column="3"
+                                                    Background="{Binding StatusBackground}"
+                                                    CornerRadius="20"
+                                                    Padding="9,3"
+                                                    HorizontalAlignment="Left"
+                                                    VerticalAlignment="Center">
+                                                <StackPanel Orientation="Horizontal" Spacing="6">
+                                                    <Ellipse Width="6" Height="6" Fill="{Binding StatusForeground}" VerticalAlignment="Center"/>
+                                                    <TextBlock Text="{Binding Status}" FontSize="12" FontWeight="Medium" Foreground="{Binding StatusForeground}"/>
+                                                </StackPanel>
+                                            </Border>
+                                            <!-- Jeda/lanjutkan dan hapus langganan -->
+                                            <StackPanel Grid.Column="4"
+                                                        Orientation="Horizontal"
+                                                        HorizontalAlignment="Right"
+                                                        Spacing="8">
+                                                <Button Content="{Binding LabelJeda}"
+                                                        Theme="{StaticResource TombolBaris}"
+                                                        Click="JedaLangganan_Click"/>
+                                                <Button Content="Hapus"
+                                                        Theme="{StaticResource TombolBarisBahaya}"
+                                                        Click="HapusLangganan_Click"/>
+                                            </StackPanel>
+                                        </Grid>
+                                    </Border>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </ScrollViewer>
 
-                            <ComboBox
-                                ItemsSource="{Binding WilayahList}"
-                                SelectedItem="{Binding SelectedWilayah, Mode=TwoWay}"/>
+                    <TextBlock Grid.Row="3"
+                               Text="{Binding Keterangan}"
+                               Classes="samar"
+                               Margin="24,14"/>
 
-                        </StackPanel>
+                </Grid>
 
-                        <TextBlock
-                            Text="Satu warga boleh memantau lebih dari satu wilayah."
-                            FontSize="13"
-                            Foreground="#95A2AD"
-                            TextWrapping="Wrap"/>
+                <!-- ================= PANEL: tambah langganan + riwayat peringatan ================= -->
+                <Border Grid.Column="1"
+                        Background="{StaticResource Permukaan}"
+                        BorderBrush="{StaticResource Garis}"
+                        BorderThickness="1,0,0,0">
 
-                        <TextBlock
-                            Text="{Binding Message}"
-                            FontSize="12"
-                            Foreground="#78C99A"
-                            TextWrapping="Wrap"/>
+                    <Grid RowDefinitions="Auto,*">
 
-                        <Button
-                            Content="Tambah langganan"
-                            Theme="{StaticResource PrimaryButtonTheme}"
-                            Click="AddSubscription_Click"/>
+                        <Border BorderBrush="{StaticResource Garis}"
+                                BorderThickness="0,0,0,1"
+                                Padding="22,20">
+                            <StackPanel Spacing="14">
+                                <TextBlock Text="LANGGANAN BARU"
+                                           Classes="label"/>
+                                <StackPanel Spacing="6">
+                                    <TextBlock Text="Email warga" Classes="medan"/>
+                                    <TextBox Text="{Binding Email, Mode=TwoWay}"/>
+                                </StackPanel>
+                                <StackPanel Spacing="6">
+                                    <TextBlock Text="Wilayah dipantau" Classes="medan"/>
+                                    <ComboBox ItemsSource="{Binding WilayahList}"
+                                              SelectedItem="{Binding SelectedWilayah, Mode=TwoWay}"/>
+                                </StackPanel>
+                                <!-- Hasil tambah, jeda, atau hapus -->
+                                <TextBlock Text="{Binding Message}"
+                                           IsVisible="{Binding Message, Converter={x:Static StringConverters.IsNotNullOrEmpty}}"
+                                           Foreground="{Binding MessageForeground}"
+                                           FontSize="12.5"
+                                           TextWrapping="Wrap"/>
+                                <Button Content="Tambah langganan"
+                                        Theme="{StaticResource TombolUtama}"
+                                        HorizontalAlignment="Stretch"
+                                        Padding="0,12"
+                                        FontSize="14"
+                                        Click="AddSubscription_Click"/>
+                            </StackPanel>
+                        </Border>
 
-                    </StackPanel>
+                        <ScrollViewer Grid.Row="1"
+                                      VerticalScrollBarVisibility="Auto">
+                            <StackPanel Margin="22,18">
+
+                                <TextBlock Text="PERINGATAN TERBARU"
+                                           Classes="label"
+                                           Margin="0,0,0,4"/>
+
+                                <TextBlock Text="Belum ada peringatan yang tercatat. Catatan muncul saat hotspot baru terdeteksi di wilayah yang punya pelanggan aktif."
+                                           IsVisible="{Binding TidakAdaNotifikasi}"
+                                           Classes="redup"
+                                           FontSize="12.5"
+                                           TextWrapping="Wrap"
+                                           Margin="0,8,0,0"/>
+
+                                <ItemsControl ItemsSource="{Binding Notifications}">
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate x:DataType="vm:NotifikasiItemViewModel">
+                                            <Border BorderBrush="{StaticResource Garis}"
+                                                    BorderThickness="0,0,0,1"
+                                                    Padding="0,11">
+                                                <StackPanel Spacing="4">
+                                                    <Grid ColumnDefinitions="*,Auto">
+                                                        <TextBlock Text="{Binding Email}" Classes="sel" FontSize="13"/>
+                                                        <Border Grid.Column="1"
+                                                                Background="{Binding HasilBackground}"
+                                                                CornerRadius="20"
+                                                                Padding="8,2">
+                                                            <TextBlock Text="{Binding Hasil}" FontSize="11.5" FontWeight="Medium" Foreground="{Binding HasilForeground}"/>
+                                                        </Border>
+                                                    </Grid>
+                                                    <TextBlock Text="{Binding Pemicu}" Classes="samar" TextWrapping="Wrap"/>
+                                                    <TextBlock Text="{Binding Waktu}" Classes="samar mono" FontSize="11.5"/>
+                                                </StackPanel>
+                                            </Border>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+
+                                <TextBlock Text="Satu hotspot hanya dicatat sekali per langganan. Email berbunyi indikasi titik panas, bukan kebakaran."
+                                           Classes="samar"
+                                           FontSize="11.5"
+                                           TextWrapping="Wrap"
+                                           Margin="0,14,0,0"/>
+
+                            </StackPanel>
+                        </ScrollViewer>
+
+                    </Grid>
                 </Border>
 
-                <!-- RIGHT SIDE -->
-                <StackPanel Grid.Column="1"
-                            Spacing="16">
-
-                    <!-- SUBSCRIPTION TABLE -->
-                    <Border
-                        Background="#1C2329"
-                        BorderBrush="#303A42"
-                        BorderThickness="1"
-                        CornerRadius="12"
-                        Padding="19">
-
-                        <StackPanel Spacing="12">
-
-                            <TextBlock
-                                Text="{Binding ActiveCount, StringFormat='DAFTAR LANGGANAN · {0}'}"
-                                FontSize="12"
-                                FontWeight="SemiBold"
-                                Foreground="#95A2AD"/>
-
-                            <Grid ColumnDefinitions="1.35*,0.8*,0.55*,0.65*"
-                                  Margin="0,0,0,2">
-
-                                <TextBlock Text="EMAIL"
-                                           FontSize="11"
-                                           FontWeight="SemiBold"
-                                           Foreground="#95A2AD"
-                                           Margin="8,0"/>
-
-                                <TextBlock Grid.Column="1"
-                                           Text="WILAYAH"
-                                           FontSize="11"
-                                           FontWeight="SemiBold"
-                                           Foreground="#95A2AD"
-                                           Margin="8,0"/>
-
-                                <TextBlock Grid.Column="2"
-                                           Text="SEJAK"
-                                           FontSize="11"
-                                           FontWeight="SemiBold"
-                                           Foreground="#95A2AD"
-                                           Margin="8,0"/>
-
-                                <TextBlock Grid.Column="3"
-                                           Text="STATUS"
-                                           FontSize="11"
-                                           FontWeight="SemiBold"
-                                           Foreground="#95A2AD"
-                                           Margin="8,0"/>
-
-                            </Grid>
-
-                            <ItemsControl ItemsSource="{Binding Subscriptions}">
-
-                                <ItemsControl.ItemTemplate>
-                                    <DataTemplate x:DataType="vm:LanggananItemViewModel">
-
-                                        <Border BorderBrush="#303A42"
-                                                BorderThickness="0,0,0,1"
-                                                Padding="8,8">
-
-                                            <Grid ColumnDefinitions="1.35*,0.8*,0.55*,0.65*">
-
-                                                <TextBlock
-                                                    Text="{Binding Email}"
-                                                    FontSize="14"
-                                                    Foreground="#E5E9ED"
-                                                    VerticalAlignment="Center"/>
-
-                                                <TextBlock
-                                                    Grid.Column="1"
-                                                    Text="{Binding Wilayah}"
-                                                    FontSize="14"
-                                                    Foreground="#E5E9ED"
-                                                    VerticalAlignment="Center"/>
-
-                                                <TextBlock
-                                                    Grid.Column="2"
-                                                    Text="{Binding Sejak}"
-                                                    FontSize="14"
-                                                    Foreground="#E5E9ED"
-                                                    VerticalAlignment="Center"/>
-
-                                                <Border
-                                                    Grid.Column="3"
-                                                    Background="{Binding StatusBackground}"
-                                                    CornerRadius="15"
-                                                    Padding="9,4"
-                                                    HorizontalAlignment="Left"
-                                                    VerticalAlignment="Center">
-
-                                                    <TextBlock
-                                                        Text="{Binding Status}"
-                                                        FontSize="12"
-                                                        FontWeight="SemiBold"
-                                                        Foreground="{Binding StatusForeground}"/>
-
-                                                </Border>
-
-                                            </Grid>
-                                        </Border>
-
-                                    </DataTemplate>
-                                </ItemsControl.ItemTemplate>
-
-                            </ItemsControl>
-
-                        </StackPanel>
-                    </Border>
-
-                    <!-- NOTIFICATION HISTORY -->
-                    <Border
-                        Background="#1C2329"
-                        BorderBrush="#303A42"
-                        BorderThickness="1"
-                        CornerRadius="12"
-                        Padding="19">
-
-                        <StackPanel Spacing="12">
-
-                            <TextBlock
-                                Text="RIWAYAT NOTIFIKASI TERBARU"
-                                FontSize="12"
-                                FontWeight="SemiBold"
-                                Foreground="#95A2AD"/>
-
-                            <Grid ColumnDefinitions="0.45*,1.2*,1.65*,0.65*"
-                                  Margin="0,0,0,2">
-
-                                <TextBlock Text="WAKTU"
-                                           FontSize="11"
-                                           FontWeight="SemiBold"
-                                           Foreground="#95A2AD"
-                                           Margin="8,0"/>
-
-                                <TextBlock Grid.Column="1"
-                                           Text="KE"
-                                           FontSize="11"
-                                           FontWeight="SemiBold"
-                                           Foreground="#95A2AD"
-                                           Margin="8,0"/>
-
-                                <TextBlock Grid.Column="2"
-                                           Text="PEMICU"
-                                           FontSize="11"
-                                           FontWeight="SemiBold"
-                                           Foreground="#95A2AD"
-                                           Margin="8,0"/>
-
-                                <TextBlock Grid.Column="3"
-                                           Text="HASIL"
-                                           FontSize="11"
-                                           FontWeight="SemiBold"
-                                           Foreground="#95A2AD"
-                                           Margin="8,0"/>
-
-                            </Grid>
-
-                            <ItemsControl ItemsSource="{Binding Notifications}">
-
-                                <ItemsControl.ItemTemplate>
-                                    <DataTemplate x:DataType="vm:NotifikasiItemViewModel">
-
-                                        <Border BorderBrush="#303A42"
-                                                BorderThickness="0,0,0,1"
-                                                Padding="8,8">
-
-                                            <Grid ColumnDefinitions="0.45*,1.2*,1.65*,0.65*">
-
-                                                <TextBlock
-                                                    Text="{Binding Waktu}"
-                                                    FontSize="14"
-                                                    Foreground="#E5E9ED"
-                                                    VerticalAlignment="Center"/>
-
-                                                <TextBlock
-                                                    Grid.Column="1"
-                                                    Text="{Binding Email}"
-                                                    FontSize="14"
-                                                    Foreground="#E5E9ED"
-                                                    VerticalAlignment="Center"/>
-
-                                                <TextBlock
-                                                    Grid.Column="2"
-                                                    Text="{Binding Pemicu}"
-                                                    FontSize="14"
-                                                    Foreground="#E5E9ED"
-                                                    VerticalAlignment="Center"/>
-
-                                                <Border
-                                                    Grid.Column="3"
-                                                    Background="{Binding HasilBackground}"
-                                                    CornerRadius="15"
-                                                    Padding="9,4"
-                                                    HorizontalAlignment="Left"
-                                                    VerticalAlignment="Center">
-
-                                                    <TextBlock
-                                                        Text="{Binding Hasil}"
-                                                        FontSize="12"
-                                                        FontWeight="SemiBold"
-                                                        Foreground="{Binding HasilForeground}"/>
-
-                                                </Border>
-
-                                            </Grid>
-                                        </Border>
-
-                                    </DataTemplate>
-                                </ItemsControl.ItemTemplate>
-
-                            </ItemsControl>
-
-                            <TextBlock
-                                Text="Satu hotspot hanya dikirim sekali per langganan. Email berbunyi “indikasi titik panas”, bukan “kebakaran”."
-                                FontSize="13"
-                                Foreground="#95A2AD"
-                                TextWrapping="Wrap"/>
-
-                        </StackPanel>
-                    </Border>
-
-                </StackPanel>
             </Grid>
         </Grid>
     </Grid>
+
 </UserControl>

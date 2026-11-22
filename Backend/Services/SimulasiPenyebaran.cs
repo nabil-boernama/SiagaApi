@@ -75,9 +75,16 @@ namespace SiagaApi.Backend.Services
                   if (tujuan.Status == StatusSel.Air) return 0.0;
                   if (tujuan.BahanBakar <= 0) return 0.0;
 
-                  double arahRambatRad = Math.Atan2(dk, -db); 
-                  double arahAnginRad = _cuaca.ArahAngin * Math.PI / 180.0;
-                  double kesamaanArah = Math.Cos(arahRambatRad - arahAnginRad); // -1..1
+                  // (db, dk) adalah posisi sel yang terbakar relatif terhadap sel tujuan,
+                  // jadi api merambat ke arah (-db, -dk). Baris bertambah ke utara dan
+                  // kolom bertambah ke timur (lihat GridGenerator), sehingga arah rambat
+                  // dalam derajat kompas (0 = utara, searah jarum jam) = atan2(timur, utara).
+                  double arahRambatRad = Math.Atan2(-dk, -db);
+
+                  // DataCuaca.ArahAngin mengikuti konvensi meteorologi (AccuWeather dan
+                  // Open-Meteo): arah DATANGNYA angin. Api terdorong ke arah sebaliknya.
+                  double arahDorongRad = (_cuaca.ArahAngin + 180.0) * Math.PI / 180.0;
+                  double kesamaanArah = Math.Cos(arahRambatRad - arahDorongRad); // -1..1
 
                   double basePeluang = 0.15; // peluang dasar tanpa pengaruh apapun
                   double pengaruhAngin = (_cuaca.KecepatanAngin / 50.0) * Math.Max(kesamaanArah, 0);

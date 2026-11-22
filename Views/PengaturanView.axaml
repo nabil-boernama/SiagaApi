@@ -5,510 +5,322 @@
     xmlns:components="using:SiagaApi.Views.Components"
     x:Class="SiagaApi.Views.PengaturanView"
     x:DataType="vm:PengaturanViewModel"
-    Background="#14181B">
+    Background="{StaticResource Latar}">
 
-    <UserControl.Resources>
+    <Grid ColumnDefinitions="Auto,*">
 
-        <SolidColorBrush x:Key="PanelBrush" Color="#1C2329"/>
-        <SolidColorBrush x:Key="InputBrush" Color="#14181B"/>
-        <SolidColorBrush x:Key="BorderBrush" Color="#303A42"/>
-        <SolidColorBrush x:Key="AccentBrush" Color="#F15A24"/>
-        <SolidColorBrush x:Key="TextBrush" Color="#E5E9ED"/>
-        <SolidColorBrush x:Key="MutedBrush" Color="#95A2AD"/>
+        <components:SidebarView Grid.Column="0"/>
 
-        <!-- PRIMARY BUTTON -->
-        <ControlTheme x:Key="PrimaryButtonTheme" TargetType="Button">
+        <Grid Grid.Column="1"
+              RowDefinitions="Auto,Auto,*">
 
-            <Setter Property="Background" Value="#F15A24"/>
-            <Setter Property="Foreground" Value="#14181B"/>
-            <Setter Property="FontSize" Value="15"/>
-            <Setter Property="FontWeight" Value="Bold"/>
-            <Setter Property="Height" Value="44"/>
-            <Setter Property="Padding" Value="12,10"/>
-            <Setter Property="HorizontalAlignment" Value="Left"/>
-            <Setter Property="HorizontalContentAlignment" Value="Center"/>
-            <Setter Property="VerticalContentAlignment" Value="Center"/>
-            <Setter Property="BorderThickness" Value="0"/>
-            <Setter Property="Cursor" Value="Hand"/>
+            <components:BilahAtasView Grid.Row="0"
+                                      Judul="Pengaturan"/>
 
-            <Setter Property="Template">
-                <ControlTemplate>
-                    <Border Background="{TemplateBinding Background}"
-                            CornerRadius="7">
+            <!-- ================= TAB ================= -->
+            <Border Grid.Row="1"
+                    BorderBrush="{StaticResource Garis}"
+                    BorderThickness="0,0,0,1"
+                    Padding="24,0">
+                <StackPanel Orientation="Horizontal"
+                            Spacing="4">
+                    <Button Content="Posko" Theme="{StaticResource TombolTab}" Classes.aktif="{Binding TabPosko}" Tag="Posko" Click="Tab_Click"/>
+                    <Button Content="Sumber data" Theme="{StaticResource TombolTab}" Classes.aktif="{Binding TabSumber}" Tag="Sumber data" Click="Tab_Click"/>
+                    <Button Content="Email" Theme="{StaticResource TombolTab}" Classes.aktif="{Binding TabEmail}" Tag="Email" Click="Tab_Click"/>
+                    <!-- Hanya Admin dan Super Admin -->
+                    <Button Theme="{StaticResource TombolTab}" Classes.aktif="{Binding TabAkun}" Tag="Akun operator" IsVisible="{Binding IsAdmin}" Click="Tab_Click">
+                        <StackPanel Orientation="Horizontal" Spacing="8">
+                            <TextBlock Text="Akun operator" VerticalAlignment="Center"/>
+                            <Border IsVisible="{Binding AdaMenunggu}" Background="#22F2A83B" CornerRadius="20" Padding="8,2" VerticalAlignment="Center">
+                                <TextBlock Text="{Binding MenungguLabel}" FontSize="11.5" FontWeight="Medium" Foreground="{StaticResource Nominal}"/>
+                            </Border>
+                        </StackPanel>
+                    </Button>
+                    <Button Content="Keamanan" Theme="{StaticResource TombolTab}" Classes.aktif="{Binding TabKeamanan}" Tag="Keamanan" Click="Tab_Click"/>
+                </StackPanel>
+            </Border>
 
-                        <ContentPresenter
-                            Content="{TemplateBinding Content}"
-                            ContentTemplate="{TemplateBinding ContentTemplate}"
-                            HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                            VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-                            Margin="{TemplateBinding Padding}"/>
+            <Grid Grid.Row="2">
 
+                <!-- ================= TAB: POSKO, SUMBER DATA, EMAIL ================= -->
+                <Grid RowDefinitions="*,Auto"
+                      IsVisible="{Binding TabBisaSimpan}">
+
+                    <ScrollViewer VerticalScrollBarVisibility="Auto">
+                        <Grid>
+
+                            <!-- POSKO: dipakai bersama semua operator, tersimpan di database -->
+                            <StackPanel IsVisible="{Binding TabPosko}"
+                                        Width="560"
+                                        HorizontalAlignment="Left"
+                                        Margin="28,24"
+                                        Spacing="18">
+                                <StackPanel Spacing="4">
+                                    <TextBlock Text="Setelan posko" FontSize="20" FontWeight="SemiBold" Foreground="{StaticResource Teks}"/>
+                                    <TextBlock Text="Berlaku untuk semua operator posko ini dan tersimpan di database." Classes="redup" FontSize="13.5" TextWrapping="Wrap"/>
+                                </StackPanel>
+                                <Border IsVisible="{Binding BukanAdmin}" Background="#22F2A83B" CornerRadius="8" Padding="12,9">
+                                    <TextBlock Text="Hanya admin posko yang bisa mengubah setelan di tab ini." FontSize="12.5" Foreground="{StaticResource Nominal}" TextWrapping="Wrap"/>
+                                </Border>
+                                <StackPanel Spacing="6">
+                                    <TextBlock Text="Provinsi yang dipantau" Classes="medan"/>
+                                    <ComboBox ItemsSource="{Binding ProvinsiList}" SelectedItem="{Binding SelectedProvinsi, Mode=TwoWay}" IsEnabled="{Binding IsAdmin}"/>
+                                    <TextBlock Text="Daftar provinsi berasal dari wilayah yang ada di database." Classes="samar"/>
+                                </StackPanel>
+                                <StackPanel Spacing="6">
+                                    <TextBlock Text="Peta dasar bawaan di Dashboard" Classes="medan"/>
+                                    <ComboBox ItemsSource="{Binding PetaDasarList}" SelectedItem="{Binding SelectedMap, Mode=TwoWay}" IsEnabled="{Binding IsAdmin}"/>
+                                </StackPanel>
+                                <StackPanel Spacing="6">
+                                    <TextBlock Text="Perbarui data otomatis" Classes="medan"/>
+                                    <ComboBox ItemsSource="{Binding IntervalList}" SelectedItem="{Binding SelectedInterval, Mode=TwoWay}" IsEnabled="{Binding IsAdmin}"/>
+                                    <TextBlock Text="Hotspot, cuaca, dan peringatan email diperbarui sesuai interval ini selama aplikasi terbuka dan ada operator yang masuk." Classes="samar" TextWrapping="Wrap"/>
+                                </StackPanel>
+                                <CheckBox IsChecked="{Binding AllowNationalMode, Mode=TwoWay}" IsEnabled="{Binding IsAdmin}" Foreground="{StaticResource Teks}" FontSize="13.5">
+                                    <TextBlock Text="Tampilkan tabel Lihat nasional di halaman Riwayat (hanya baca, agregat per provinsi)" TextWrapping="Wrap"/>
+                                </CheckBox>
+                            </StackPanel>
+
+                            <!-- SUMBER DATA: kunci API hanya disimpan di komputer ini -->
+                            <StackPanel IsVisible="{Binding TabSumber}"
+                                        Width="560"
+                                        HorizontalAlignment="Left"
+                                        Margin="28,24"
+                                        Spacing="18">
+                                <StackPanel Spacing="4">
+                                    <TextBlock Text="Sumber data" FontSize="20" FontWeight="SemiBold" Foreground="{StaticResource Teks}"/>
+                                    <TextBlock Text="Boleh dikosongkan. Tanpa kunci, hotspot diambil dari arsip publik NASA FIRMS dan cuaca dari Open-Meteo." Classes="redup" FontSize="13.5" TextWrapping="Wrap"/>
+                                </StackPanel>
+                                <StackPanel Spacing="6">
+                                    <TextBlock Text="MAP_KEY NASA FIRMS" Classes="medan"/>
+                                    <TextBox Text="{Binding FirmsApiKey, Mode=TwoWay}" PasswordChar="●" FontFamily="{StaticResource HurufMono}"/>
+                                </StackPanel>
+                                <StackPanel Spacing="6">
+                                    <TextBlock Text="API key AccuWeather" Classes="medan"/>
+                                    <TextBox Text="{Binding WeatherApiKey, Mode=TwoWay}" PasswordChar="●" FontFamily="{StaticResource HurufMono}"/>
+                                </StackPanel>
+                                <TextBlock Text="Kunci hanya disimpan di komputer ini, tidak di database. Bila pengambilan gagal, aplikasi memakai data terakhir di database." Classes="samar" TextWrapping="Wrap"/>
+                            </StackPanel>
+
+                            <!-- EMAIL: SMTP untuk peringatan ke pelanggan, hanya di komputer ini -->
+                            <StackPanel IsVisible="{Binding TabEmail}"
+                                        Width="560"
+                                        HorizontalAlignment="Left"
+                                        Margin="28,24"
+                                        Spacing="18">
+                                <StackPanel Spacing="4">
+                                    <TextBlock Text="Email peringatan (SMTP)" FontSize="20" FontWeight="SemiBold" Foreground="{StaticResource Teks}"/>
+                                    <TextBlock Text="Dipakai untuk mengirim peringatan ke pelanggan. Kosongkan semuanya bila komputer ini tidak bertugas mengirim email." Classes="redup" FontSize="13.5" TextWrapping="Wrap"/>
+                                </StackPanel>
+                                <Grid ColumnDefinitions="*,12,120">
+                                    <StackPanel Spacing="6">
+                                        <TextBlock Text="Server SMTP" Classes="medan"/>
+                                        <TextBox Text="{Binding SmtpServer, Mode=TwoWay}" PlaceholderText="smtp.contoh.id"/>
+                                    </StackPanel>
+                                    <StackPanel Grid.Column="2" Spacing="6">
+                                        <TextBlock Text="Port" Classes="medan"/>
+                                        <TextBox Text="{Binding SmtpPort, Mode=TwoWay}" FontFamily="{StaticResource HurufMono}"/>
+                                    </StackPanel>
+                                </Grid>
+                                <StackPanel Spacing="6">
+                                    <TextBlock Text="Alamat pengirim" Classes="medan"/>
+                                    <TextBox Text="{Binding SenderEmail, Mode=TwoWay}" PlaceholderText="posko@contoh.id"/>
+                                </StackPanel>
+                                <Grid ColumnDefinitions="*,12,*">
+                                    <StackPanel Spacing="6">
+                                        <TextBlock Text="Nama pengguna SMTP" Classes="medan"/>
+                                        <TextBox Text="{Binding SmtpUsername, Mode=TwoWay}"/>
+                                    </StackPanel>
+                                    <StackPanel Grid.Column="2" Spacing="6">
+                                        <TextBlock Text="Kata sandi SMTP" Classes="medan"/>
+                                        <TextBox Text="{Binding SmtpPassword, Mode=TwoWay}" PasswordChar="●"/>
+                                    </StackPanel>
+                                </Grid>
+                                <TextBlock Text="Disimpan hanya di komputer ini, tidak di database." Classes="samar"/>
+                            </StackPanel>
+
+                        </Grid>
+                    </ScrollViewer>
+
+                    <Border Grid.Row="1"
+                            BorderBrush="{StaticResource Garis}"
+                            BorderThickness="0,1,0,0"
+                            Padding="28,14">
+                        <StackPanel Orientation="Horizontal"
+                                    Spacing="16">
+                            <Button Content="Simpan pengaturan"
+                                    Theme="{StaticResource TombolUtama}"
+                                    Padding="18,11"
+                                    FontSize="14"
+                                    Click="SaveSettings_Click"/>
+                            <TextBlock Text="{Binding Message}"
+                                       Foreground="{Binding MessageForeground}"
+                                       FontSize="12.5"
+                                       TextWrapping="Wrap"
+                                       MaxWidth="640"
+                                       VerticalAlignment="Center"/>
+                        </StackPanel>
                     </Border>
-                </ControlTemplate>
-            </Setter>
+                </Grid>
 
-            <Style Selector="^:pointerover">
-                <Setter Property="Background" Value="#E64F1F"/>
-            </Style>
+                <!-- ================= TAB: AKUN OPERATOR ================= -->
+                <Grid ColumnDefinitions="*,368"
+                      IsVisible="{Binding TabAkun}">
 
-            <Style Selector="^:pressed">
-                <Setter Property="Background" Value="#D94C1C"/>
-            </Style>
+                    <Grid RowDefinitions="Auto,*,Auto">
 
-            <Style Selector="^:disabled">
-                <Setter Property="Background" Value="#713B2A"/>
-                <Setter Property="Foreground" Value="#95A2AD"/>
-            </Style>
-
-        </ControlTheme>
-
-        <!-- CUSTOM ORANGE CHECKBOX -->
-        <ControlTheme x:Key="OrangeCheckBoxTheme" TargetType="CheckBox">
-
-            <Setter Property="Foreground" Value="#E5E9ED"/>
-            <Setter Property="FontSize" Value="14"/>
-            <Setter Property="Cursor" Value="Hand"/>
-            <Setter Property="VerticalAlignment" Value="Top"/>
-            <Setter Property="HorizontalAlignment" Value="Stretch"/>
-
-            <Setter Property="Template">
-                <ControlTemplate>
-
-                    <Grid ColumnDefinitions="18,*"
-                          VerticalAlignment="Top">
-
-                        <!-- CHECKBOX SQUARE -->
-                        <Border
-                            x:Name="CheckBoxBox"
-                            Grid.Column="0"
-                            Width="18"
-                            Height="18"
-                            CornerRadius="4"
-                            Background="#14181B"
-                            BorderBrush="#667681"
-                            BorderThickness="1"
-                            VerticalAlignment="Top">
-
-                            <Path
-                                x:Name="CheckMark"
-                                Data="M 2,7 L 5,10 L 11,3"
-                                Stroke="#FFFFFF"
-                                StrokeThickness="2"
-                                IsVisible="False"
-                                HorizontalAlignment="Center"
-                                VerticalAlignment="Center"/>
-
+                        <Border Background="{StaticResource Permukaan}"
+                                BorderBrush="{StaticResource Garis}"
+                                BorderThickness="0,0,0,1"
+                                Padding="24,10">
+                            <Grid ColumnDefinitions="*,110,120,120,330">
+                                <TextBlock Text="NAMA" Classes="kolom"/>
+                                <TextBlock Grid.Column="1" Text="PERAN" Classes="kolom"/>
+                                <TextBlock Grid.Column="2" Text="STATUS" Classes="kolom"/>
+                                <TextBlock Grid.Column="3" Text="TERDAFTAR" Classes="kolom"/>
+                            </Grid>
                         </Border>
 
-                        <!-- WRAPPING CHECKBOX TEXT -->
-                        <ContentPresenter
-                            Grid.Column="1"
-                            Content="{TemplateBinding Content}"
-                            ContentTemplate="{TemplateBinding ContentTemplate}"
-                            Foreground="{TemplateBinding Foreground}"
-                            HorizontalAlignment="Stretch"
-                            VerticalAlignment="Top"
-                            Margin="10,0,0,0"/>
+                        <ScrollViewer Grid.Row="1"
+                                      VerticalScrollBarVisibility="Auto">
+                            <ItemsControl ItemsSource="{Binding Accounts}">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate x:DataType="vm:AkunItemViewModel">
+                                        <Border Background="{Binding LatarBaris}"
+                                                BorderBrush="{StaticResource Garis}"
+                                                BorderThickness="0,0,0,1"
+                                                Padding="24,12">
+                                            <Grid ColumnDefinitions="*,110,120,120,330">
+                                                <!-- Grid (bukan StackPanel) supaya nama dan email yang panjang terpotong, tidak menabrak kolom Peran -->
+                                                <Grid ColumnDefinitions="Auto,*" Margin="0,0,16,0" ToolTip.Tip="{Binding Rincian}">
+                                                    <Border Width="34" Height="34" CornerRadius="17" Background="{StaticResource Permukaan2}" VerticalAlignment="Center" Margin="0,0,12,0">
+                                                        <TextBlock Text="{Binding Inisial}" FontSize="13" FontWeight="SemiBold" Foreground="{StaticResource Teks}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                    </Border>
+                                                    <StackPanel Grid.Column="1" Spacing="1" VerticalAlignment="Center">
+                                                        <TextBlock Text="{Binding NamaLengkap}" FontSize="14" FontWeight="SemiBold" Foreground="{StaticResource Teks}" TextTrimming="CharacterEllipsis"/>
+                                                        <TextBlock Text="{Binding NamaPengguna}" Classes="mono samar" TextTrimming="CharacterEllipsis"/>
+                                                    </StackPanel>
+                                                </Grid>
+                                                <TextBlock Grid.Column="1" Text="{Binding Peran}" Classes="sel"/>
+                                                <Border Grid.Column="2" Background="{Binding StatusBackground}" CornerRadius="20" Padding="9,3" HorizontalAlignment="Left" VerticalAlignment="Center">
+                                                    <StackPanel Orientation="Horizontal" Spacing="6">
+                                                        <Ellipse Width="6" Height="6" Fill="{Binding StatusForeground}" VerticalAlignment="Center"/>
+                                                        <TextBlock Text="{Binding StatusLabel}" FontSize="12" FontWeight="Medium" Foreground="{Binding StatusForeground}"/>
+                                                    </StackPanel>
+                                                </Border>
+                                                <TextBlock Grid.Column="3" Text="{Binding Terdaftar}" Classes="sel mono redup"/>
+                                                <!-- Tombol yang tampil mengikuti wewenang (lihat AkunOperator.BolehMengelola) -->
+                                                <StackPanel Grid.Column="4" Orientation="Horizontal" HorizontalAlignment="Right" Spacing="8">
+                                                    <Button Content="Tolak" Theme="{StaticResource TombolBaris}" IsVisible="{Binding BisaSetujui}" Click="TolakAkun_Click"/>
+                                                    <Button Content="Setujui" Theme="{StaticResource TombolBarisUtama}" IsVisible="{Binding BisaSetujui}" Click="SetujuiAkun_Click"/>
+                                                    <Button Content="Aktifkan" Theme="{StaticResource TombolBaris}" IsVisible="{Binding BisaAktifkan}" Click="AktifkanAkun_Click"/>
+                                                    <Button Content="Jadikan admin" Theme="{StaticResource TombolBaris}" IsVisible="{Binding BisaJadikanAdmin}" Click="JadikanAdmin_Click"/>
+                                                    <Button Content="Jadikan operator" Theme="{StaticResource TombolBaris}" IsVisible="{Binding BisaJadikanOperator}" Click="JadikanOperator_Click"/>
+                                                    <Button Content="Reset sandi" Theme="{StaticResource TombolBaris}" IsVisible="{Binding BisaResetSandi}" Click="ResetSandi_Click"/>
+                                                    <Button Content="Nonaktifkan" Theme="{StaticResource TombolBarisBahaya}" IsVisible="{Binding BisaNonaktifkan}" Click="NonaktifkanAkun_Click"/>
+                                                </StackPanel>
+                                            </Grid>
+                                        </Border>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </ScrollViewer>
+
+                        <StackPanel Grid.Row="2"
+                                    Margin="24,14"
+                                    Spacing="6">
+                            <!-- Hasil aksi, termasuk kata sandi sementara yang bisa diblok dan disalin -->
+                            <SelectableTextBlock Text="{Binding AdminMessage}"
+                                                 IsVisible="{Binding AdminMessage, Converter={x:Static StringConverters.IsNotNullOrEmpty}}"
+                                                 FontSize="13"
+                                                 Foreground="{Binding AdminMessageForeground}"
+                                                 TextWrapping="Wrap"/>
+                            <TextBlock Text="{Binding AccountsTitle}" Classes="samar"/>
+                            <TextBlock Text="Yang menunggu persetujuan selalu di atas. Anda tidak bisa mengubah akun sendiri." Classes="samar"/>
+                        </StackPanel>
 
                     </Grid>
 
-                </ControlTemplate>
-            </Setter>
-
-            <Style Selector="^:pointerover /template/ Border#CheckBoxBox">
-                <Setter Property="BorderBrush" Value="#F15A24"/>
-            </Style>
-
-            <Style Selector="^:checked /template/ Border#CheckBoxBox">
-                <Setter Property="Background" Value="#F15A24"/>
-                <Setter Property="BorderBrush" Value="#F15A24"/>
-            </Style>
-
-            <Style Selector="^:checked /template/ Path#CheckMark">
-                <Setter Property="IsVisible" Value="True"/>
-            </Style>
-
-            <Style Selector="^:disabled">
-                <Setter Property="Foreground" Value="#667681"/>
-            </Style>
-
-        </ControlTheme>
-
-        <!-- DROPDOWN COLOR RESOURCES -->
-        <SolidColorBrush x:Key="ComboBoxDropDownGlyphForeground" Color="#FFFFFF"/>
-        <SolidColorBrush x:Key="ComboBoxDropDownGlyphForegroundFocused" Color="#FFFFFF"/>
-        <SolidColorBrush x:Key="ComboBoxDropDownGlyphForegroundFocusedPressed" Color="#FFFFFF"/>
-
-        <SolidColorBrush x:Key="ComboBoxDropDownBackground" Color="#1C2329"/>
-        <SolidColorBrush x:Key="ComboBoxDropDownBorderBrush" Color="#303A42"/>
-
-        <SolidColorBrush x:Key="ComboBoxItemBackground" Color="#1C2329"/>
-        <SolidColorBrush x:Key="ComboBoxItemBackgroundPointerOver" Color="#14181B"/>
-        <SolidColorBrush x:Key="ComboBoxItemBackgroundSelected" Color="#1C2329"/>
-        <SolidColorBrush x:Key="ComboBoxItemBackgroundSelectedPointerOver" Color="#14181B"/>
-
-    </UserControl.Resources>
-
-    <UserControl.Styles>
-
-        <!-- TEXTBOX -->
-        <Style Selector="TextBox">
-            <Setter Property="Height" Value="44"/>
-            <Setter Property="Padding" Value="12,10"/>
-            <Setter Property="FontSize" Value="14"/>
-            <Setter Property="Foreground" Value="#FFFFFF"/>
-            <Setter Property="Background" Value="#14181B"/>
-            <Setter Property="BorderBrush" Value="#303A42"/>
-            <Setter Property="BorderThickness" Value="1"/>
-            <Setter Property="CaretBrush" Value="#FFFFFF"/>
-            <Setter Property="SelectionBrush" Value="#805A3528"/>
-            <Setter Property="VerticalContentAlignment" Value="Center"/>
-        </Style>
-
-        <Style Selector="TextBox:pointerover">
-            <Setter Property="Background" Value="#14181B"/>
-            <Setter Property="Foreground" Value="#FFFFFF"/>
-            <Setter Property="BorderBrush" Value="#667681"/>
-        </Style>
-
-        <Style Selector="TextBox:focus">
-            <Setter Property="Background" Value="#14181B"/>
-            <Setter Property="Foreground" Value="#FFFFFF"/>
-            <Setter Property="BorderBrush" Value="#95A2AD"/>
-            <Setter Property="BorderThickness" Value="1.5"/>
-        </Style>
-
-        <Style Selector="TextBox /template/ Border#PART_BorderElement">
-            <Setter Property="Background" Value="#14181B"/>
-            <Setter Property="BorderBrush" Value="#303A42"/>
-        </Style>
-
-        <Style Selector="TextBox:pointerover /template/ Border#PART_BorderElement">
-            <Setter Property="Background" Value="#14181B"/>
-            <Setter Property="BorderBrush" Value="#667681"/>
-        </Style>
-
-        <Style Selector="TextBox:focus /template/ Border#PART_BorderElement">
-            <Setter Property="Background" Value="#14181B"/>
-            <Setter Property="BorderBrush" Value="#95A2AD"/>
-        </Style>
-
-        <!-- DROPDOWN -->
-        <Style Selector="ComboBox">
-            <Setter Property="MinHeight" Value="44"/>
-            <Setter Property="Padding" Value="10,8"/>
-            <Setter Property="FontSize" Value="14"/>
-            <Setter Property="Foreground" Value="#FFFFFF"/>
-            <Setter Property="Background" Value="#1C2329"/>
-            <Setter Property="BorderBrush" Value="#303A42"/>
-            <Setter Property="BorderThickness" Value="1"/>
-        </Style>
-
-        <!-- COMBOBOX HOVER -->
-        <Style Selector="ComboBox:pointerover">
-            <Setter Property="Foreground" Value="#FFFFFF"/>
-            <Setter Property="Background" Value="#14181B"/>
-            <Setter Property="BorderBrush" Value="#303A42"/>
-        </Style>
-
-        <!-- DROPDOWN ARROW -->
-        <Style Selector="ComboBox /template/ PathIcon#DropDownGlyph">
-            <Setter Property="Foreground" Value="#FFFFFF"/>
-        </Style>
-
-        <!-- DROPDOWN OPTIONS -->
-        <Style Selector="ComboBoxItem">
-            <Setter Property="Foreground" Value="#FFFFFF"/>
-            <Setter Property="Background" Value="#1C2329"/>
-            <Setter Property="Padding" Value="12,9"/>
-            <Setter Property="FontSize" Value="14"/>
-        </Style>
-
-        <Style Selector="ComboBoxItem TextBlock">
-            <Setter Property="Foreground" Value="#FFFFFF"/>
-        </Style>
-
-        <!-- OPTION HOVER -->
-        <Style Selector="ComboBoxItem:pointerover">
-            <Setter Property="Foreground" Value="#FFFFFF"/>
-            <Setter Property="Background" Value="#14181B"/>
-        </Style>
-
-        <Style Selector="ComboBoxItem:pointerover TextBlock">
-            <Setter Property="Foreground" Value="#FFFFFF"/>
-        </Style>
-
-        <!-- SELECTED OPTION -->
-        <Style Selector="ComboBoxItem:selected">
-            <Setter Property="Foreground" Value="#FFFFFF"/>
-            <Setter Property="Background" Value="#1C2329"/>
-        </Style>
-
-        <Style Selector="ComboBoxItem:selected TextBlock">
-            <Setter Property="Foreground" Value="#FFFFFF"/>
-        </Style>
-
-        <!-- SELECTED OPTION HOVER -->
-        <Style Selector="ComboBoxItem:selected:pointerover">
-            <Setter Property="Foreground" Value="#FFFFFF"/>
-            <Setter Property="Background" Value="#14181B"/>
-        </Style>
-
-        <Style Selector="ComboBoxItem:selected:pointerover TextBlock">
-            <Setter Property="Foreground" Value="#FFFFFF"/>
-        </Style>
-
-    </UserControl.Styles>
-
-    <Grid ColumnDefinitions="260,*">
-
-        <!-- SIDEBAR -->
-        <components:SidebarView Grid.Column="0"/>
-
-        <!-- MAIN CONTENT -->
-        <Grid Grid.Column="1"
-              Margin="38,30,38,30"
-              RowDefinitions="Auto,*">
-
-            <!-- HEADER -->
-            <StackPanel Grid.Row="0"
-                        Spacing="3"
-                        Margin="0,0,0,21">
-
-                <TextBlock
-                    Text="Pengaturan"
-                    FontSize="28"
-                    FontWeight="Bold"
-                    Foreground="#E5E9ED"/>
-
-                <TextBlock
-                    Text="Konfigurasi instalasi posko ini"
-                    FontSize="14"
-                    Foreground="#95A2AD"/>
-
-            </StackPanel>
-
-            <!-- SETTINGS GRID -->
-            <Grid Grid.Row="1"
-                  ColumnDefinitions="*,*"
-                  RowDefinitions="Auto,Auto"
-                  ColumnSpacing="16"
-                  RowSpacing="16"
-                  VerticalAlignment="Top">
-
-                <!-- WILAYAH TANGGUNG JAWAB -->
-                <Border Grid.Row="0"
-                        Grid.Column="0"
-                        Background="#1C2329"
-                        BorderBrush="#303A42"
-                        BorderThickness="1"
-                        CornerRadius="12"
-                        Padding="19">
-
-                    <StackPanel Spacing="12">
-
-                        <TextBlock
-                            Text="WILAYAH TANGGUNG JAWAB"
-                            FontSize="12"
-                            FontWeight="SemiBold"
-                            Foreground="#95A2AD"/>
-
-                        <StackPanel Spacing="6">
-
-                            <TextBlock
-                                Text="Provinsi"
-                                FontSize="14"
-                                Foreground="#95A2AD"/>
-
-                            <ComboBox
-                                ItemsSource="{Binding ProvinsiList}"
-                                SelectedItem="{Binding SelectedProvinsi, Mode=TwoWay}"/>
-
+                    <Border Grid.Column="1"
+                            Background="{StaticResource Permukaan}"
+                            BorderBrush="{StaticResource Garis}"
+                            BorderThickness="1,0,0,0">
+                        <StackPanel>
+                            <Border BorderBrush="{StaticResource Garis}"
+                                    BorderThickness="0,0,0,1"
+                                    Padding="22,20">
+                                <StackPanel Spacing="12">
+                                    <TextBlock Text="KODE UNDANGAN POSKO" Classes="label"/>
+                                    <Border Background="{StaticResource Latar}" BorderBrush="{StaticResource Garis}" BorderThickness="1" CornerRadius="8" Padding="16,12,8,12">
+                                        <Grid ColumnDefinitions="*,Auto">
+                                            <SelectableTextBlock Text="{Binding InvitationCode}" FontFamily="{StaticResource HurufMono}" FontSize="22" FontWeight="SemiBold" Foreground="{StaticResource Teks}" VerticalAlignment="Center"/>
+                                            <Button Grid.Column="1" Theme="{StaticResource TombolSenyap}" ToolTip.Tip="Salin kode" Click="SalinKode_Click">
+                                                <components:Ikon x:Name="IkonSalin" Nama="copy" Ukuran="18" Warna="{StaticResource Teks2}"/>
+                                            </Button>
+                                        </Grid>
+                                    </Border>
+                                    <TextBlock Text="Bagikan ke calon operator untuk halaman Daftar. Akun baru tetap harus disetujui di sini." Classes="redup" FontSize="12.5" TextWrapping="Wrap"/>
+                                    <Button Theme="{StaticResource TombolNetral}" HorizontalAlignment="Left" Click="BuatKodeUndangan_Click">
+                                        <StackPanel Orientation="Horizontal" Spacing="8">
+                                            <components:Ikon Nama="refresh-cw" Ukuran="15" Warna="{StaticResource Teks2}"/>
+                                            <TextBlock Text="Buat kode baru" FontSize="13" FontWeight="Medium"/>
+                                        </StackPanel>
+                                    </Button>
+                                    <TextBlock Text="Kode lama langsung tidak berlaku." Classes="samar" FontSize="11.5"/>
+                                </StackPanel>
+                            </Border>
+                            <StackPanel Margin="22,20" Spacing="14">
+                                <TextBlock Text="TIGA PERAN" Classes="label"/>
+                                <StackPanel Spacing="2"><TextBlock Text="Super Admin" FontSize="13.5" FontWeight="SemiBold" Foreground="{StaticResource Teks}"/><TextBlock Text="Mengelola semua akun dan mengubah peran." Classes="redup" FontSize="12.5" TextWrapping="Wrap"/></StackPanel>
+                                <StackPanel Spacing="2"><TextBlock Text="Admin" FontSize="13.5" FontWeight="SemiBold" Foreground="{StaticResource Teks}"/><TextBlock Text="Menyetujui pendaftar, mengelola Operator, membuat kode." Classes="redup" FontSize="12.5" TextWrapping="Wrap"/></StackPanel>
+                                <StackPanel Spacing="2"><TextBlock Text="Operator" FontSize="13.5" FontWeight="SemiBold" Foreground="{StaticResource Teks}"/><TextBlock Text="Memakai aplikasi, tidak melihat tab ini." Classes="redup" FontSize="12.5" TextWrapping="Wrap"/></StackPanel>
+                            </StackPanel>
                         </StackPanel>
+                    </Border>
+                </Grid>
 
-                        <TextBlock
-                            Text="Ditetapkan saat instalasi. Operator bebas berpindah antar kabupaten di dalamnya."
-                            FontSize="13"
-                            Foreground="#95A2AD"
-                            TextWrapping="Wrap"/>
-
-                        <!-- CHECKBOX WITH WRAPPING TEXT -->
-                        <CheckBox
-                            Theme="{StaticResource OrangeCheckBoxTheme}"
-                            IsChecked="{Binding AllowNationalMode, Mode=TwoWay}"
-                            Margin="0,2,0,0">
-
-                            <TextBlock
-                                Text="Izinkan mode lihat nasional (hanya baca, agregat per provinsi)"
-                                FontSize="14"
-                                Foreground="#E5E9ED"
-                                TextWrapping="Wrap"/>
-
-                        </CheckBox>
-
-                        <StackPanel Spacing="6">
-
-                            <TextBlock
-                                Text="Peta dasar"
-                                FontSize="14"
-                                Foreground="#95A2AD"/>
-
-                            <ComboBox
-                                ItemsSource="{Binding PetaDasarList}"
-                                SelectedItem="{Binding SelectedMap, Mode=TwoWay}"/>
-
+                <!-- ================= TAB: KEAMANAN ================= -->
+                <ScrollViewer IsVisible="{Binding TabKeamanan}"
+                              VerticalScrollBarVisibility="Auto">
+                    <StackPanel Width="560"
+                                HorizontalAlignment="Left"
+                                Margin="28,24"
+                                Spacing="18">
+                        <StackPanel Spacing="4">
+                            <TextBlock Text="Ganti kata sandi" FontSize="20" FontWeight="SemiBold" Foreground="{StaticResource Teks}"/>
+                            <TextBlock Text="{Binding AkunSaya}" Classes="redup" FontSize="13.5"/>
                         </StackPanel>
-
+                        <StackPanel Spacing="6">
+                            <TextBlock Text="Kata sandi lama" Classes="medan"/>
+                            <TextBox x:Name="SandiLamaTextBox" PasswordChar="●"/>
+                        </StackPanel>
+                        <Grid ColumnDefinitions="*,12,*">
+                            <StackPanel Spacing="6">
+                                <TextBlock Text="Kata sandi baru (min. 8 karakter)" Classes="medan"/>
+                                <TextBox x:Name="SandiBaruTextBox" PasswordChar="●"/>
+                            </StackPanel>
+                            <StackPanel Grid.Column="2" Spacing="6">
+                                <TextBlock Text="Ulangi kata sandi baru" Classes="medan"/>
+                                <TextBox x:Name="SandiKonfirmasiTextBox" PasswordChar="●"/>
+                            </StackPanel>
+                        </Grid>
+                        <TextBlock Text="{Binding SandiMessage}"
+                                   IsVisible="{Binding SandiMessage, Converter={x:Static StringConverters.IsNotNullOrEmpty}}"
+                                   FontSize="12.5"
+                                   Foreground="{Binding SandiMessageForeground}"
+                                   TextWrapping="Wrap"/>
+                        <Button Content="Ganti kata sandi"
+                                Theme="{StaticResource TombolUtama}"
+                                Padding="18,11"
+                                FontSize="14"
+                                HorizontalAlignment="Left"
+                                Click="GantiKataSandi_Click"/>
+                        <TextBlock Text="Setelah diganti, fitur Ingat saya dimatikan di semua komputer dan Anda masuk lagi dengan kata sandi baru." Classes="samar" TextWrapping="Wrap"/>
                     </StackPanel>
-                </Border>
-
-                <!-- SUMBER DATA -->
-                <Border Grid.Row="0"
-                        Grid.Column="1"
-                        Background="#1C2329"
-                        BorderBrush="#303A42"
-                        BorderThickness="1"
-                        CornerRadius="12"
-                        Padding="19">
-
-                    <StackPanel Spacing="12">
-
-                        <TextBlock
-                            Text="SUMBER DATA"
-                            FontSize="12"
-                            FontWeight="SemiBold"
-                            Foreground="#95A2AD"/>
-
-                        <StackPanel Spacing="6">
-
-                            <TextBlock
-                                Text="MAP_KEY NASA FIRMS"
-                                FontSize="14"
-                                Foreground="#95A2AD"/>
-
-                            <TextBox
-                                Text="{Binding FirmsApiKey, Mode=TwoWay}"
-                                PasswordChar="●"/>
-
-                        </StackPanel>
-
-                        <StackPanel Spacing="6">
-
-                            <TextBlock
-                                Text="API key AccuWeather"
-                                FontSize="14"
-                                Foreground="#95A2AD"/>
-
-                            <TextBox
-                                Text="{Binding WeatherApiKey, Mode=TwoWay}"
-                                PasswordChar="●"/>
-
-                        </StackPanel>
-
-                        <TextBlock
-                            Text="Mode offline memakai data terakhir di database bila API gagal."
-                            FontSize="13"
-                            Foreground="#95A2AD"
-                            TextWrapping="Wrap"/>
-
-                    </StackPanel>
-                </Border>
-
-                <!-- EMAIL NOTIFIKASI -->
-                <Border Grid.Row="1"
-                        Grid.Column="0"
-                        Background="#1C2329"
-                        BorderBrush="#303A42"
-                        BorderThickness="1"
-                        CornerRadius="12"
-                        Padding="19">
-
-                    <StackPanel Spacing="12">
-
-                        <TextBlock
-                            Text="EMAIL NOTIFIKASI (SMTP)"
-                            FontSize="12"
-                            FontWeight="SemiBold"
-                            Foreground="#95A2AD"/>
-
-                        <StackPanel Spacing="6">
-
-                            <TextBlock
-                                Text="Server SMTP"
-                                FontSize="14"
-                                Foreground="#95A2AD"/>
-
-                            <TextBox
-                                Text="{Binding SmtpServer, Mode=TwoWay}"/>
-
-                        </StackPanel>
-
-                        <StackPanel Spacing="6">
-
-                            <TextBlock
-                                Text="Alamat pengirim"
-                                FontSize="14"
-                                Foreground="#95A2AD"/>
-
-                            <TextBox
-                                Text="{Binding SenderEmail, Mode=TwoWay}"/>
-
-                        </StackPanel>
-
-                    </StackPanel>
-                </Border>
-
-                <!-- NOTIFIER TERJADWAL -->
-                <Border Grid.Row="1"
-                        Grid.Column="1"
-                        Background="#1C2329"
-                        BorderBrush="#303A42"
-                        BorderThickness="1"
-                        CornerRadius="12"
-                        Padding="19">
-
-                    <StackPanel Spacing="12">
-
-                        <TextBlock
-                            Text="NOTIFIER TERJADWAL"
-                            FontSize="12"
-                            FontWeight="SemiBold"
-                            Foreground="#95A2AD"/>
-
-                        <StackPanel Spacing="6">
-
-                            <TextBlock
-                                Text="Interval pengecekan"
-                                FontSize="14"
-                                Foreground="#95A2AD"/>
-
-                            <ComboBox
-                                ItemsSource="{Binding IntervalList}"
-                                SelectedItem="{Binding SelectedInterval, Mode=TwoWay}"/>
-
-                        </StackPanel>
-
-                        <TextBlock
-                            Text="Dijalankan Windows Task Scheduler selama PC posko menyala."
-                            FontSize="13"
-                            Foreground="#95A2AD"
-                            TextWrapping="Wrap"/>
-
-                        <TextBlock
-                            Text="{Binding Message}"
-                            FontSize="12"
-                            Foreground="#78C99A"
-                            TextWrapping="Wrap"/>
-
-                        <Button
-                            Content="Simpan pengaturan"
-                            Theme="{StaticResource PrimaryButtonTheme}"
-                            Click="SaveSettings_Click"/>
-
-                    </StackPanel>
-                </Border>
+                </ScrollViewer>
 
             </Grid>
         </Grid>
     </Grid>
+
 </UserControl>

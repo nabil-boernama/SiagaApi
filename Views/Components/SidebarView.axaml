@@ -1,201 +1,69 @@
 <UserControl
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:components="using:SiagaApi.Views.Components"
     x:Class="SiagaApi.Views.Components.SidebarView"
+    Width="76"
     Loaded="SidebarView_Loaded">
 
-    <UserControl.Resources>
-
-        <!-- THEME MENU SIDEBAR -->
-        <ControlTheme x:Key="SidebarNavButtonTheme"
-                      TargetType="Button">
-
-            <Setter Property="Background" Value="Transparent"/>
-            <Setter Property="Foreground" Value="#A0ABB4"/>
-            <Setter Property="HorizontalContentAlignment" Value="Left"/>
-            <Setter Property="VerticalContentAlignment" Value="Center"/>
-            <Setter Property="Padding" Value="14,10"/>
-            <Setter Property="FontSize" Value="15"/>
-            <Setter Property="BorderThickness" Value="0"/>
-            <Setter Property="Cursor" Value="Hand"/>
-            <Setter Property="HorizontalAlignment" Value="Stretch"/>
-
-            <Setter Property="Template">
-                <ControlTemplate>
-                    <Border Background="{TemplateBinding Background}"
-                            CornerRadius="7">
-
-                        <ContentPresenter
-                            Content="{TemplateBinding Content}"
-                            ContentTemplate="{TemplateBinding ContentTemplate}"
-                            Foreground="{TemplateBinding Foreground}"
-                            FontSize="{TemplateBinding FontSize}"
-                            FontWeight="{TemplateBinding FontWeight}"
-                            HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                            VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-                            Margin="{TemplateBinding Padding}"/>
-
-                    </Border>
-                </ControlTemplate>
-            </Setter>
-
-            <!-- HOVER: TIDAK MENGUBAH WARNA -->
-            <Style Selector="^:pointerover">
-                <Setter Property="Background" Value="#34434C"/>
-                <Setter Property="Foreground" Value="#A0ABB4"/>
-            </Style>
-
-            <!-- PRESSED: TETAP -->
-            <Style Selector="^:pressed">
-                <Setter Property="Background" Value="Transparent"/>
-                <Setter Property="Foreground" Value="#A0ABB4"/>
-            </Style>
-
-        </ControlTheme>
-
-
-        <!-- THEME KELUAR -->
-        <ControlTheme x:Key="LogoutButtonTheme"
-                      TargetType="Button">
-
-            <Setter Property="Background" Value="Transparent"/>
-            <Setter Property="Foreground" Value="#95A2AD"/>
-            <Setter Property="HorizontalContentAlignment" Value="Left"/>
-            <Setter Property="VerticalContentAlignment" Value="Center"/>
-            <Setter Property="Padding" Value="0"/>
-            <Setter Property="BorderThickness" Value="0"/>
-            <Setter Property="Cursor" Value="Hand"/>
-
-            <Setter Property="Template">
-                <ControlTemplate>
-                    <Border Background="{TemplateBinding Background}">
-                        <ContentPresenter
-                            Content="{TemplateBinding Content}"
-                            ContentTemplate="{TemplateBinding ContentTemplate}"
-                            HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                            VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
-                    </Border>
-                </ControlTemplate>
-            </Setter>
-
-            <!-- HOVER: WARNA TETAP -->
-            <Style Selector="^:pointerover">
-                <Setter Property="Background" Value="Transparent"/>
-                <Setter Property="Foreground" Value="#95A2AD"/>
-            </Style>
-
-        </ControlTheme>
-
-    </UserControl.Resources>
-
-
-    <UserControl.Styles>
-
-        <!-- MENU AKTIF -->
-        <Style Selector="Button.nav-button.selected">
-            <Setter Property="Background" Value="#252E35"/>
-            <Setter Property="Foreground" Value="#E5E9ED"/>
-            <Setter Property="FontWeight" Value="SemiBold"/>
-        </Style>
-
-        <!-- MENU AKTIF SAAT HOVER -->
-        <Style Selector="Button.nav-button.selected:pointerover">
-            <Setter Property="Background" Value="#252E35"/>
-            <Setter Property="Foreground" Value="#E5E9ED"/>
-            <Setter Property="FontWeight" Value="SemiBold"/>
-        </Style>
-
-    </UserControl.Styles>
-
-
-    <Border Background="#1C2329"
-            BorderBrush="#303A42"
+    <!-- Rel navigasi: ikon + label pendek. Tombolnya dibuat di SidebarView.axaml.cs
+         dari satu daftar, supaya urutan dan nama halaman hanya ditulis sekali. -->
+    <Border Background="{StaticResource Permukaan}"
+            BorderBrush="{StaticResource Garis}"
             BorderThickness="0,0,1,0">
 
-        <Grid RowDefinitions="Auto,*,Auto">
+        <Grid RowDefinitions="Auto,*,Auto"
+              Margin="0,16">
 
-            <!-- BRAND -->
-            <TextBlock Grid.Row="0"
-                       Text="SiagaApi"
-                       FontSize="25"
-                       FontWeight="Bold"
-                       Foreground="#F15A24"
-                       Margin="26,24,20,24"/>
+            <StackPanel Grid.Row="0"
+                        Spacing="6"
+                        HorizontalAlignment="Center">
 
+                <Border Width="40"
+                        Height="40"
+                        CornerRadius="10"
+                        Background="#14181B"
+                        BorderBrush="{StaticResource Garis}"
+                        BorderThickness="1"
+                        Margin="0,0,0,10"
+                        ToolTip.Tip="SiagaApi">
+                    <components:LogoTanda Tinggi="28"
+                                          HorizontalAlignment="Center"
+                                          VerticalAlignment="Center"/>
+                </Border>
 
-            <!-- NAVIGATION -->
-            <StackPanel Grid.Row="1"
-                        Margin="14,0"
-                        Spacing="5">
-
-                <Button Content="Dashboard"
-                        Tag="Dashboard"
-                        Classes="nav-button selected"
-                        Theme="{StaticResource SidebarNavButtonTheme}"
-                        Click="NavigationButton_Click"/>
-
-                <Button Content="Peta &amp; Simulasi"
-                        Tag="Peta &amp; Simulasi"
-                        Classes="nav-button"
-                        Theme="{StaticResource SidebarNavButtonTheme}"
-                        Click="NavigationButton_Click"/>
-
-                <Button Content="Laporan Warga"
-                        Tag="Laporan Warga"
-                        Classes="nav-button"
-                        Theme="{StaticResource SidebarNavButtonTheme}"
-                        Click="NavigationButton_Click"/>
-
-                <Button Content="Langganan"
-                        Tag="Langganan"
-                        Classes="nav-button"
-                        Theme="{StaticResource SidebarNavButtonTheme}"
-                        Click="NavigationButton_Click"/>
-
-                <Button Content="Riwayat &amp; Tren"
-                        Tag="Riwayat &amp; Tren"
-                        Classes="nav-button"
-                        Theme="{StaticResource SidebarNavButtonTheme}"
-                        Click="NavigationButton_Click"/>
-
-                <Button Content="Pengaturan"
-                        Tag="Pengaturan"
-                        Classes="nav-button"
-                        Theme="{StaticResource SidebarNavButtonTheme}"
-                        Click="NavigationButton_Click"/>
+                <StackPanel x:Name="Menu"
+                            Spacing="6"/>
 
             </StackPanel>
 
-
-            <!-- FOOTER -->
             <StackPanel Grid.Row="2"
-                        Margin="26,12,20,25"
-                        Spacing="5">
+                        Spacing="6"
+                        HorizontalAlignment="Center">
 
-                <TextBlock Text="FIRMS · Cuaca · Database"
-                           FontSize="13"
-                           Foreground="#95A2AD"/>
+                <Border x:Name="Avatar"
+                        Width="34"
+                        Height="34"
+                        CornerRadius="17"
+                        Background="{StaticResource Permukaan2}"
+                        BorderBrush="{StaticResource Garis}"
+                        BorderThickness="1"
+                        HorizontalAlignment="Center">
+                    <TextBlock x:Name="OperatorNameText"
+                               FontSize="13"
+                               FontWeight="SemiBold"
+                               Foreground="{StaticResource Teks}"
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Center"/>
+                </Border>
 
-                <TextBlock Text="Terhubung"
-                           FontSize="13"
-                           Foreground="#72C58B"
-                           Margin="0,0,0,16"/>
-
-                <TextBlock Text="Operator Budi"
-                           FontSize="14"
-                           Foreground="#E5E9ED"/>
-
-                <!-- LOGOUT -->
-                <Button Theme="{StaticResource LogoutButtonTheme}"
-                        Click="LogoutButton_Click"
-                        PointerEntered="LogoutButton_PointerEntered"
-                        PointerExited="LogoutButton_PointerExited">
-
+                <Button Theme="{StaticResource TombolSenyap}"
+                        Padding="6,3"
+                        HorizontalAlignment="Center"
+                        Click="LogoutButton_Click">
                     <TextBlock x:Name="LogoutText"
                                Text="Keluar"
-                               Foreground="#95A2AD"
-                               FontSize="13"/>
-
+                               FontSize="10.5"/>
                 </Button>
 
             </StackPanel>

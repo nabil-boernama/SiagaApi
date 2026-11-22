@@ -1,441 +1,129 @@
 <UserControl
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:vm="using:SiagaApi.ViewModels"
+    xmlns:components="using:SiagaApi.Views.Components"
     x:Class="SiagaApi.Views.LoginView"
-    Background="#14181B">
+    x:DataType="vm:LoginViewModel"
+    Background="{StaticResource Latar}">
 
-    <!-- RESOURCES -->
-    <UserControl.Resources>
-        <SolidColorBrush x:Key="PanelBrush" Color="#1C2329"/>
-        <SolidColorBrush x:Key="InputBrush" Color="#14181B"/>
-        <SolidColorBrush x:Key="BorderBrush" Color="#303A42"/>
-        <SolidColorBrush x:Key="AccentBrush" Color="#F15A24"/>
-        <SolidColorBrush x:Key="PrimaryTextBrush" Color="#E5E9ED"/>
-        <SolidColorBrush x:Key="SecondaryTextBrush" Color="#95A2AD"/>
+    <Grid ColumnDefinitions="5*,4*">
 
-        <!-- LOGIN BUTTON THEME -->
-        <ControlTheme x:Key="LoginButtonTheme" TargetType="Button">
+        <components:PanelSampulView Grid.Column="0"/>
 
-            <Setter Property="Background" Value="#F15A24"/>
-            <Setter Property="Foreground" Value="#14181B"/>
-            <Setter Property="FontSize" Value="15"/>
-            <Setter Property="FontWeight" Value="SemiBold"/>
-            <Setter Property="Height" Value="44"/>
-            <Setter Property="HorizontalAlignment" Value="Stretch"/>
-            <Setter Property="HorizontalContentAlignment" Value="Center"/>
-            <Setter Property="VerticalContentAlignment" Value="Center"/>
-            <Setter Property="BorderThickness" Value="0"/>
-            <Setter Property="Cursor" Value="Hand"/>
+        <Border Grid.Column="1"
+                BorderBrush="{StaticResource Garis}"
+                BorderThickness="1,0,0,0">
 
-            <Setter Property="Template">
-                <ControlTemplate>
-                    <Border
-                        Background="{TemplateBinding Background}"
-                        CornerRadius="7">
-
-                        <ContentPresenter
-                            Content="{TemplateBinding Content}"
-                            ContentTemplate="{TemplateBinding ContentTemplate}"
-                            HorizontalAlignment="Center"
-                            VerticalAlignment="Center"/>
-
-                    </Border>
-                </ControlTemplate>
-            </Setter>
-
-            <Style Selector="^:pointerover">
-                <Setter Property="Background" Value="#E64F1F"/>
-            </Style>
-
-            <Style Selector="^:pressed">
-                <Setter Property="Background" Value="#D94C1C"/>
-            </Style>
-
-            <Style Selector="^:disabled">
-                <Setter Property="Background" Value="#713B2A"/>
-                <Setter Property="Foreground" Value="#95A2AD"/>
-            </Style>
-
-        </ControlTheme>
-
-        <!-- CUSTOM CHECKBOX THEME -->
-        <ControlTheme x:Key="RememberCheckBoxTheme" TargetType="CheckBox">
-
-            <Setter Property="Foreground" Value="#E5E9ED"/>
-            <Setter Property="FontSize" Value="14"/>
-            <Setter Property="Cursor" Value="Hand"/>
-
-            <Setter Property="Template">
-                <ControlTemplate>
-                    <StackPanel
-                        Orientation="Horizontal"
-                        Spacing="10"
+            <StackPanel Width="380"
+                        Spacing="18"
                         VerticalAlignment="Center">
 
-                        <Border
-                            x:Name="CheckBoxBorder"
-                            Width="19"
-                            Height="19"
-                            CornerRadius="4"
-                            BorderThickness="1.5"
-                            BorderBrush="#667681"
-                            Background="#14181B"
-                            VerticalAlignment="Center">
-
-                            <TextBlock
-                                x:Name="CheckMark"
-                                Text="✓"
-                                FontSize="14"
-                                FontWeight="Bold"
-                                Foreground="#14181B"
-                                HorizontalAlignment="Center"
-                                VerticalAlignment="Center"
-                                Opacity="0"/>
-
-                        </Border>
-
-                        <ContentPresenter
-                            Content="{TemplateBinding Content}"
-                            VerticalAlignment="Center"/>
-
-                    </StackPanel>
-                </ControlTemplate>
-            </Setter>
-
-            <!-- CHECKED -->
-            <Style Selector="^:checked /template/ Border#CheckBoxBorder">
-                <Setter Property="Background" Value="#F15A24"/>
-                <Setter Property="BorderBrush" Value="#F15A24"/>
-            </Style>
-
-            <Style Selector="^:checked /template/ TextBlock#CheckMark">
-                <Setter Property="Opacity" Value="1"/>
-            </Style>
-
-            <!-- HOVER -->
-            <Style Selector="^:pointerover /template/ Border#CheckBoxBorder">
-                <Setter Property="BorderBrush" Value="#F15A24"/>
-            </Style>
-
-            <!-- DISABLED -->
-            <Style Selector="^:disabled">
-                <Setter Property="Opacity" Value="0.5"/>
-            </Style>
-
-        </ControlTheme>
-
-    </UserControl.Resources>
-
-
-    <!-- STYLES -->
-    <UserControl.Styles>
-
-        <!-- INPUT DEFAULT -->
-        <Style Selector="TextBox">
-            <Setter Property="Height" Value="44"/>
-            <Setter Property="Padding" Value="12,10"/>
-            <Setter Property="FontSize" Value="14"/>
-            <Setter Property="Foreground" Value="#FFFFFF"/>
-            <Setter Property="Background" Value="#14181B"/>
-            <Setter Property="BorderBrush" Value="#303A42"/>
-            <Setter Property="BorderThickness" Value="1"/>
-            <Setter Property="CaretBrush" Value="#FFFFFF"/>
-            <Setter Property="SelectionBrush" Value="#805A3528"/>
-            <Setter Property="VerticalContentAlignment" Value="Center"/>
-        </Style>
-
-        <!-- INPUT HOVER -->
-        <Style Selector="TextBox:pointerover">
-            <Setter Property="Background" Value="#14181B"/>
-            <Setter Property="Foreground" Value="#FFFFFF"/>
-            <Setter Property="BorderBrush" Value="#667681"/>
-        </Style>
-
-        <!-- INPUT FOCUS -->
-        <Style Selector="TextBox:focus">
-            <Setter Property="Background" Value="#14181B"/>
-            <Setter Property="Foreground" Value="#FFFFFF"/>
-            <Setter Property="BorderBrush" Value="#95A2AD"/>
-            <Setter Property="BorderThickness" Value="1.5"/>
-        </Style>
-
-        <!-- INPUT TEMPLATE -->
-        <Style Selector="TextBox /template/ Border#PART_BorderElement">
-            <Setter Property="Background" Value="#14181B"/>
-            <Setter Property="BorderBrush" Value="#303A42"/>
-        </Style>
-
-        <Style Selector="TextBox:pointerover /template/ Border#PART_BorderElement">
-            <Setter Property="Background" Value="#14181B"/>
-            <Setter Property="BorderBrush" Value="#667681"/>
-        </Style>
-
-        <Style Selector="TextBox:focus /template/ Border#PART_BorderElement">
-            <Setter Property="Background" Value="#14181B"/>
-            <Setter Property="BorderBrush" Value="#95A2AD"/>
-        </Style>
-
-        <!-- FORGOT PASSWORD -->
-        <Style Selector="TextBlock.forgot-password">
-            <Setter Property="Foreground" Value="#95A2AD"/>
-            <Setter Property="TextDecorations" Value="{x:Null}"/>
-            <Setter Property="Cursor" Value="Hand"/>
-        </Style>
-
-        <Style Selector="TextBlock.forgot-password:pointerover">
-            <Setter Property="Foreground" Value="#E5E9ED"/>
-            <Setter Property="TextDecorations" Value="Underline"/>
-        </Style>
-
-        <!-- REGISTER LINK -->
-        <Style Selector="TextBlock.register-link">
-            <Setter Property="Foreground" Value="#F15A24"/>
-            <Setter Property="Cursor" Value="Hand"/>
-            <Setter Property="TextDecorations" Value="{x:Null}"/>
-        </Style>
-
-        <Style Selector="TextBlock.register-link:pointerover">
-            <Setter Property="Foreground" Value="#E64F1F"/>
-            <Setter Property="TextDecorations" Value="Underline"/>
-        </Style>
-
-    </UserControl.Styles>
-
-
-    <!-- MAIN LAYOUT -->
-    <Grid ColumnDefinitions="440,*">
-
-        <!-- LEFT PANEL -->
-        <Border
-            Grid.Column="0"
-            Background="#1C2329"
-            BorderBrush="#303A42"
-            BorderThickness="0,0,1,0">
-
-            <Grid
-                RowDefinitions="Auto,*,Auto"
-                Margin="44,48,38,32">
-
-                <StackPanel Grid.Row="0" Spacing="0">
-
-                    <TextBlock
-                        Text="SiagaApi"
-                        FontSize="29"
-                        FontWeight="Bold"
-                        Foreground="#F15A24"
-                        Margin="0,0,0,28"/>
-
-                    <TextBlock
-                        Text="Dari sinyal satelit&#10;menuju keputusan."
-                        FontSize="34"
-                        FontWeight="Bold"
-                        Foreground="#E5E9ED"
-                        TextWrapping="Wrap"
-                        LineHeight="43"
-                        Margin="0,0,0,24"/>
-
-                    <TextBlock
-                        Text="Pusat pemantauan karhutla untuk operator posko: hotspot, prediksi arah rambat, dan peringatan ke warga."
-                        FontSize="16"
-                        Foreground="#95A2AD"
-                        TextWrapping="Wrap"
-                        LineHeight="25"
-                        Margin="0,0,0,24"/>
-
-                    <StackPanel Spacing="18">
-
-                        <StackPanel
-                            Orientation="Horizontal"
-                            Spacing="11">
-
-                            <Ellipse
-                                Width="9"
-                                Height="9"
-                                Fill="#F15A24"
-                                VerticalAlignment="Center"/>
-
-                            <TextBlock
-                                Text="Prediksi arah rambat api"
-                                FontSize="16"
-                                Foreground="#E5E9ED"/>
-
-                        </StackPanel>
-
-                        <StackPanel
-                            Orientation="Horizontal"
-                            Spacing="11">
-
-                            <Ellipse
-                                Width="9"
-                                Height="9"
-                                Fill="#F15A24"
-                                VerticalAlignment="Center"/>
-
-                            <TextBlock
-                                Text="Peringatan email ke warga terdampak"
-                                FontSize="16"
-                                Foreground="#E5E9ED"
-                                TextWrapping="Wrap"/>
-
-                        </StackPanel>
-
-                        <StackPanel
-                            Orientation="Horizontal"
-                            Spacing="11">
-
-                            <Ellipse
-                                Width="9"
-                                Height="9"
-                                Fill="#F15A24"
-                                VerticalAlignment="Center"/>
-
-                            <TextBlock
-                                Text="Verifikasi lewat laporan lapangan"
-                                FontSize="16"
-                                Foreground="#E5E9ED"
-                                TextWrapping="Wrap"/>
-
-                        </StackPanel>
-
-                    </StackPanel>
+                <StackPanel Spacing="4"
+                            Margin="0,0,0,6">
+                    <TextBlock Text="Masuk"
+                               FontSize="30"
+                               FontWeight="SemiBold"
+                               Foreground="{StaticResource Teks}"/>
+                    <TextBlock Text="Akun operator posko"
+                               FontSize="14"
+                               Classes="redup"/>
                 </StackPanel>
 
-                <TextBlock
-                    Grid.Row="2"
-                    Text="Hotspot adalah indikasi anomali panas, bukan kebakaran terverifikasi."
-                    FontSize="13"
-                    Foreground="#95A2AD"
-                    TextWrapping="Wrap"
-                    LineHeight="18"/>
+                <StackPanel Spacing="6">
+                    <TextBlock Text="Nama pengguna"
+                               Classes="medan"/>
+                    <TextBox x:Name="UsernameTextBox"
+                             MinHeight="46"/>
+                </StackPanel>
 
-            </Grid>
-        </Border>
+                <StackPanel Spacing="6">
+                    <TextBlock Text="Kata sandi"
+                               Classes="medan"/>
+                    <Grid>
+                        <TextBox x:Name="PasswordTextBox"
+                                 MinHeight="46"
+                                 Padding="12,10,44,10"
+                                 PasswordChar="●"/>
+                        <Button Theme="{StaticResource TombolSenyap}"
+                                HorizontalAlignment="Right"
+                                Margin="0,0,6,0"
+                                ToolTip.Tip="Tampilkan atau sembunyikan kata sandi"
+                                Click="LihatSandi_Click">
+                            <components:Ikon x:Name="IkonLihatSandi"
+                                             Nama="eye"
+                                             Ukuran="16"
+                                             Warna="{StaticResource Teks2}"/>
+                        </Button>
+                    </Grid>
+                </StackPanel>
 
+                <Grid ColumnDefinitions="*,Auto">
+                    <CheckBox x:Name="RememberMeCheckBox"
+                              Content="Ingat saya di komputer ini"
+                              IsChecked="True"
+                              FontSize="13"
+                              Foreground="{StaticResource Teks2}"/>
+                    <Button Grid.Column="1"
+                            Theme="{StaticResource TombolSenyap}"
+                            Padding="4,2"
+                            Click="ForgotPassword_Click">
+                        <TextBlock Text="Lupa kata sandi?"
+                                   FontSize="13"/>
+                    </Button>
+                </Grid>
 
-        <!-- RIGHT PANEL -->
-        <Grid
-            Grid.Column="1"
-            Background="#14181B">
+                <!-- Pesan: kata sandi salah, akun belum disetujui, database mati -->
+                <TextBlock Text="{Binding Message}"
+                           IsVisible="{Binding Message, Converter={x:Static StringConverters.IsNotNullOrEmpty}}"
+                           Foreground="{StaticResource Tinggi}"
+                           FontSize="13"
+                           TextWrapping="Wrap"/>
 
-            <Border
-                Width="456"
-                Padding="29"
-                Background="#1C2329"
-                BorderBrush="#283139"
-                BorderThickness="1"
-                CornerRadius="12"
-                HorizontalAlignment="Center"
-                VerticalAlignment="Center">
-
-                <StackPanel Spacing="0">
-
-                    <TextBlock
-                        Text="MASUK"
-                        FontSize="12"
-                        FontWeight="Bold"
-                        Foreground="#95A2AD"
-                        Margin="0,0,0,9"/>
-
-                    <TextBlock
-                        Text="Selamat datang kembali"
-                        FontSize="25"
-                        FontWeight="Bold"
-                        Foreground="#E5E9ED"
-                        Margin="0,0,0,5"/>
-
-                    <TextBlock
-                        Text="Masuk sebagai operator posko."
-                        FontSize="14"
-                        Foreground="#95A2AD"
-                        Margin="0,0,0,14"/>
-
-
-                    <!-- USERNAME -->
-                    <TextBlock
-                        Text="Nama pengguna"
-                        FontSize="14"
-                        Foreground="#95A2AD"
-                        Margin="0,0,0,7"/>
-
-                    <TextBox
-                        x:Name="UsernameTextBox"
-                        Margin="0,0,0,14"/>
-
-
-                    <!-- PASSWORD -->
-                    <TextBlock
-                        Text="Kata sandi"
-                        FontSize="14"
-                        Foreground="#95A2AD"
-                        Margin="0,0,0,7"/>
-
-                    <TextBox
-                        x:Name="PasswordTextBox"
-                        PasswordChar="●"
-                        Margin="0,0,0,14"/>
-
-
-                    <!-- REMEMBER ME -->
-                    <CheckBox
-                        x:Name="RememberMeCheckBox"
-                        Content="Ingat saya di komputer ini"
-                        IsChecked="True"
-                        Theme="{StaticResource RememberCheckBoxTheme}"
-                        Margin="2,0,0,20"/>
-
-
-                    <!-- LOGIN BUTTON -->
-                    <Button
-                        Content="Masuk"
-                        Theme="{StaticResource LoginButtonTheme}"
+                <!-- Enter juga menekan tombol ini -->
+                <Button Content="Masuk"
+                        Theme="{StaticResource TombolUtama}"
+                        Height="48"
+                        FontSize="15"
                         HorizontalAlignment="Stretch"
-                        Margin="0,0,0,13"
+                        IsDefault="True"
+                        IsEnabled="{Binding !IsBusy}"
                         Click="LoginButton_Click"/>
 
-                    <Button
-                        Content="Preview Dashboard (Development)"
-                        Background="#303A42"
-                        Foreground="#E5E9ED"
-                        HorizontalAlignment="Stretch"
-                        Padding="10"
-                        CornerRadius="7"
-                        Margin="0,0,0,13"
-                        Click="PreviewDashboard_Click"/>
-
-
-                    <!-- FORGOT PASSWORD -->
-                    <TextBlock
-                        Text="Lupa kata sandi?"
-                        Classes="forgot-password"
-                        HorizontalAlignment="Center"
-                        Margin="0,0,0,17"
-                        PointerPressed="ForgotPassword_Click"/>
-
-
-                    <!-- REGISTER -->
-                    <StackPanel
-                        Orientation="Horizontal"
-                        HorizontalAlignment="Center"
-                        Spacing="4">
-
-                        <TextBlock
-                            Text="Belum punya akun?"
-                            FontSize="14"
-                            Foreground="#95A2AD"/>
-
-                        <TextBlock
-                            x:Name="RegisterLink"
-                            Text="Daftar"
-                            FontSize="14"
-                            Classes="register-link"
-                            Cursor="Hand"/>
-
-                    </StackPanel>
-
+                <StackPanel Orientation="Horizontal"
+                            HorizontalAlignment="Center"
+                            Spacing="2">
+                    <TextBlock Text="Belum punya akun?"
+                               FontSize="13"
+                               Classes="redup"
+                               VerticalAlignment="Center"/>
+                    <Button x:Name="RegisterLink"
+                            Theme="{StaticResource TombolSenyap}"
+                            Padding="5,2"
+                            Click="Register_Click">
+                        <TextBlock Text="Daftar dengan kode undangan"
+                                   FontSize="13"
+                                   FontWeight="SemiBold"
+                                   Foreground="{StaticResource Aksen}"/>
+                    </Button>
                 </StackPanel>
-            </Border>
-        </Grid>
 
+                <!-- Hanya muncul kalau database tidak terjangkau -->
+                <StackPanel Orientation="Horizontal"
+                            IsVisible="{Binding DatabaseBermasalah}"
+                            HorizontalAlignment="Center"
+                            Spacing="8"
+                            Margin="0,20,0,0">
+                    <Ellipse Width="7"
+                             Height="7"
+                             Fill="{Binding DatabaseBrush}"
+                             VerticalAlignment="Center"/>
+                    <TextBlock Text="{Binding DatabaseStatus}"
+                               Classes="samar"/>
+                </StackPanel>
+
+            </StackPanel>
+        </Border>
     </Grid>
 
 </UserControl>

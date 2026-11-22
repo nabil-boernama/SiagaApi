@@ -7,6 +7,7 @@ namespace SiagaApi.Backend.Models
       {
             public int Id { get; set; }
             public string Email { get; set; } = string.Empty;
+            public StatusLangganan Status { get; set; } = StatusLangganan.Aktif;
             public DateTime TerdaftarPada { get; set; }
 
             public int WilayahId { get; set; }

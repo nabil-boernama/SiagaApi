@@ -37,7 +37,9 @@ namespace SiagaApi.Backend.Services
                   return ParseCsv(csv, w.Id);
             }
 
-            private static List<TitikPanas> ParseCsv(string csv, int wilayahId)
+            // internal (bukan private) supaya FirmsPublikService bisa memakai parser
+            // yang sama untuk file CSV publik FIRMS, yang kolomnya identik.
+            internal static List<TitikPanas> ParseCsv(string csv, int wilayahId)
             {
                   var baris = csv.Split('\n', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
                   if (baris.Length <= 1) return new List<TitikPanas>();

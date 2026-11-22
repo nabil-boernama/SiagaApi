@@ -1,15 +1,328 @@
 <Application xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              x:Class="SiagaApi.App"
+             Name="SiagaApi"
              xmlns:local="using:SiagaApi"
-             RequestedThemeVariant="Default">
-             <!-- "Default" ThemeVariant follows system theme variant. "Dark" or "Light" are other available options. -->
+             RequestedThemeVariant="Dark">
 
     <Application.DataTemplates>
         <local:ViewLocator />
     </Application.DataTemplates>
 
+    <!-- ============================================================
+         TEMA SIAGAAPI
+         Satu sumber untuk warna, huruf, tombol, dan kolom isian.
+         Halaman memakai kunci di bawah ini, tidak mendefinisikan
+         gayanya sendiri. Rancangannya ada di Docs/desain/siagaapi-ui.pen.
+         ============================================================ -->
+    <Application.Resources>
+
+        <!-- Warna -->
+        <SolidColorBrush x:Key="Latar" Color="#0B0F12"/>
+        <SolidColorBrush x:Key="Permukaan" Color="#12181D"/>
+        <SolidColorBrush x:Key="Permukaan2" Color="#1A2229"/>
+        <SolidColorBrush x:Key="Garis" Color="#26313A"/>
+        <SolidColorBrush x:Key="Teks" Color="#E8EDF1"/>
+        <SolidColorBrush x:Key="Teks2" Color="#9AA7B2"/>
+        <SolidColorBrush x:Key="Teks3" Color="#66737E"/>
+        <!-- Aksen hanya untuk satu aksi utama per layar -->
+        <SolidColorBrush x:Key="Aksen" Color="#F15A24"/>
+        <SolidColorBrush x:Key="AksenTinta" Color="#14181B"/>
+        <!-- Skala bahaya dan status, terpisah dari warna merek -->
+        <SolidColorBrush x:Key="Tinggi" Color="#F0452E"/>
+        <SolidColorBrush x:Key="Nominal" Color="#F2A83B"/>
+        <SolidColorBrush x:Key="Baik" Color="#5CC98A"/>
+        <SolidColorBrush x:Key="PanelApung" Color="#EE12181D"/>
+
+        <!-- Kontrol bawaan Fluent (centang, fokus, pilihan) ikut warna aksen -->
+        <Color x:Key="SystemAccentColor">#F15A24</Color>
+        <Color x:Key="SystemAccentColorDark1">#E64F1F</Color>
+        <Color x:Key="SystemAccentColorDark2">#D94C1C</Color>
+        <Color x:Key="SystemAccentColorLight1">#FF6E3A</Color>
+        <Color x:Key="SystemAccentColorLight2">#FF8658</Color>
+
+        <!-- Huruf: IBM Plex Sans untuk teks, IBM Plex Mono untuk angka, koordinat, waktu -->
+        <FontFamily x:Key="HurufUi">avares://SiagaApi/Assets/Fonts#IBM Plex Sans</FontFamily>
+        <FontFamily x:Key="HurufMono">avares://SiagaApi/Assets/Fonts#IBM Plex Mono</FontFamily>
+
+        <!-- Dropdown -->
+        <SolidColorBrush x:Key="ComboBoxDropDownBackground" Color="#12181D"/>
+        <SolidColorBrush x:Key="ComboBoxDropDownBorderBrush" Color="#26313A"/>
+        <SolidColorBrush x:Key="ComboBoxItemBackgroundPointerOver" Color="#1A2229"/>
+        <SolidColorBrush x:Key="ComboBoxItemBackgroundSelected" Color="#1A2229"/>
+        <SolidColorBrush x:Key="ComboBoxItemBackgroundSelectedPointerOver" Color="#1A2229"/>
+
+        <!-- ================= TOMBOL ================= -->
+        <ControlTheme x:Key="TombolDasar" TargetType="Button">
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="FontSize" Value="13.5"/>
+            <Setter Property="Padding" Value="14,9"/>
+            <Setter Property="CornerRadius" Value="8"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="BorderBrush" Value="Transparent"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="{StaticResource Teks}"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="Template">
+                <ControlTemplate>
+                    <Border Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            CornerRadius="{TemplateBinding CornerRadius}"
+                            Padding="{TemplateBinding Padding}">
+                        <ContentPresenter Content="{TemplateBinding Content}"
+                                          ContentTemplate="{TemplateBinding ContentTemplate}"
+                                          TextElement.Foreground="{TemplateBinding Foreground}"
+                                          TextElement.FontWeight="{TemplateBinding FontWeight}"
+                                          HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                          VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                    </Border>
+                </ControlTemplate>
+            </Setter>
+            <Style Selector="^:disabled">
+                <Setter Property="Opacity" Value="0.45"/>
+            </Style>
+        </ControlTheme>
+
+        <!-- Aksi utama: hanya satu per layar -->
+        <ControlTheme x:Key="TombolUtama" TargetType="Button" BasedOn="{StaticResource TombolDasar}">
+            <Setter Property="Background" Value="{StaticResource Aksen}"/>
+            <Setter Property="Foreground" Value="{StaticResource AksenTinta}"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Style Selector="^:pointerover">
+                <Setter Property="Background" Value="#FF6E3A"/>
+            </Style>
+            <Style Selector="^:pressed">
+                <Setter Property="Background" Value="#D94C1C"/>
+            </Style>
+        </ControlTheme>
+
+        <!-- Aksi biasa -->
+        <ControlTheme x:Key="TombolNetral" TargetType="Button" BasedOn="{StaticResource TombolDasar}">
+            <Setter Property="BorderBrush" Value="{StaticResource Garis}"/>
+            <Style Selector="^:pointerover">
+                <Setter Property="Background" Value="{StaticResource Permukaan2}"/>
+            </Style>
+            <Style Selector="^:pressed">
+                <Setter Property="Background" Value="{StaticResource Garis}"/>
+            </Style>
+        </ControlTheme>
+
+        <!-- Aksi yang merusak / mencabut akses -->
+        <ControlTheme x:Key="TombolBahaya" TargetType="Button" BasedOn="{StaticResource TombolNetral}">
+            <Setter Property="Foreground" Value="{StaticResource Tinggi}"/>
+        </ControlTheme>
+
+        <!-- Tanpa bingkai: ikon tutup, tautan, kontrol peta -->
+        <ControlTheme x:Key="TombolSenyap" TargetType="Button" BasedOn="{StaticResource TombolDasar}">
+            <Setter Property="Foreground" Value="{StaticResource Teks2}"/>
+            <Setter Property="Padding" Value="8"/>
+            <Setter Property="CornerRadius" Value="6"/>
+            <Style Selector="^:pointerover">
+                <Setter Property="Background" Value="{StaticResource Permukaan2}"/>
+                <Setter Property="Foreground" Value="{StaticResource Teks}"/>
+            </Style>
+        </ControlTheme>
+
+        <!-- Satu pilihan dalam kelompok (mode peta, peta dasar, tab, saringan).
+             Pilihan yang aktif diberi kelas "aktif". -->
+        <ControlTheme x:Key="TombolSegmen" TargetType="Button" BasedOn="{StaticResource TombolDasar}">
+            <Setter Property="Foreground" Value="{StaticResource Teks2}"/>
+            <Setter Property="FontSize" Value="12.5"/>
+            <Setter Property="Padding" Value="12,7"/>
+            <Setter Property="CornerRadius" Value="6"/>
+            <Style Selector="^:pointerover">
+                <Setter Property="Foreground" Value="{StaticResource Teks}"/>
+            </Style>
+            <Style Selector="^.aktif">
+                <Setter Property="Background" Value="{StaticResource Permukaan2}"/>
+                <Setter Property="Foreground" Value="{StaticResource Teks}"/>
+                <Setter Property="FontWeight" Value="SemiBold"/>
+            </Style>
+        </ControlTheme>
+
+        <!-- Saringan berbentuk pil di atas tabel (Semua / Menunggu / ...) -->
+        <ControlTheme x:Key="TombolCip" TargetType="Button" BasedOn="{StaticResource TombolDasar}">
+            <Setter Property="Foreground" Value="{StaticResource Teks2}"/>
+            <Setter Property="BorderBrush" Value="{StaticResource Garis}"/>
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="Padding" Value="12,7"/>
+            <Setter Property="CornerRadius" Value="20"/>
+            <Style Selector="^:pointerover">
+                <Setter Property="Foreground" Value="{StaticResource Teks}"/>
+            </Style>
+            <Style Selector="^.aktif">
+                <Setter Property="Background" Value="{StaticResource Permukaan2}"/>
+                <Setter Property="Foreground" Value="{StaticResource Teks}"/>
+                <Setter Property="FontWeight" Value="SemiBold"/>
+            </Style>
+        </ControlTheme>
+
+        <!-- Satu dari beberapa pilihan di formulir (mis. keparahan laporan) -->
+        <ControlTheme x:Key="TombolPilihan" TargetType="Button" BasedOn="{StaticResource TombolDasar}">
+            <Setter Property="Foreground" Value="{StaticResource Teks2}"/>
+            <Setter Property="Background" Value="{StaticResource Latar}"/>
+            <Setter Property="BorderBrush" Value="{StaticResource Garis}"/>
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="Padding" Value="0,10"/>
+            <Setter Property="HorizontalAlignment" Value="Stretch"/>
+            <Style Selector="^:pointerover">
+                <Setter Property="BorderBrush" Value="{StaticResource Teks3}"/>
+            </Style>
+            <Style Selector="^.aktif">
+                <Setter Property="Background" Value="{StaticResource Permukaan2}"/>
+                <Setter Property="BorderBrush" Value="{StaticResource Aksen}"/>
+                <Setter Property="Foreground" Value="{StaticResource Teks}"/>
+                <Setter Property="FontWeight" Value="SemiBold"/>
+            </Style>
+        </ControlTheme>
+
+        <!-- Tab halaman: garis aksen di bawah tab yang aktif -->
+        <ControlTheme x:Key="TombolTab" TargetType="Button" BasedOn="{StaticResource TombolDasar}">
+            <Setter Property="Foreground" Value="{StaticResource Teks2}"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Padding" Value="14,15,14,13"/>
+            <Setter Property="CornerRadius" Value="0"/>
+            <Setter Property="BorderThickness" Value="0,0,0,2"/>
+            <Style Selector="^:pointerover">
+                <Setter Property="Foreground" Value="{StaticResource Teks}"/>
+            </Style>
+            <Style Selector="^.aktif">
+                <Setter Property="BorderBrush" Value="{StaticResource Aksen}"/>
+                <Setter Property="Foreground" Value="{StaticResource Teks}"/>
+                <Setter Property="FontWeight" Value="SemiBold"/>
+            </Style>
+        </ControlTheme>
+
+        <!-- Tombol kecil di dalam baris tabel -->
+        <ControlTheme x:Key="TombolBaris" TargetType="Button" BasedOn="{StaticResource TombolNetral}">
+            <Setter Property="FontSize" Value="12.5"/>
+            <Setter Property="Padding" Value="12,6"/>
+            <Setter Property="CornerRadius" Value="7"/>
+            <Setter Property="Foreground" Value="{StaticResource Teks2}"/>
+        </ControlTheme>
+        <ControlTheme x:Key="TombolBarisBahaya" TargetType="Button" BasedOn="{StaticResource TombolBaris}">
+            <Setter Property="Foreground" Value="{StaticResource Tinggi}"/>
+        </ControlTheme>
+        <ControlTheme x:Key="TombolBarisUtama" TargetType="Button" BasedOn="{StaticResource TombolUtama}">
+            <Setter Property="FontSize" Value="12.5"/>
+            <Setter Property="Padding" Value="12,6"/>
+            <Setter Property="CornerRadius" Value="7"/>
+        </ControlTheme>
+
+    </Application.Resources>
+
     <Application.Styles>
         <FluentTheme />
+
+        <!-- ================= TEKS ================= -->
+        <!-- Judul kecil bagian, huruf besar -->
+        <Style Selector="TextBlock.label">
+            <Setter Property="FontSize" Value="11"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="LetterSpacing" Value="1"/>
+            <Setter Property="Foreground" Value="{StaticResource Teks3}"/>
+        </Style>
+        <Style Selector="TextBlock.mono">
+            <Setter Property="FontFamily" Value="{StaticResource HurufMono}"/>
+        </Style>
+        <Style Selector="TextBlock.redup">
+            <Setter Property="Foreground" Value="{StaticResource Teks2}"/>
+        </Style>
+        <Style Selector="TextBlock.samar">
+            <Setter Property="Foreground" Value="{StaticResource Teks3}"/>
+            <Setter Property="FontSize" Value="12"/>
+        </Style>
+        <!-- Label di atas kolom isian -->
+        <Style Selector="TextBlock.medan">
+            <Setter Property="Foreground" Value="{StaticResource Teks2}"/>
+            <Setter Property="FontSize" Value="12.5"/>
+        </Style>
+
+        <!-- Judul kolom tabel -->
+        <Style Selector="TextBlock.kolom">
+            <Setter Property="FontSize" Value="11"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="LetterSpacing" Value="0.8"/>
+            <Setter Property="Foreground" Value="{StaticResource Teks3}"/>
+        </Style>
+        <!-- Isi sel tabel -->
+        <Style Selector="TextBlock.sel">
+            <Setter Property="FontSize" Value="13.5"/>
+            <Setter Property="Foreground" Value="{StaticResource Teks}"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="TextTrimming" Value="CharacterEllipsis"/>
+        </Style>
+
+        <!-- ================= KOLOM ISIAN ================= -->
+        <Style Selector="TextBox">
+            <Setter Property="MinHeight" Value="42"/>
+            <Setter Property="Padding" Value="12,10"/>
+            <Setter Property="FontSize" Value="13.5"/>
+            <Setter Property="CornerRadius" Value="8"/>
+            <Setter Property="Foreground" Value="{StaticResource Teks}"/>
+            <Setter Property="Background" Value="{StaticResource Latar}"/>
+            <Setter Property="BorderBrush" Value="{StaticResource Garis}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="CaretBrush" Value="{StaticResource Teks}"/>
+            <!-- Blok teks terpilih harus jelas terlihat di latar gelap -->
+            <Setter Property="SelectionBrush" Value="{StaticResource Aksen}"/>
+            <Setter Property="SelectionForegroundBrush" Value="{StaticResource AksenTinta}"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+        </Style>
+        <Style Selector="TextBox /template/ Border#PART_BorderElement">
+            <Setter Property="Background" Value="{StaticResource Latar}"/>
+            <Setter Property="BorderBrush" Value="{StaticResource Garis}"/>
+        </Style>
+        <Style Selector="TextBox:pointerover /template/ Border#PART_BorderElement">
+            <Setter Property="Background" Value="{StaticResource Latar}"/>
+            <Setter Property="BorderBrush" Value="{StaticResource Teks3}"/>
+        </Style>
+        <Style Selector="TextBox:focus /template/ Border#PART_BorderElement">
+            <Setter Property="Background" Value="{StaticResource Latar}"/>
+            <Setter Property="BorderBrush" Value="{StaticResource Aksen}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+        </Style>
+        <Style Selector="TextBox:pointerover">
+            <Setter Property="Foreground" Value="{StaticResource Teks}"/>
+        </Style>
+        <Style Selector="TextBox:focus">
+            <Setter Property="Foreground" Value="{StaticResource Teks}"/>
+        </Style>
+        <!-- Kolom di atas panel (bukan di atas latar) sedikit lebih terang -->
+        <Style Selector="TextBox.multibaris">
+            <Setter Property="AcceptsReturn" Value="True"/>
+            <Setter Property="TextWrapping" Value="Wrap"/>
+            <Setter Property="MinHeight" Value="92"/>
+            <Setter Property="VerticalContentAlignment" Value="Top"/>
+        </Style>
+
+        <!-- ================= DROPDOWN ================= -->
+        <Style Selector="ComboBox">
+            <Setter Property="MinHeight" Value="42"/>
+            <Setter Property="Padding" Value="12,8"/>
+            <Setter Property="FontSize" Value="13.5"/>
+            <Setter Property="CornerRadius" Value="8"/>
+            <Setter Property="Foreground" Value="{StaticResource Teks}"/>
+            <Setter Property="Background" Value="{StaticResource Latar}"/>
+            <Setter Property="BorderBrush" Value="{StaticResource Garis}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="HorizontalAlignment" Value="Stretch"/>
+        </Style>
+        <Style Selector="ComboBox:pointerover">
+            <Setter Property="Foreground" Value="{StaticResource Teks}"/>
+            <Setter Property="Background" Value="{StaticResource Latar}"/>
+            <Setter Property="BorderBrush" Value="{StaticResource Teks3}"/>
+        </Style>
+        <Style Selector="ComboBox /template/ PathIcon#DropDownGlyph">
+            <Setter Property="Foreground" Value="{StaticResource Teks2}"/>
+        </Style>
+        <Style Selector="ComboBoxItem">
+            <Setter Property="Foreground" Value="{StaticResource Teks}"/>
+            <Setter Property="Padding" Value="12,9"/>
+            <Setter Property="FontSize" Value="13.5"/>
+        </Style>
+
     </Application.Styles>
 </Application>

@@ -5,27 +5,23 @@
     xmlns:vm="using:SiagaApi.ViewModels"
     x:Class="SiagaApi.Views.PagePlaceholderView"
     x:DataType="vm:PagePlaceholderViewModel"
-    Background="#14181B">
+    Background="{StaticResource Latar}">
 
-    <Grid ColumnDefinitions="250,*">
+    <!-- Hanya tampil bila ada nama halaman yang belum punya tampilan sendiri -->
+    <Grid ColumnDefinitions="Auto,*">
 
         <components:SidebarView Grid.Column="0"/>
 
-        <StackPanel Grid.Column="1"
-                    Margin="35"
-                    Spacing="12"
-                    VerticalAlignment="Top">
-
-            <TextBlock Text="{Binding PageTitle}"
-                       FontSize="28"
-                       FontWeight="Bold"
-                       Foreground="#E5E9ED"/>
-
-            <TextBlock Text="Halaman ini sedang dalam tahap pengembangan."
-                       FontSize="15"
-                       Foreground="#95A2AD"/>
-
-        </StackPanel>
+        <Grid Grid.Column="1"
+              RowDefinitions="Auto,*">
+            <components:BilahAtasView Grid.Row="0"
+                                      Judul="{Binding PageTitle}"/>
+            <TextBlock Grid.Row="1"
+                       Text="Halaman ini belum tersedia."
+                       Classes="redup"
+                       FontSize="14"
+                       Margin="28,24"/>
+        </Grid>
 
     </Grid>
 </UserControl>

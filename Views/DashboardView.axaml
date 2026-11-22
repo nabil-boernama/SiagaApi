@@ -2,804 +2,424 @@
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:vm="using:SiagaApi.ViewModels"
+    xmlns:vmc="using:SiagaApi.ViewModels.Components"
     xmlns:components="using:SiagaApi.Views.Components"
     x:Class="SiagaApi.Views.DashboardView"
     x:DataType="vm:DashboardViewModel"
-    Background="#14181B">
+    Background="{StaticResource Latar}">
 
-    <UserControl.Resources>
+    <Grid ColumnDefinitions="Auto,*">
 
-        <!-- ORANGE BUTTON THEME -->
-        <ControlTheme x:Key="DashboardPrimaryButtonTheme"
-                      TargetType="Button">
-
-            <Setter Property="Background" Value="#F15A24"/>
-            <Setter Property="Foreground" Value="#14181B"/>
-            <Setter Property="BorderThickness" Value="0"/>
-            <Setter Property="Cursor" Value="Hand"/>
-
-            <Setter Property="Template">
-                <ControlTemplate>
-                    <Border Background="{TemplateBinding Background}"
-                            CornerRadius="7">
-
-                        <ContentPresenter
-                            Content="{TemplateBinding Content}"
-                            ContentTemplate="{TemplateBinding ContentTemplate}"
-                            HorizontalAlignment="Center"
-                            VerticalAlignment="Center"
-                            Margin="{TemplateBinding Padding}"/>
-
-                    </Border>
-                </ControlTemplate>
-            </Setter>
-
-            <!-- HOVER -->
-            <Style Selector="^:pointerover">
-                <Setter Property="Background" Value="#E64F1F"/>
-            </Style>
-
-            <!-- PRESSED -->
-            <Style Selector="^:pressed">
-                <Setter Property="Background" Value="#D94C1C"/>
-            </Style>
-
-            <!-- DISABLED -->
-            <Style Selector="^:disabled">
-                <Setter Property="Background" Value="#713B2A"/>
-                <Setter Property="Foreground" Value="#95A2AD"/>
-            </Style>
-
-        </ControlTheme>
-
-        <!-- TITIK BUTTON THEME -->
-        <ControlTheme x:Key="MapToggleButtonTheme"
-                      TargetType="Button">
-
-            <Setter Property="Background" Value="#252E35"/>
-            <Setter Property="Foreground" Value="#E5E9ED"/>
-            <Setter Property="BorderThickness" Value="0"/>
-            <Setter Property="Cursor" Value="Hand"/>
-
-            <Setter Property="Template">
-                <ControlTemplate>
-                    <Border Background="{TemplateBinding Background}"
-                            CornerRadius="6">
-
-                        <ContentPresenter
-                            Content="{TemplateBinding Content}"
-                            ContentTemplate="{TemplateBinding ContentTemplate}"
-                            HorizontalAlignment="Center"
-                            VerticalAlignment="Center"
-                            Margin="{TemplateBinding Padding}"/>
-
-                    </Border>
-                </ControlTemplate>
-            </Setter>
-
-            <Style Selector="^:pointerover">
-                <Setter Property="Background" Value="#34434C"/>
-                <Setter Property="Foreground" Value="#FFFFFF"/>
-            </Style>
-
-            <Style Selector="^:pressed">
-                <Setter Property="Background" Value="#1C262D"/>
-            </Style>
-
-        </ControlTheme>
-
-        <!-- DROPDOWN COLOR RESOURCES -->
-        <SolidColorBrush x:Key="ComboBoxDropDownGlyphForeground" Color="#FFFFFF"/>
-        <SolidColorBrush x:Key="ComboBoxDropDownGlyphForegroundFocused" Color="#FFFFFF"/>
-        <SolidColorBrush x:Key="ComboBoxDropDownGlyphForegroundFocusedPressed" Color="#FFFFFF"/>
-
-        <SolidColorBrush x:Key="ComboBoxDropDownBackground" Color="#1C2329"/>
-        <SolidColorBrush x:Key="ComboBoxDropDownBorderBrush" Color="#303A42"/>
-
-        <SolidColorBrush x:Key="ComboBoxItemBackground" Color="#1C2329"/>
-        <SolidColorBrush x:Key="ComboBoxItemBackgroundPointerOver" Color="#14181B"/>
-        <SolidColorBrush x:Key="ComboBoxItemBackgroundSelected" Color="#1C2329"/>
-        <SolidColorBrush x:Key="ComboBoxItemBackgroundSelectedPointerOver" Color="#14181B"/>
-
-    </UserControl.Resources>
-
-    <!-- DROPDOWN STYLES -->
-    <UserControl.Styles>
-
-        <!-- COMBOBOX -->
-        <Style Selector="ComboBox">
-            <Setter Property="MinHeight" Value="44"/>
-            <Setter Property="Padding" Value="10,8"/>
-            <Setter Property="FontSize" Value="14"/>
-            <Setter Property="Foreground" Value="#FFFFFF"/>
-            <Setter Property="Background" Value="#1C2329"/>
-            <Setter Property="BorderBrush" Value="#303A42"/>
-            <Setter Property="BorderThickness" Value="1"/>
-        </Style>
-
-        <!-- COMBOBOX HOVER -->
-        <Style Selector="ComboBox:pointerover">
-            <Setter Property="Foreground" Value="#FFFFFF"/>
-            <Setter Property="Background" Value="#14181B"/>
-            <Setter Property="BorderBrush" Value="#303A42"/>
-        </Style>
-
-        <!-- DROPDOWN ARROW -->
-        <Style Selector="ComboBox /template/ PathIcon#DropDownGlyph">
-            <Setter Property="Foreground" Value="#FFFFFF"/>
-        </Style>
-
-        <!-- DROPDOWN OPTIONS -->
-        <Style Selector="ComboBoxItem">
-            <Setter Property="Foreground" Value="#FFFFFF"/>
-            <Setter Property="Background" Value="#1C2329"/>
-            <Setter Property="Padding" Value="12,9"/>
-            <Setter Property="FontSize" Value="14"/>
-        </Style>
-
-        <!-- OPTION TEXT -->
-        <Style Selector="ComboBoxItem TextBlock">
-            <Setter Property="Foreground" Value="#FFFFFF"/>
-        </Style>
-
-        <!-- OPTION HOVER -->
-        <Style Selector="ComboBoxItem:pointerover">
-            <Setter Property="Foreground" Value="#FFFFFF"/>
-            <Setter Property="Background" Value="#14181B"/>
-        </Style>
-
-        <!-- OPTION HOVER TEXT -->
-        <Style Selector="ComboBoxItem:pointerover TextBlock">
-            <Setter Property="Foreground" Value="#FFFFFF"/>
-        </Style>
-
-        <!-- SELECTED OPTION -->
-        <Style Selector="ComboBoxItem:selected">
-            <Setter Property="Foreground" Value="#FFFFFF"/>
-            <Setter Property="Background" Value="#1C2329"/>
-        </Style>
-
-        <!-- SELECTED OPTION TEXT -->
-        <Style Selector="ComboBoxItem:selected TextBlock">
-            <Setter Property="Foreground" Value="#FFFFFF"/>
-        </Style>
-
-        <!-- SELECTED OPTION HOVER -->
-        <Style Selector="ComboBoxItem:selected:pointerover">
-            <Setter Property="Foreground" Value="#FFFFFF"/>
-            <Setter Property="Background" Value="#14181B"/>
-        </Style>
-
-        <!-- SELECTED OPTION HOVER TEXT -->
-        <Style Selector="ComboBoxItem:selected:pointerover TextBlock">
-            <Setter Property="Foreground" Value="#FFFFFF"/>
-        </Style>
-
-    </UserControl.Styles>
-
-    <Grid ColumnDefinitions="250,*">
-
-        <!-- SIDEBAR -->
         <components:SidebarView Grid.Column="0"/>
 
-        <!-- MAIN CONTENT -->
         <Grid Grid.Column="1"
-              Margin="30,26,30,25"
-              RowDefinitions="Auto,Auto,*">
+              RowDefinitions="Auto,*">
 
-            <!-- HEADER -->
-            <Grid Grid.Row="0"
-                  ColumnDefinitions="*,Auto"
-                  Margin="0,0,0,22">
+            <components:BilahAtasView Grid.Row="0"
+                                      Judul="Dashboard">
+                <components:BilahAtasView.Aksi>
+                    <!-- Aksi utama halaman: ambil hotspot FIRMS dan cuaca terbaru -->
+                    <Button Theme="{StaticResource TombolUtama}"
+                            IsEnabled="{Binding !IsBusy}"
+                            ToolTip.Tip="{Binding LastUpdated, StringFormat='Data FIRMS terakhir diambil {0}'}"
+                            Click="RefreshData_Click">
+                        <StackPanel Orientation="Horizontal"
+                                    Spacing="8">
+                            <components:Ikon Nama="refresh-cw"
+                                             Ukuran="15"
+                                             Warna="{StaticResource AksenTinta}"/>
+                            <TextBlock Text="Perbarui data"/>
+                        </StackPanel>
+                    </Button>
+                </components:BilahAtasView.Aksi>
+            </components:BilahAtasView>
 
-                <StackPanel Spacing="3">
-                    <TextBlock Text="Dashboard — Provinsi Riau"
-                               FontSize="27"
-                               FontWeight="Bold"
-                               Foreground="#E5E9ED"/>
-
-                    <TextBlock
-                        Text="{Binding LastUpdated, StringFormat='Hotspot 24 jam per kabupaten/kota · data terakhir {0}'}"
-                        FontSize="14"
-                        Foreground="#95A2AD"/>
-                </StackPanel>
-
-                <Button Grid.Column="1"
-                        Content="Perbarui data"
-                        Theme="{StaticResource DashboardPrimaryButtonTheme}"
-                        FontWeight="SemiBold"
-                        Padding="20,11"
-                        CornerRadius="7"
-                        VerticalAlignment="Center"
-                        Click="RefreshData_Click"/>
-
-            </Grid>
-
-            <!-- STATISTICS -->
             <Grid Grid.Row="1"
-                  ColumnDefinitions="*,*,*,*"
-                  ColumnSpacing="12"
-                  Margin="0,0,0,20">
+                  ColumnDefinitions="*,368">
 
-                <components:StatCardView
-                    Grid.Column="0"
-                    DataContext="{Binding Statistics[0]}"/>
+                <!-- ================= PETA: wilayah dominan halaman ================= -->
+                <Grid Grid.Column="0"
+                      ClipToBounds="True"
+                      Background="#0E1317">
 
-                <components:StatCardView
-                    Grid.Column="1"
-                    DataContext="{Binding Statistics[1]}"/>
+                    <!-- Digambar dari data: lihat Components/PetaHotspot.cs.
+                         Seret untuk menggeser; roda mouse, dua jari, atau cubit untuk zoom. -->
+                    <components:PetaHotspot x:Name="Peta"
+                                            HorizontalAlignment="Stretch"
+                                            VerticalAlignment="Stretch"/>
 
-                <components:StatCardView
-                    Grid.Column="2"
-                    DataContext="{Binding Statistics[2]}"/>
+                    <!-- Ringkasan: satu baris tipis di atas peta -->
+                    <StackPanel HorizontalAlignment="Left"
+                                VerticalAlignment="Top"
+                                Margin="16"
+                                Spacing="8">
 
-                <components:StatCardView
-                    Grid.Column="3"
-                    DataContext="{Binding Statistics[3]}"/>
+                        <Border Background="{StaticResource PanelApung}"
+                                BorderBrush="{StaticResource Garis}"
+                                BorderThickness="1"
+                                CornerRadius="10"
+                                Padding="6,12">
+                            <ItemsControl ItemsSource="{Binding Statistics}">
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <StackPanel Orientation="Horizontal"/>
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate x:DataType="vmc:StatCardViewModel">
+                                        <StackPanel Spacing="2"
+                                                    Margin="18,0">
+                                            <TextBlock Text="{Binding Value}"
+                                                       Classes="mono"
+                                                       FontSize="24"
+                                                       FontWeight="SemiBold"
+                                                       Foreground="{Binding Warna}"/>
+                                            <TextBlock Text="{Binding Label}"
+                                                       FontSize="12.5"
+                                                       FontWeight="Medium"
+                                                       Foreground="{StaticResource Teks}"/>
+                                            <TextBlock Text="{Binding Description}"
+                                                       FontSize="11.5"
+                                                       Foreground="{StaticResource Teks3}"/>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </Border>
 
-            </Grid>
+                        <!-- Keadaan aman dinyatakan terang-terangan -->
+                        <Border IsVisible="{Binding ProvinsiAman}"
+                                Background="#EE12181D"
+                                BorderBrush="#665CC98A"
+                                BorderThickness="1"
+                                CornerRadius="8"
+                                Padding="12,8"
+                                HorizontalAlignment="Left">
+                            <StackPanel Orientation="Horizontal"
+                                        Spacing="8">
+                                <components:Ikon Nama="shield-check"
+                                                 Ukuran="15"
+                                                 Warna="{StaticResource Baik}"/>
+                                <TextBlock Text="Tidak ada hotspot dalam 24 jam terakhir di provinsi ini."
+                                           FontSize="12.5"
+                                           Foreground="{StaticResource Baik}"/>
+                            </StackPanel>
+                        </Border>
 
-            <!-- MAP AND DETAIL -->
-            <Grid Grid.Row="2"
-                  ColumnDefinitions="2.25*,1.05*"
-                  ColumnSpacing="16">
+                        <!-- Hasil atau kegagalan pengambilan data -->
+                        <Border IsVisible="{Binding Message, Converter={x:Static StringConverters.IsNotNullOrEmpty}}"
+                                Background="{StaticResource PanelApung}"
+                                BorderBrush="{StaticResource Garis}"
+                                BorderThickness="1"
+                                CornerRadius="8"
+                                Padding="12,8"
+                                MaxWidth="560"
+                                HorizontalAlignment="Left">
+                            <TextBlock Text="{Binding Message}"
+                                       Foreground="{Binding MessageForeground}"
+                                       FontSize="12.5"
+                                       TextWrapping="Wrap"/>
+                        </Border>
 
-                <!-- MAIN MAP PANEL -->
-                <Border Grid.Column="0"
-                        Background="#1C2329"
-                        BorderBrush="#303A42"
-                        BorderThickness="1"
-                        CornerRadius="11"
-                        Padding="19">
+                    </StackPanel>
 
-                    <Grid RowDefinitions="Auto,*,Auto">
+                    <!-- Kontrol peta: mode, peta dasar, legenda -->
+                    <StackPanel Orientation="Horizontal"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Bottom"
+                                Margin="16"
+                                Spacing="10">
 
-                        <!-- MAP HEADER -->
-                        <Grid Grid.Row="0"
-                              ColumnDefinitions="*,Auto,Auto"
-                              ColumnSpacing="12"
-                              Margin="0,0,0,12">
+                        <Border Background="{StaticResource PanelApung}"
+                                BorderBrush="{StaticResource Garis}"
+                                BorderThickness="1"
+                                CornerRadius="8"
+                                Padding="3">
+                            <StackPanel Orientation="Horizontal"
+                                        Spacing="2">
+                                <Button x:Name="TombolChoropleth"
+                                        Content="Choropleth"
+                                        Theme="{StaticResource TombolSegmen}"
+                                        ToolTip.Tip="Warnai kabupaten menurut jumlah hotspot"
+                                        Click="ModeChoropleth_Click"/>
+                                <Button x:Name="TombolTitik"
+                                        Content="Titik"
+                                        Theme="{StaticResource TombolSegmen}"
+                                        ToolTip.Tip="Tampilkan tiap hotspot di lokasinya"
+                                        Click="ModeTitik_Click"/>
+                            </StackPanel>
+                        </Border>
 
-                            <TextBlock
-                                Text="HOTSPOT PER KABUPATEN/KOTA · PETA ILUSTRATIF"
-                                FontSize="12"
-                                FontWeight="SemiBold"
-                                Foreground="#95A2AD"
-                                VerticalAlignment="Center"/>
-
-                            <StackPanel Grid.Column="1"
+                        <Border Background="{StaticResource PanelApung}"
+                                BorderBrush="{StaticResource Garis}"
+                                BorderThickness="1"
+                                CornerRadius="8"
+                                Padding="3">
+                            <StackPanel x:Name="PilihanPetaDasar"
                                         Orientation="Horizontal"
-                                        Spacing="3">
+                                        Spacing="2">
+                                <Button Content="Tanpa"
+                                        Tag="Tanpa peta dasar"
+                                        Theme="{StaticResource TombolSegmen}"
+                                        ToolTip.Tip="Tanpa peta dasar (jalan tanpa internet)"
+                                        Click="PetaDasar_Click"/>
+                                <Button Content="Jalan"
+                                        Tag="Peta jalan"
+                                        Theme="{StaticResource TombolSegmen}"
+                                        ToolTip.Tip="Peta jalan OpenStreetMap"
+                                        Click="PetaDasar_Click"/>
+                                <Button Content="Satelit"
+                                        Tag="Satelit"
+                                        Theme="{StaticResource TombolSegmen}"
+                                        ToolTip.Tip="Citra satelit"
+                                        Click="PetaDasar_Click"/>
+                            </StackPanel>
+                        </Border>
 
-                                <Button Content="Choropleth"
-                                        Theme="{StaticResource DashboardPrimaryButtonTheme}"
-                                        Padding="12,7"
-                                        CornerRadius="6"
-                                        FontWeight="SemiBold"/>
+                        <Border Background="{StaticResource PanelApung}"
+                                BorderBrush="{StaticResource Garis}"
+                                BorderThickness="1"
+                                CornerRadius="8"
+                                Padding="12,8"
+                                VerticalAlignment="Center">
+                            <Grid>
+                                <StackPanel x:Name="LegendaJumlah"
+                                            Orientation="Horizontal"
+                                            Spacing="12">
+                                    <TextBlock Text="Hotspot" Classes="samar" FontSize="11.5" VerticalAlignment="Center"/>
+                                    <StackPanel Orientation="Horizontal" Spacing="5"><Border Width="10" Height="10" CornerRadius="2" Background="#283037" BorderBrush="#22FFFFFF" BorderThickness="1" VerticalAlignment="Center"/><TextBlock Text="0" Classes="mono redup" FontSize="11.5"/></StackPanel>
+                                    <StackPanel Orientation="Horizontal" Spacing="5"><Border Width="10" Height="10" CornerRadius="2" Background="#4D3A30" BorderBrush="#22FFFFFF" BorderThickness="1" VerticalAlignment="Center"/><TextBlock Text="1–4" Classes="mono redup" FontSize="11.5"/></StackPanel>
+                                    <StackPanel Orientation="Horizontal" Spacing="5"><Border Width="10" Height="10" CornerRadius="2" Background="#6E4630" BorderBrush="#22FFFFFF" BorderThickness="1" VerticalAlignment="Center"/><TextBlock Text="5–9" Classes="mono redup" FontSize="11.5"/></StackPanel>
+                                    <StackPanel Orientation="Horizontal" Spacing="5"><Border Width="10" Height="10" CornerRadius="2" Background="#914D2D" BorderBrush="#22FFFFFF" BorderThickness="1" VerticalAlignment="Center"/><TextBlock Text="10–17" Classes="mono redup" FontSize="11.5"/></StackPanel>
+                                    <StackPanel Orientation="Horizontal" Spacing="5"><Border Width="10" Height="10" CornerRadius="2" Background="#C6532A" BorderBrush="#22FFFFFF" BorderThickness="1" VerticalAlignment="Center"/><TextBlock Text="18–30" Classes="mono redup" FontSize="11.5"/></StackPanel>
+                                    <StackPanel Orientation="Horizontal" Spacing="5"><Border Width="10" Height="10" CornerRadius="2" Background="#F15A24" BorderBrush="#22FFFFFF" BorderThickness="1" VerticalAlignment="Center"/><TextBlock Text="31+" Classes="mono redup" FontSize="11.5"/></StackPanel>
+                                </StackPanel>
+                                <StackPanel x:Name="LegendaConfidence"
+                                            Orientation="Horizontal"
+                                            Spacing="12"
+                                            IsVisible="False">
+                                    <TextBlock Text="Confidence" Classes="samar" FontSize="11.5" VerticalAlignment="Center"/>
+                                    <StackPanel Orientation="Horizontal" Spacing="5"><Ellipse Width="9" Height="9" Fill="{StaticResource Tinggi}" VerticalAlignment="Center"/><TextBlock Text="tinggi" Classes="redup" FontSize="11.5"/></StackPanel>
+                                    <StackPanel Orientation="Horizontal" Spacing="5"><Ellipse Width="9" Height="9" Fill="{StaticResource Nominal}" VerticalAlignment="Center"/><TextBlock Text="nominal" Classes="redup" FontSize="11.5"/></StackPanel>
+                                    <StackPanel Orientation="Horizontal" Spacing="5"><Ellipse Width="9" Height="9" Fill="{StaticResource Baik}" VerticalAlignment="Center"/><TextBlock Text="rendah" Classes="redup" FontSize="11.5"/></StackPanel>
+                                </StackPanel>
+                            </Grid>
+                        </Border>
 
-                                <Button Content="Titik"
-                                        Theme="{StaticResource MapToggleButtonTheme}"
-                                        Padding="12,7"
-                                        CornerRadius="6"/>
+                    </StackPanel>
+
+                    <!-- Zoom dan kembali ke tampilan awal -->
+                    <Border HorizontalAlignment="Right"
+                            VerticalAlignment="Bottom"
+                            Margin="16"
+                            Background="{StaticResource PanelApung}"
+                            BorderBrush="{StaticResource Garis}"
+                            BorderThickness="1"
+                            CornerRadius="8"
+                            Padding="3">
+                        <StackPanel Spacing="2">
+                            <Button x:Name="TombolPerbesar"
+                                    Theme="{StaticResource TombolSenyap}"
+                                    Width="34"
+                                    Height="34"
+                                    Padding="0"
+                                    ToolTip.Tip="Perbesar"
+                                    Click="ZoomIn_Click">
+                                <components:Ikon Nama="plus" Ukuran="16" Warna="{StaticResource Teks}"/>
+                            </Button>
+                            <Button x:Name="TombolPerkecil"
+                                    Theme="{StaticResource TombolSenyap}"
+                                    Width="34"
+                                    Height="34"
+                                    Padding="0"
+                                    ToolTip.Tip="Perkecil"
+                                    Click="ZoomOut_Click">
+                                <components:Ikon Nama="minus" Ukuran="16" Warna="{StaticResource Teks}"/>
+                            </Button>
+                            <Button x:Name="TombolAwal"
+                                    Theme="{StaticResource TombolSenyap}"
+                                    Width="34"
+                                    Height="34"
+                                    Padding="0"
+                                    ToolTip.Tip="Kembali ke tampilan seluruh provinsi"
+                                    Click="ResetPeta_Click">
+                                <components:Ikon Nama="locate-fixed" Ukuran="16" Warna="{StaticResource Teks}"/>
+                            </Button>
+                        </StackPanel>
+                    </Border>
+
+                </Grid>
+
+                <!-- ================= INSPEKTUR: kabupaten terpilih ================= -->
+                <Border Grid.Column="1"
+                        Background="{StaticResource Permukaan}"
+                        BorderBrush="{StaticResource Garis}"
+                        BorderThickness="1,0,0,0">
+
+                    <Grid RowDefinitions="Auto,Auto,*,Auto">
+
+                        <Border Grid.Row="0"
+                                BorderBrush="{StaticResource Garis}"
+                                BorderThickness="0,0,0,1"
+                                Padding="22,20,22,18">
+                            <StackPanel Spacing="4">
+                                <TextBlock Text="KABUPATEN TERPILIH"
+                                           Classes="label"/>
+                                <TextBlock Text="{Binding NamaTerpilih}"
+                                           FontSize="26"
+                                           FontWeight="SemiBold"
+                                           Foreground="{StaticResource Teks}"
+                                           TextTrimming="CharacterEllipsis"/>
+                                <TextBlock Text="{Binding RingkasTerpilih}"
+                                           FontSize="13.5"
+                                           Classes="redup"/>
+                            </StackPanel>
+                        </Border>
+
+                        <Border Grid.Row="1"
+                                BorderBrush="{StaticResource Garis}"
+                                BorderThickness="0,0,0,1"
+                                Padding="22,16">
+                            <StackPanel Spacing="10">
+
+                                <Grid ColumnDefinitions="*,Auto">
+                                    <TextBlock Text="Indeks risiko"
+                                               FontSize="13"
+                                               Classes="redup"
+                                               VerticalAlignment="Bottom"/>
+                                    <StackPanel Grid.Column="1"
+                                                Orientation="Horizontal"
+                                                Spacing="8">
+                                        <TextBlock Text="{Binding RisikoNilai}"
+                                                   Classes="mono"
+                                                   FontSize="22"
+                                                   FontWeight="SemiBold"
+                                                   Foreground="{StaticResource Teks}"
+                                                   VerticalAlignment="Bottom"/>
+                                        <TextBlock Text="{Binding RisikoKeterangan}"
+                                                   FontSize="12.5"
+                                                   Foreground="{Binding RisikoBrush}"
+                                                   VerticalAlignment="Bottom"
+                                                   Margin="0,0,0,3"/>
+                                    </StackPanel>
+                                </Grid>
+
+                                <Grid Height="6">
+                                    <Border CornerRadius="3"
+                                            Background="{StaticResource Permukaan2}"/>
+                                    <Border CornerRadius="3"
+                                            Width="{Binding RisikoLebar}"
+                                            Background="{Binding RisikoBrush}"
+                                            HorizontalAlignment="Left"/>
+                                </Grid>
+
+                                <Grid ColumnDefinitions="*,*,*"
+                                      Margin="0,4,0,0">
+                                    <StackPanel Spacing="3">
+                                        <components:Ikon Nama="thermometer" Ukuran="15" Warna="{StaticResource Teks3}" HorizontalAlignment="Left"/>
+                                        <TextBlock Text="{Binding CuacaSuhu}" Classes="mono" FontSize="14.5" FontWeight="SemiBold" Foreground="{StaticResource Teks}"/>
+                                        <TextBlock Text="suhu" Classes="samar" FontSize="11.5"/>
+                                    </StackPanel>
+                                    <StackPanel Grid.Column="1" Spacing="3">
+                                        <components:Ikon Nama="droplets" Ukuran="15" Warna="{StaticResource Teks3}" HorizontalAlignment="Left"/>
+                                        <TextBlock Text="{Binding CuacaKelembapan}" Classes="mono" FontSize="14.5" FontWeight="SemiBold" Foreground="{StaticResource Teks}"/>
+                                        <TextBlock Text="kelembapan" Classes="samar" FontSize="11.5"/>
+                                    </StackPanel>
+                                    <StackPanel Grid.Column="2" Spacing="3">
+                                        <components:Ikon Nama="wind" Ukuran="15" Warna="{StaticResource Teks3}" HorizontalAlignment="Left"/>
+                                        <TextBlock Text="{Binding CuacaAngin}" Classes="mono" FontSize="14.5" FontWeight="SemiBold" Foreground="{StaticResource Teks}"/>
+                                        <TextBlock Text="{Binding CuacaArah}" Classes="samar" FontSize="11.5"/>
+                                    </StackPanel>
+                                </Grid>
+
+                                <TextBlock Text="{Binding DetailInfo}"
+                                           IsVisible="{Binding DetailInfo, Converter={x:Static StringConverters.IsNotNullOrEmpty}}"
+                                           Foreground="{StaticResource Nominal}"
+                                           FontSize="12"
+                                           TextWrapping="Wrap"/>
 
                             </StackPanel>
+                        </Border>
 
-                            <ComboBox Grid.Column="2"
-                                      Width="190"
-                                      MinWidth="190"
-                                      SelectedIndex="0"
-                                      HorizontalContentAlignment="Stretch">
+                        <!-- Hotspot 24 jam kabupaten terpilih, confidence tertinggi dulu -->
+                        <ScrollViewer Grid.Row="2"
+                                      VerticalScrollBarVisibility="Auto">
+                            <StackPanel Margin="22,16,22,8">
 
-                                <ComboBoxItem Content="Tanpa peta dasar"/>
-                                <ComboBoxItem Content="Peta jalan"/>
-                                <ComboBoxItem Content="Satelit"/>
+                                <TextBlock Text="HOTSPOT 24 JAM"
+                                           Classes="label"
+                                           Margin="0,0,0,2"/>
 
-                            </ComboBox>
-
-                        </Grid>
-
-                        <!-- MAIN ILLUSTRATIVE MAP -->
-                        <Border Grid.Row="1"
-                                Background="#151B1F"
-                                CornerRadius="8"
-                                ClipToBounds="True">
-
-                            <Grid>
-
-                                <Canvas Width="700"
-                                        Height="450"
-                                        HorizontalAlignment="Center"
-                                        VerticalAlignment="Center">
-
-                                    <Path Data="M 35,75 L 205,45 L 230,150 L 155,195 L 45,185 Z"
-                                          Fill="#303940"
-                                          Stroke="#14181B"
-                                          StrokeThickness="2"/>
-
-                                    <Path Data="M 205,45 L 335,35 L 375,120 L 305,170 L 230,150 Z"
-                                          Fill="#914D2D"
-                                          Stroke="#14181B"
-                                          StrokeThickness="2"/>
-
-                                    <Path Data="M 335,35 L 410,20 L 425,75 L 375,120 Z"
-                                          Fill="#62402F"
-                                          Stroke="#14181B"
-                                          StrokeThickness="2"/>
-
-                                    <Path Data="M 410,20 L 520,35 L 575,120 L 480,155 L 425,75 Z"
-                                          Fill="#62402F"
-                                          Stroke="#14181B"
-                                          StrokeThickness="2"/>
-
-                                    <Path Data="M 155,195 L 230,150 L 305,170 L 340,225 L 210,270 Z"
-                                          Fill="#914D2D"
-                                          Stroke="#14181B"
-                                          StrokeThickness="2"/>
-
-                                    <Path Data="M 305,170 L 375,120 L 425,75 L 480,155 L 455,215 L 340,225 Z"
-                                          Fill="#62402F"
-                                          Stroke="#14181B"
-                                          StrokeThickness="2"/>
-
-                                    <Path Data="M 340,225 L 455,215 L 445,255 L 325,270 Z"
-                                          Fill="#F15A24"
-                                          Stroke="#E5E9ED"
-                                          StrokeThickness="3"/>
-
-                                    <Path Data="M 455,215 L 530,220 L 560,310 L 480,345 L 390,305 L 445,255 Z"
-                                          Fill="#C6532A"
-                                          Stroke="#14181B"
-                                          StrokeThickness="2"/>
-
-                                    <Path Data="M 210,270 L 325,270 L 390,305 L 360,390 L 230,400 L 155,350 Z"
-                                          Fill="#62402F"
-                                          Stroke="#14181B"
-                                          StrokeThickness="2"/>
-
-                                    <Path Data="M 390,305 L 480,345 L 500,415 L 425,455 L 360,390 Z"
-                                          Fill="#62402F"
-                                          Stroke="#14181B"
-                                          StrokeThickness="2"/>
-
-                                    <Path Data="M 480,345 L 560,310 L 635,345 L 660,435 L 585,465 L 500,415 Z"
-                                          Fill="#914D2D"
-                                          Stroke="#14181B"
-                                          StrokeThickness="2"/>
-
-                                    <Path Data="M 600,70 L 675,65 L 685,120 L 610,130 Z"
-                                          Fill="#303940"
-                                          Stroke="#14181B"
-                                          StrokeThickness="2"/>
-
-                                    <!-- REGION LABELS -->
-                                    <TextBlock Canvas.Left="105"
-                                               Canvas.Top="115"
-                                               Text="R. Hulu&#10;4"
-                                               TextAlignment="Center"
-                                               Foreground="#E5E9ED"
-                                               FontSize="13"/>
-
-                                    <TextBlock Canvas.Left="265"
-                                               Canvas.Top="90"
-                                               Text="R. Hilir&#10;17"
-                                               TextAlignment="Center"
-                                               Foreground="#FFFFFF"
+                                <StackPanel IsVisible="{Binding DetailKosong}"
+                                            Orientation="Horizontal"
+                                            Spacing="8"
+                                            Margin="0,12,0,0">
+                                    <components:Ikon Nama="shield-check" Ukuran="15" Warna="{StaticResource Baik}"/>
+                                    <TextBlock Text="Aman: tidak ada deteksi di kabupaten ini."
                                                FontSize="13"
-                                               FontWeight="SemiBold"/>
-
-                                    <TextBlock Canvas.Left="360"
-                                               Canvas.Top="45"
-                                               Text="Dumai&#10;6"
-                                               TextAlignment="Center"
-                                               Foreground="#E5E9ED"
-                                               FontSize="13"/>
-
-                                    <TextBlock Canvas.Left="460"
-                                               Canvas.Top="70"
-                                               Text="Bengkalis&#10;9"
-                                               TextAlignment="Center"
-                                               Foreground="#E5E9ED"
-                                               FontSize="13"/>
-
-                                    <TextBlock Canvas.Left="225"
-                                               Canvas.Top="210"
-                                               Text="Kampar&#10;10"
-                                               TextAlignment="Center"
-                                               Foreground="#FFFFFF"
-                                               FontSize="13"/>
-
-                                    <TextBlock Canvas.Left="390"
-                                               Canvas.Top="165"
-                                               Text="Siak&#10;6"
-                                               TextAlignment="Center"
-                                               Foreground="#E5E9ED"
-                                               FontSize="13"/>
-
-                                    <TextBlock Canvas.Left="340"
-                                               Canvas.Top="226"
-                                               Text="Pekanbaru&#10;47"
-                                               TextAlignment="Center"
-                                               Foreground="#14181B"
-                                               FontWeight="Bold"
-                                               FontSize="13"/>
-
-                                    <TextBlock Canvas.Left="465"
-                                               Canvas.Top="270"
-                                               Text="Pelalawan&#10;18"
-                                               TextAlignment="Center"
-                                               Foreground="#FFFFFF"
-                                               FontSize="13"/>
-
-                                    <TextBlock Canvas.Left="240"
-                                               Canvas.Top="330"
-                                               Text="Kuansing&#10;5"
-                                               TextAlignment="Center"
-                                               Foreground="#E5E9ED"
-                                               FontSize="13"/>
-
-                                    <TextBlock Canvas.Left="405"
-                                               Canvas.Top="360"
-                                               Text="Inhu&#10;7"
-                                               TextAlignment="Center"
-                                               Foreground="#E5E9ED"
-                                               FontSize="13"/>
-
-                                    <TextBlock Canvas.Left="555"
-                                               Canvas.Top="390"
-                                               Text="Inhil&#10;11"
-                                               TextAlignment="Center"
-                                               Foreground="#FFFFFF"
-                                               FontSize="13"/>
-
-                                    <TextBlock Canvas.Left="615"
-                                               Canvas.Top="85"
-                                               Text="Meranti&#10;2"
-                                               TextAlignment="Center"
-                                               Foreground="#E5E9ED"
-                                               FontSize="12"/>
-
-                                </Canvas>
-
-                                <!-- ZOOM CONTROLS -->
-                                <StackPanel HorizontalAlignment="Right"
-                                            VerticalAlignment="Top"
-                                            Margin="0,12,12,0"
-                                            Spacing="5">
-
-                                    <Button Content="+"
-                                            Theme="{StaticResource DashboardPrimaryButtonTheme}"
-                                            Width="36"
-                                            Height="36"
-                                            FontSize="20"
-                                            FontWeight="Bold"/>
-
-                                    <Button Content="−"
-                                            Theme="{StaticResource DashboardPrimaryButtonTheme}"
-                                            Width="36"
-                                            Height="36"
-                                            FontSize="20"
-                                            FontWeight="Bold"/>
-
+                                               Foreground="{StaticResource Baik}"/>
                                 </StackPanel>
 
-                            </Grid>
+                                <ItemsControl ItemsSource="{Binding HotspotItems}">
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate x:DataType="vm:HotspotItemViewModel">
+                                            <Border BorderBrush="{StaticResource Garis}"
+                                                    BorderThickness="0,0,0,1"
+                                                    Padding="0,12">
+                                                <Grid ColumnDefinitions="Auto,*,Auto">
+                                                    <Ellipse Width="10"
+                                                             Height="10"
+                                                             Fill="{Binding TitikBrush}"
+                                                             VerticalAlignment="Center"
+                                                             Margin="0,0,12,0"/>
+                                                    <StackPanel Grid.Column="1"
+                                                                Spacing="2">
+                                                        <TextBlock Text="{Binding Koordinat}"
+                                                                   Classes="mono"
+                                                                   FontSize="13.5"
+                                                                   Foreground="{StaticResource Teks}"/>
+                                                        <TextBlock Text="{Binding Keterangan}"
+                                                                   FontSize="12"
+                                                                   Foreground="{Binding StatusForeground}"/>
+                                                    </StackPanel>
+                                                    <TextBlock Grid.Column="2"
+                                                               Text="{Binding Waktu}"
+                                                               Classes="mono samar"
+                                                               VerticalAlignment="Center"/>
+                                                </Grid>
+                                            </Border>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+
+                            </StackPanel>
+                        </ScrollViewer>
+
+                        <Border Grid.Row="3"
+                                BorderBrush="{StaticResource Garis}"
+                                BorderThickness="0,1,0,0"
+                                Padding="22,16,22,20">
+                            <StackPanel Spacing="10">
+                                <Button Theme="{StaticResource TombolNetral}"
+                                        Background="{StaticResource Permukaan2}"
+                                        HorizontalAlignment="Stretch"
+                                        Padding="0,12"
+                                        IsEnabled="{Binding BisaSimulasi}"
+                                        Click="Simulasikan_Click">
+                                    <StackPanel Orientation="Horizontal"
+                                                Spacing="8">
+                                        <components:Ikon Nama="flame" Ukuran="16" Warna="{StaticResource Aksen}"/>
+                                        <TextBlock Text="Simulasikan klaster ini"
+                                                   FontSize="14"
+                                                   FontWeight="SemiBold"/>
+                                    </StackPanel>
+                                </Button>
+                                <TextBlock Text="Hotspot adalah indikasi anomali panas, bukan kebakaran terverifikasi. Diperkuat = ada laporan warga terverifikasi dalam 5 km."
+                                           Classes="samar"
+                                           FontSize="11.5"
+                                           TextWrapping="Wrap"/>
+                            </StackPanel>
                         </Border>
-
-                        <!-- LEGEND -->
-                        <StackPanel Grid.Row="2"
-                                    Orientation="Horizontal"
-                                    Spacing="12"
-                                    Margin="0,12,0,0">
-
-                            <TextBlock Text="Jumlah hotspot:"
-                                       Foreground="#95A2AD"
-                                       FontSize="12"
-                                       VerticalAlignment="Center"/>
-
-                            <TextBlock Text="■ 0–4"
-                                       Foreground="#95A2AD"
-                                       FontSize="12"/>
-
-                            <TextBlock Text="■ 5–9"
-                                       Foreground="#914D2D"
-                                       FontSize="12"/>
-
-                            <TextBlock Text="■ 10–17"
-                                       Foreground="#A6532E"
-                                       FontSize="12"/>
-
-                            <TextBlock Text="■ 18–30"
-                                       Foreground="#C6532A"
-                                       FontSize="12"/>
-
-                            <TextBlock Text="■ 31+"
-                                       Foreground="#F15A24"
-                                       FontSize="12"/>
-
-                        </StackPanel>
-
-                    </Grid>
-                </Border>
-
-                <!-- DETAIL PANEL -->
-                <Border Grid.Column="1"
-                        Background="#1C2329"
-                        BorderBrush="#303A42"
-                        BorderThickness="1"
-                        CornerRadius="11"
-                        Padding="18">
-
-                    <Grid RowDefinitions="Auto,Auto,Auto,*,Auto,Auto">
-
-                        <TextBlock Grid.Row="0"
-                                   Text="ZOOM · KOTA PEKANBARU (RUMBAI)"
-                                   FontSize="12"
-                                   FontWeight="SemiBold"
-                                   Foreground="#95A2AD"
-                                   Margin="0,0,0,12"/>
-
-                        <!-- MINI MAP -->
-                        <Border Grid.Row="1"
-                                Height="185"
-                                Background="#1B3025"
-                                CornerRadius="8"
-                                Padding="12"
-                                ClipToBounds="True">
-
-                            <Grid ClipToBounds="True">
-
-                                <!-- AREA / DASHED BOUNDARY -->
-                                <Path Data="M 24,42 L 165,2 L 292,44 L 276,145 L 134,174 L 36,133 Z"
-                                      Stroke="#D5DED8"
-                                      StrokeThickness="1.5"
-                                      StrokeDashArray="4,3"
-                                      Fill="#263C30"
-                                      Stretch="Uniform"
-                                      HorizontalAlignment="Stretch"
-                                      VerticalAlignment="Stretch"/>
-
-                                <!-- BLUE RIVER -->
-                                <Path Data="M 0,112 C 45,98 78,105 120,112 S 205,122 255,111 S 300,103 330,97"
-                                      Stroke="#4384B8"
-                                      StrokeThickness="6"
-                                      Fill="Transparent"
-                                      Stretch="Uniform"
-                                      HorizontalAlignment="Stretch"
-                                      VerticalAlignment="Stretch"/>
-
-                                <!-- HOTSPOT 92% -->
-                                <Grid Width="55"
-                                      Height="25"
-                                      HorizontalAlignment="Left"
-                                      VerticalAlignment="Top"
-                                      Margin="105,48,0,0">
-
-                                    <Ellipse Width="19"
-                                             Height="19"
-                                             Fill="#E7462D"
-                                             Stroke="#14181B"
-                                             StrokeThickness="1.5"
-                                             HorizontalAlignment="Left"
-                                             VerticalAlignment="Center"/>
-
-                                    <TextBlock Text="92%"
-                                               FontSize="11"
-                                               FontWeight="SemiBold"
-                                               Foreground="#E5E9ED"
-                                               VerticalAlignment="Center"
-                                               Margin="23,0,0,0"/>
-                                </Grid>
-
-                                <!-- HOTSPOT 76% -->
-                                <Grid Width="55"
-                                      Height="25"
-                                      HorizontalAlignment="Left"
-                                      VerticalAlignment="Top"
-                                      Margin="205,34,0,0">
-
-                                    <Ellipse Width="16"
-                                             Height="16"
-                                             Fill="#E5A72B"
-                                             Stroke="#14181B"
-                                             StrokeThickness="1.5"
-                                             HorizontalAlignment="Left"
-                                             VerticalAlignment="Center"/>
-
-                                    <TextBlock Text="76%"
-                                               FontSize="11"
-                                               FontWeight="SemiBold"
-                                               Foreground="#E5E9ED"
-                                               VerticalAlignment="Center"
-                                               Margin="20,0,0,0"/>
-                                </Grid>
-
-                                <!-- HOTSPOT 88% -->
-                                <Grid Width="55"
-                                      Height="25"
-                                      HorizontalAlignment="Left"
-                                      VerticalAlignment="Top"
-                                      Margin="135,65,0,0">
-
-                                    <Ellipse Width="16"
-                                             Height="16"
-                                             Fill="#E7462D"
-                                             Stroke="#14181B"
-                                             StrokeThickness="1.5"
-                                             HorizontalAlignment="Left"
-                                             VerticalAlignment="Center"/>
-
-                                    <TextBlock Text="88%"
-                                               FontSize="11"
-                                               FontWeight="SemiBold"
-                                               Foreground="#E5E9ED"
-                                               VerticalAlignment="Center"
-                                               Margin="20,0,0,0"/>
-                                </Grid>
-
-                                <!-- HOTSPOT 64% -->
-                                <Grid Width="55"
-                                      Height="25"
-                                      HorizontalAlignment="Left"
-                                      VerticalAlignment="Top"
-                                      Margin="58,86,0,0">
-
-                                    <Ellipse Width="14"
-                                             Height="14"
-                                             Fill="#E5A72B"
-                                             Stroke="#14181B"
-                                             StrokeThickness="1.5"
-                                             HorizontalAlignment="Left"
-                                             VerticalAlignment="Center"/>
-
-                                    <TextBlock Text="64%"
-                                               FontSize="11"
-                                               FontWeight="SemiBold"
-                                               Foreground="#E5E9ED"
-                                               VerticalAlignment="Center"
-                                               Margin="18,0,0,0"/>
-                                </Grid>
-
-                                <!-- HOTSPOT 41% -->
-                                <Grid Width="55"
-                                      Height="25"
-                                      HorizontalAlignment="Left"
-                                      VerticalAlignment="Top"
-                                      Margin="230,105,0,0">
-
-                                    <Ellipse Width="12"
-                                             Height="12"
-                                             Fill="#E5A72B"
-                                             Stroke="#14181B"
-                                             StrokeThickness="1.5"
-                                             HorizontalAlignment="Left"
-                                             VerticalAlignment="Center"/>
-
-                                    <TextBlock Text="41%"
-                                               FontSize="11"
-                                               FontWeight="SemiBold"
-                                               Foreground="#E5E9ED"
-                                               VerticalAlignment="Center"
-                                               Margin="16,0,0,0"/>
-                                </Grid>
-
-                                <!-- HOTSPOT 18% -->
-                                <Grid Width="55"
-                                      Height="25"
-                                      HorizontalAlignment="Left"
-                                      VerticalAlignment="Top"
-                                      Margin="165,132,0,0">
-
-                                    <Ellipse Width="9"
-                                             Height="9"
-                                             Fill="#53A879"
-                                             Stroke="#14181B"
-                                             StrokeThickness="1"
-                                             HorizontalAlignment="Left"
-                                             VerticalAlignment="Center"/>
-
-                                    <TextBlock Text="18%"
-                                               FontSize="11"
-                                               FontWeight="SemiBold"
-                                               Foreground="#E5E9ED"
-                                               VerticalAlignment="Center"
-                                               Margin="14,0,0,0"/>
-                                </Grid>
-
-                            </Grid>
-                        </Border>
-
-                        <!-- DESCRIPTION -->
-                        <TextBlock Grid.Row="2"
-                                   Text="Warna titik seperti SiPongi: merah 80–100%, kuning 30–79%, hijau 0–29%"
-                                   Foreground="#95A2AD"
-                                   FontSize="12"
-                                   TextWrapping="Wrap"
-                                   Margin="0,10,0,10"/>
-
-                        <!-- HOTSPOT LIST -->
-                        <StackPanel Grid.Row="3"
-                                    Spacing="0">
-
-                            <Grid ColumnDefinitions="*,50,90"
-                                  Margin="0,5,0,9">
-
-                                <TextBlock Text="0.512, 101.447"
-                                           Foreground="#E5E9ED"
-                                           FontSize="12"/>
-
-                                <TextBlock Grid.Column="1"
-                                           Text="92%"
-                                           Foreground="#E5E9ED"/>
-
-                                <TextBlock Grid.Column="2"
-                                           Text="Diperkuat"
-                                           Foreground="#72C58B"
-                                           FontSize="12"/>
-
-                            </Grid>
-
-                            <Border Height="1"
-                                    Background="#303A42"/>
-
-                            <Grid ColumnDefinitions="*,50,90"
-                                  Margin="0,9,0,9">
-
-                                <TextBlock Text="0.489, 101.502"
-                                           Foreground="#E5E9ED"
-                                           FontSize="12"/>
-
-                                <TextBlock Grid.Column="1"
-                                           Text="88%"
-                                           Foreground="#E5E9ED"/>
-
-                                <TextBlock Grid.Column="2"
-                                           Text="Diperkuat"
-                                           Foreground="#72C58B"
-                                           FontSize="12"/>
-
-                            </Grid>
-
-                            <Border Height="1"
-                                    Background="#303A42"/>
-
-                            <Grid ColumnDefinitions="*,50,90"
-                                  Margin="0,9,0,9">
-
-                                <TextBlock Text="0.221, 102.455"
-                                           Foreground="#E5E9ED"
-                                           FontSize="12"/>
-
-                                <TextBlock Grid.Column="1"
-                                           Text="41%"
-                                           Foreground="#E5E9ED"/>
-
-                                <TextBlock Grid.Column="2"
-                                           Text="Indikasi"
-                                           Foreground="#E5A72B"
-                                           FontSize="12"/>
-
-                            </Grid>
-
-                            <Border Height="1"
-                                    Background="#303A42"/>
-
-                        </StackPanel>
-
-                        <!-- SIMULATION BUTTON -->
-                        <Button Grid.Row="4"
-                                Content="Simulasikan klaster ini"
-                                Theme="{StaticResource DashboardPrimaryButtonTheme}"
-                                FontWeight="SemiBold"
-                                HorizontalAlignment="Stretch"
-                                Padding="12"
-                                CornerRadius="7"
-                                Margin="0,12,0,10"/>
-
-                        <TextBlock Grid.Row="5"
-                                   Text="Titik muncul saat zoom ke tingkat kabupaten. Hotspot adalah indikasi, bukan kebakaran terverifikasi."
-                                   Foreground="#95A2AD"
-                                   FontSize="12"
-                                   TextWrapping="Wrap"/>
 
                     </Grid>
                 </Border>
@@ -807,4 +427,5 @@
             </Grid>
         </Grid>
     </Grid>
+
 </UserControl>

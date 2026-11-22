@@ -5,373 +5,203 @@
     xmlns:components="using:SiagaApi.Views.Components"
     x:Class="SiagaApi.Views.RiwayatTrenView"
     x:DataType="vm:RiwayatTrenViewModel"
-    Background="#14181B">
+    Background="{StaticResource Latar}">
 
-    <UserControl.Resources>
+    <Grid ColumnDefinitions="Auto,*">
 
-        <SolidColorBrush x:Key="PanelBrush" Color="#1C2329"/>
-        <SolidColorBrush x:Key="BorderBrush" Color="#303A42"/>
-        <SolidColorBrush x:Key="TextBrush" Color="#E5E9ED"/>
-        <SolidColorBrush x:Key="MutedBrush" Color="#95A2AD"/>
-
-        <!-- DROPDOWN COLOR RESOURCES -->
-        <SolidColorBrush x:Key="ComboBoxDropDownGlyphForeground" Color="#FFFFFF"/>
-        <SolidColorBrush x:Key="ComboBoxDropDownGlyphForegroundFocused" Color="#FFFFFF"/>
-        <SolidColorBrush x:Key="ComboBoxDropDownGlyphForegroundFocusedPressed" Color="#FFFFFF"/>
-
-        <SolidColorBrush x:Key="ComboBoxDropDownBackground" Color="#1C2329"/>
-        <SolidColorBrush x:Key="ComboBoxDropDownBorderBrush" Color="#303A42"/>
-
-        <SolidColorBrush x:Key="ComboBoxItemBackground" Color="#1C2329"/>
-        <SolidColorBrush x:Key="ComboBoxItemBackgroundPointerOver" Color="#14181B"/>
-        <SolidColorBrush x:Key="ComboBoxItemBackgroundSelected" Color="#1C2329"/>
-        <SolidColorBrush x:Key="ComboBoxItemBackgroundSelectedPointerOver" Color="#14181B"/>
-
-    </UserControl.Resources>
-
-    <UserControl.Styles>
-
-        <!-- DROPDOWN -->
-        <Style Selector="ComboBox">
-            <Setter Property="MinHeight" Value="44"/>
-            <Setter Property="Padding" Value="10,8"/>
-            <Setter Property="FontSize" Value="14"/>
-            <Setter Property="Foreground" Value="#FFFFFF"/>
-            <Setter Property="Background" Value="#1C2329"/>
-            <Setter Property="BorderBrush" Value="#303A42"/>
-            <Setter Property="BorderThickness" Value="1"/>
-        </Style>
-
-        <!-- COMBOBOX HOVER -->
-        <Style Selector="ComboBox:pointerover">
-            <Setter Property="Foreground" Value="#FFFFFF"/>
-            <Setter Property="Background" Value="#14181B"/>
-            <Setter Property="BorderBrush" Value="#303A42"/>
-        </Style>
-
-        <!-- DROPDOWN ARROW -->
-        <Style Selector="ComboBox /template/ PathIcon#DropDownGlyph">
-            <Setter Property="Foreground" Value="#FFFFFF"/>
-        </Style>
-
-        <!-- DROPDOWN OPTIONS -->
-        <Style Selector="ComboBoxItem">
-            <Setter Property="Foreground" Value="#FFFFFF"/>
-            <Setter Property="Background" Value="#1C2329"/>
-            <Setter Property="Padding" Value="12,9"/>
-            <Setter Property="FontSize" Value="14"/>
-        </Style>
-
-        <Style Selector="ComboBoxItem TextBlock">
-            <Setter Property="Foreground" Value="#FFFFFF"/>
-        </Style>
-
-        <!-- OPTION HOVER -->
-        <Style Selector="ComboBoxItem:pointerover">
-            <Setter Property="Foreground" Value="#FFFFFF"/>
-            <Setter Property="Background" Value="#14181B"/>
-        </Style>
-
-        <Style Selector="ComboBoxItem:pointerover TextBlock">
-            <Setter Property="Foreground" Value="#FFFFFF"/>
-        </Style>
-
-        <!-- SELECTED OPTION -->
-        <Style Selector="ComboBoxItem:selected">
-            <Setter Property="Foreground" Value="#FFFFFF"/>
-            <Setter Property="Background" Value="#1C2329"/>
-        </Style>
-
-        <Style Selector="ComboBoxItem:selected TextBlock">
-            <Setter Property="Foreground" Value="#FFFFFF"/>
-        </Style>
-
-        <!-- SELECTED OPTION HOVER -->
-        <Style Selector="ComboBoxItem:selected:pointerover">
-            <Setter Property="Foreground" Value="#FFFFFF"/>
-            <Setter Property="Background" Value="#14181B"/>
-        </Style>
-
-        <Style Selector="ComboBoxItem:selected:pointerover TextBlock">
-            <Setter Property="Foreground" Value="#FFFFFF"/>
-        </Style>
-
-        <!-- BAR CHART NORMAL -->
-        <Style Selector="Border.chart-bar">
-            <Setter Property="Background" Value="#7A3A20"/>
-        </Style>
-
-        <!-- BAR CHART PEAK -->
-        <Style Selector="Border.chart-bar.peak">
-            <Setter Property="Background" Value="#F15A24"/>
-        </Style>
-
-        <!-- BAR CHART HOVER -->
-        <Style Selector="Border.chart-bar:pointerover">
-            <Setter Property="Background" Value="#D94C1C"/>
-        </Style>
-
-    </UserControl.Styles>
-
-    <Grid ColumnDefinitions="260,*">
-
-        <!-- SIDEBAR -->
         <components:SidebarView Grid.Column="0"/>
 
-        <!-- MAIN CONTENT -->
         <Grid Grid.Column="1"
-              Margin="38,30,38,30"
               RowDefinitions="Auto,*">
 
-            <!-- HEADER -->
-            <Grid Grid.Row="0"
-                  ColumnDefinitions="*,288"
-                  ColumnSpacing="24"
-                  Margin="0,0,0,21">
+            <components:BilahAtasView Grid.Row="0"
+                                      Judul="Riwayat &amp; tren"/>
 
-                <StackPanel Grid.Column="0"
-                            Spacing="3"
-                            VerticalAlignment="Center">
-
-                    <TextBlock
-                        Text="Riwayat &amp; tren"
-                        FontSize="28"
-                        FontWeight="Bold"
-                        Foreground="#E5E9ED"/>
-
-                    <TextBlock
-                        Text="Jumlah hotspot per hari, 12–25 Oktober 2026"
-                        FontSize="14"
-                        Foreground="#95A2AD"/>
-
-                </StackPanel>
-
-                <!-- FILTER WILAYAH -->
-                <StackPanel Grid.Column="1"
-                            Spacing="6">
-
-                    <TextBlock
-                        Text="Wilayah"
-                        FontSize="13"
-                        Foreground="#95A2AD"/>
-
-                    <ComboBox
-                        ItemsSource="{Binding WilayahList}"
-                        SelectedItem="{Binding SelectedWilayah, Mode=TwoWay}"/>
-
-                </StackPanel>
-
-            </Grid>
-
-            <!-- CONTENT -->
             <Grid Grid.Row="1"
                   RowDefinitions="Auto,*"
-                  RowSpacing="20"
-                  VerticalAlignment="Top">
+                  Margin="28,24,28,28">
 
-                <!-- SUMMARY CARDS -->
+                <!-- Tiga angka ringkas (tanpa kotak) dan kontrol wilayah / rentang -->
                 <Grid Grid.Row="0"
-                      ColumnDefinitions="*,*,*"
-                      ColumnSpacing="16">
+                      ColumnDefinitions="*,Auto"
+                      Margin="0,0,0,24">
 
-                    <!-- TOTAL -->
-                    <Border Grid.Column="0"
-                            Background="#1C2329"
-                            BorderBrush="#303A42"
-                            BorderThickness="1"
-                            CornerRadius="12"
-                            Padding="19">
-
-                        <StackPanel Spacing="9">
-
-                            <TextBlock
-                                Text="TOTAL 14 HARI"
-                                FontSize="12"
-                                FontWeight="SemiBold"
-                                Foreground="#95A2AD"/>
-
-                            <TextBlock
-                                Text="{Binding TotalHotspot}"
-                                FontSize="38"
-                                FontWeight="Bold"
-                                Foreground="#E5E9ED"/>
-
-                            <TextBlock
-                                Text="Titik panas terdeteksi FIRMS"
-                                FontSize="14"
-                                Foreground="#95A2AD"/>
-
+                    <StackPanel Orientation="Horizontal"
+                                Spacing="44">
+                        <StackPanel Spacing="2">
+                            <TextBlock Text="{Binding TotalHotspot}" Classes="mono" FontSize="40" FontWeight="SemiBold" Foreground="{StaticResource Teks}"/>
+                            <TextBlock Text="{Binding LabelTotal}" FontSize="13.5" FontWeight="Medium" Foreground="{StaticResource Teks}"/>
+                            <TextBlock Text="{Binding RentangTanggal}" Classes="samar"/>
                         </StackPanel>
-                    </Border>
-
-                    <!-- PEAK -->
-                    <Border Grid.Column="1"
-                            Background="#1C2329"
-                            BorderBrush="#303A42"
-                            BorderThickness="1"
-                            CornerRadius="12"
-                            Padding="19">
-
-                        <StackPanel Spacing="9">
-
-                            <TextBlock
-                                Text="PUNCAK HARIAN"
-                                FontSize="12"
-                                FontWeight="SemiBold"
-                                Foreground="#95A2AD"/>
-
-                            <TextBlock
-                                Text="{Binding PuncakHarian}"
-                                FontSize="38"
-                                FontWeight="Bold"
-                                Foreground="#E5E9ED"/>
-
-                            <TextBlock
-                                Text="{Binding TanggalPuncak}"
-                                FontSize="14"
-                                Foreground="#95A2AD"/>
-
+                        <StackPanel Spacing="2">
+                            <TextBlock Text="{Binding PuncakHarian}" Classes="mono" FontSize="40" FontWeight="SemiBold" Foreground="{StaticResource Aksen}"/>
+                            <TextBlock Text="puncak harian" FontSize="13.5" FontWeight="Medium" Foreground="{StaticResource Teks}"/>
+                            <TextBlock Text="{Binding TanggalPuncak}" Classes="samar"/>
                         </StackPanel>
-                    </Border>
-
-                    <!-- AVERAGE -->
-                    <Border Grid.Column="2"
-                            Background="#1C2329"
-                            BorderBrush="#303A42"
-                            BorderThickness="1"
-                            CornerRadius="12"
-                            Padding="19">
-
-                        <StackPanel Spacing="9">
-
-                            <TextBlock
-                                Text="RATA-RATA HARIAN"
-                                FontSize="12"
-                                FontWeight="SemiBold"
-                                Foreground="#95A2AD"/>
-
-                            <TextBlock
-                                Text="{Binding RataRataHarian}"
-                                FontSize="38"
-                                FontWeight="Bold"
-                                Foreground="#E5E9ED"/>
-
-                            <TextBlock
-                                Text="{Binding PerbandinganRataRata}"
-                                FontSize="14"
-                                Foreground="#95A2AD"/>
-
+                        <StackPanel Spacing="2">
+                            <TextBlock Text="{Binding RataRataHarian}" Classes="mono" FontSize="40" FontWeight="SemiBold" Foreground="{StaticResource Teks}"/>
+                            <TextBlock Text="rata-rata 7 hari" FontSize="13.5" FontWeight="Medium" Foreground="{StaticResource Teks}"/>
+                            <TextBlock Text="{Binding PerbandinganRataRata}" Classes="samar"/>
                         </StackPanel>
-                    </Border>
+                    </StackPanel>
 
+                    <StackPanel Grid.Column="1"
+                                Orientation="Horizontal"
+                                Spacing="10"
+                                VerticalAlignment="Bottom">
+                        <ComboBox ItemsSource="{Binding WilayahList}"
+                                  SelectedItem="{Binding SelectedWilayah, Mode=TwoWay}"
+                                  MinWidth="230"
+                                  MinHeight="38"/>
+                        <Border BorderBrush="{StaticResource Garis}"
+                                BorderThickness="1"
+                                CornerRadius="8"
+                                Padding="3">
+                            <StackPanel Orientation="Horizontal"
+                                        Spacing="2">
+                                <Button Content="14 hari" Theme="{StaticResource TombolSegmen}" Classes.aktif="{Binding Rentang14}" Tag="14" Click="Rentang_Click"/>
+                                <Button Content="30 hari" Theme="{StaticResource TombolSegmen}" Classes.aktif="{Binding Rentang30}" Tag="30" Click="Rentang_Click"/>
+                            </StackPanel>
+                        </Border>
+                    </StackPanel>
                 </Grid>
 
-                <!-- BAR CHART -->
-                <Border Grid.Row="1"
-                        Background="#1C2329"
-                        BorderBrush="#303A42"
-                        BorderThickness="1"
-                        CornerRadius="12"
-                        Padding="19"
-                        MinHeight="450">
+                <DockPanel Grid.Row="1">
 
-                    <Grid RowDefinitions="Auto,*,Auto"
-                          RowSpacing="10">
+                    <!-- ================= LIHAT NASIONAL (bisa dimatikan di Pengaturan) ================= -->
+                    <Border DockPanel.Dock="Right"
+                            Width="400"
+                            IsVisible="{Binding TampilkanNasional}"
+                            BorderBrush="{StaticResource Garis}"
+                            BorderThickness="1,0,0,0"
+                            Padding="24,0,0,0"
+                            Margin="24,0,0,0">
+                        <ScrollViewer VerticalScrollBarVisibility="Auto">
+                            <StackPanel Spacing="4">
+                                <TextBlock Text="LIHAT NASIONAL · HOTSPOT 24 JAM"
+                                           Classes="label"/>
+                                <ItemsControl ItemsSource="{Binding Nasional}">
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate x:DataType="vm:RingkasanProvinsiViewModel">
+                                            <Border BorderBrush="{StaticResource Garis}"
+                                                    BorderThickness="0,0,0,1"
+                                                    Padding="0,16">
+                                                <StackPanel Spacing="8">
+                                                    <Grid ColumnDefinitions="*,Auto">
+                                                        <StackPanel Orientation="Horizontal" Spacing="8">
+                                                            <TextBlock Text="{Binding Provinsi}" FontSize="15" FontWeight="SemiBold" Foreground="{StaticResource Teks}" VerticalAlignment="Center"/>
+                                                            <Border IsVisible="{Binding Posko}" Background="{StaticResource Permukaan2}" CornerRadius="4" Padding="7,2" VerticalAlignment="Center">
+                                                                <TextBlock Text="posko ini" FontSize="11" Foreground="{StaticResource Teks2}"/>
+                                                            </Border>
+                                                        </StackPanel>
+                                                        <TextBlock Grid.Column="1" Text="{Binding Hotspot}" Classes="mono" FontSize="20" FontWeight="SemiBold" Foreground="{StaticResource Teks}"/>
+                                                    </Grid>
+                                                    <Grid Height="5">
+                                                        <Border CornerRadius="3" Background="{StaticResource Permukaan2}"/>
+                                                        <Border CornerRadius="3" Width="{Binding Lebar}" Background="{Binding WarnaBatang}" HorizontalAlignment="Left"/>
+                                                    </Grid>
+                                                    <Grid ColumnDefinitions="*,Auto">
+                                                        <TextBlock Text="{Binding Kabupaten}" Classes="samar"/>
+                                                        <TextBlock Grid.Column="1" Text="{Binding Status}" FontSize="12" Foreground="{Binding StatusForeground}"/>
+                                                    </Grid>
+                                                </StackPanel>
+                                            </Border>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+                                <TextBlock Text="Hanya provinsi yang kabupatennya ada di database. Hanya baca."
+                                           Classes="samar"
+                                           TextWrapping="Wrap"
+                                           Margin="0,10,0,0"/>
+                            </StackPanel>
+                        </ScrollViewer>
+                    </Border>
 
-                        <TextBlock
-                            Grid.Row="0"
-                            Text="HOTSPOT PER HARI · OKTOBER 2026"
-                            FontSize="12"
-                            FontWeight="SemiBold"
-                            Foreground="#95A2AD"/>
+                    <!-- ================= GRAFIK ================= -->
+                    <Grid RowDefinitions="Auto,*,Auto,Auto">
 
-                        <!-- BARS -->
-                        <Grid Grid.Row="1"
-                              RowDefinitions="*,Auto"
-                              Margin="0,15,0,0">
+                        <TextBlock Grid.Row="0"
+                                   Text="{Binding JudulGrafik}"
+                                   Classes="label"
+                                   Margin="0,0,0,14"/>
 
-                            <ItemsControl
-                                Grid.Row="0"
-                                ItemsSource="{Binding HotspotHarian}"
-                                VerticalAlignment="Stretch">
-
+                        <!-- Batang rata bawah; tinggi dihitung terhadap puncak rentang -->
+                        <Border Grid.Row="1"
+                                BorderBrush="{StaticResource Garis}"
+                                BorderThickness="0,0,0,1">
+                            <ItemsControl ItemsSource="{Binding HotspotHarian}"
+                                          VerticalAlignment="Bottom">
                                 <ItemsControl.ItemsPanel>
                                     <ItemsPanelTemplate>
-                                        <StackPanel
-                                            Orientation="Horizontal"
-                                            HorizontalAlignment="Stretch"/>
+                                        <UniformGrid Rows="1"/>
                                     </ItemsPanelTemplate>
                                 </ItemsControl.ItemsPanel>
-
                                 <ItemsControl.ItemTemplate>
                                     <DataTemplate x:DataType="vm:HotspotHarianViewModel">
-
-                                        <Grid Width="70"
-                                              Height="330"
-                                              RowDefinitions="Auto,*,Auto"
-                                              Margin="0,0,0,0">
-
-                                            <!-- VALUE -->
-                                            <TextBlock
-                                                Grid.Row="0"
-                                                Text="{Binding Jumlah}"
-                                                FontSize="12"
-                                                Foreground="#95A2AD"
-                                                HorizontalAlignment="Center"
-                                                Margin="0,0,0,7"/>
-
-                                            <!-- BAR -->
-                                            <Grid Grid.Row="1"
-                                                  VerticalAlignment="Stretch">
-
-                                                <Border
-                                                    Classes="chart-bar"
-                                                    Classes.peak="{Binding IsPeak}"
-                                                    Height="{Binding TinggiBatang}"
-                                                    CornerRadius="5,5,0,0"
-                                                    VerticalAlignment="Bottom"
-                                                    HorizontalAlignment="Center"
-                                                    Width="53"/>
-
-                                            </Grid>
-
-                                            <!-- DATE -->
-                                            <TextBlock
-                                                Grid.Row="2"
-                                                Text="{Binding Tanggal}"
-                                                FontSize="12"
-                                                Foreground="#95A2AD"
-                                                HorizontalAlignment="Center"
-                                                Margin="0,8,0,0"/>
-
-                                        </Grid>
-
+                                        <StackPanel VerticalAlignment="Bottom"
+                                                    Spacing="8"
+                                                    Margin="5,0">
+                                            <TextBlock Text="{Binding Jumlah}"
+                                                       Classes="mono"
+                                                       FontSize="{Binding $parent[ItemsControl].((vm:RiwayatTrenViewModel)DataContext).UkuranAngkaBatang}"
+                                                       Foreground="{Binding WarnaAngka}"
+                                                       HorizontalAlignment="Center"/>
+                                            <Border Height="{Binding TinggiBatang}"
+                                                    Background="{Binding Warna}"
+                                                    CornerRadius="4,4,0,0"/>
+                                        </StackPanel>
                                     </DataTemplate>
                                 </ItemsControl.ItemTemplate>
                             </ItemsControl>
+                        </Border>
 
-                            <!-- BASELINE -->
-                            <Border
-                                Grid.Row="1"
-                                Height="1"
-                                Background="#303A42"
-                                VerticalAlignment="Bottom"/>
+                        <ItemsControl Grid.Row="2"
+                                      ItemsSource="{Binding HotspotHarian}"
+                                      Margin="0,10,0,0">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <UniformGrid Rows="1"/>
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate x:DataType="vm:HotspotHarianViewModel">
+                                    <TextBlock Text="{Binding Tanggal}"
+                                               Classes="mono"
+                                               FontSize="{Binding $parent[ItemsControl].((vm:RiwayatTrenViewModel)DataContext).UkuranAngkaBatang}"
+                                               Foreground="{Binding WarnaTanggal}"
+                                               HorizontalAlignment="Center"/>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
 
-                        </Grid>
-
-                        <!-- FOOTNOTE -->
-                        <TextBlock
-                            Grid.Row="2"
-                            Text="Jumlah hotspot belum menunjukkan luas kebakaran. Tutupan awan dapat menyembunyikan deteksi."
-                            FontSize="13"
-                            Foreground="#95A2AD"
-                            TextWrapping="Wrap"
-                            Margin="0,4,0,0"/>
+                        <StackPanel Grid.Row="3"
+                                    Spacing="8"
+                                    Margin="0,16,0,0">
+                            <!-- Hari tanpa hotspot dinyatakan sebagai kabar baik -->
+                            <Border Background="#1A5CC98A"
+                                    CornerRadius="8"
+                                    Padding="12,10,14,10"
+                                    HorizontalAlignment="Left">
+                                <StackPanel Orientation="Horizontal"
+                                            Spacing="8">
+                                    <components:Ikon Nama="shield-check" Ukuran="16" Warna="{StaticResource Baik}"/>
+                                    <TextBlock Text="{Binding KabarBaik}"
+                                               FontSize="12.5"
+                                               Foreground="{StaticResource Baik}"/>
+                                </StackPanel>
+                            </Border>
+                            <TextBlock Text="{Binding Message}"
+                                       IsVisible="{Binding Message, Converter={x:Static StringConverters.IsNotNullOrEmpty}}"
+                                       Foreground="{StaticResource Tinggi}"
+                                       FontSize="12.5"
+                                       TextWrapping="Wrap"/>
+                        </StackPanel>
 
                     </Grid>
-                </Border>
+                </DockPanel>
 
             </Grid>
         </Grid>
     </Grid>
+
 </UserControl>
