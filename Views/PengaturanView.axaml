@@ -8,6 +8,7 @@
     Background="#14181B">
 
     <UserControl.Resources>
+
         <SolidColorBrush x:Key="PanelBrush" Color="#1C2329"/>
         <SolidColorBrush x:Key="InputBrush" Color="#14181B"/>
         <SolidColorBrush x:Key="BorderBrush" Color="#303A42"/>
@@ -17,6 +18,7 @@
 
         <!-- PRIMARY BUTTON -->
         <ControlTheme x:Key="PrimaryButtonTheme" TargetType="Button">
+
             <Setter Property="Background" Value="#F15A24"/>
             <Setter Property="Foreground" Value="#14181B"/>
             <Setter Property="FontSize" Value="15"/>
@@ -33,12 +35,14 @@
                 <ControlTemplate>
                     <Border Background="{TemplateBinding Background}"
                             CornerRadius="7">
+
                         <ContentPresenter
                             Content="{TemplateBinding Content}"
                             ContentTemplate="{TemplateBinding ContentTemplate}"
                             HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                             VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
                             Margin="{TemplateBinding Padding}"/>
+
                     </Border>
                 </ControlTemplate>
             </Setter>
@@ -55,10 +59,12 @@
                 <Setter Property="Background" Value="#713B2A"/>
                 <Setter Property="Foreground" Value="#95A2AD"/>
             </Style>
+
         </ControlTheme>
 
         <!-- CUSTOM ORANGE CHECKBOX -->
         <ControlTheme x:Key="OrangeCheckBoxTheme" TargetType="CheckBox">
+
             <Setter Property="Foreground" Value="#E5E9ED"/>
             <Setter Property="FontSize" Value="14"/>
             <Setter Property="Cursor" Value="Hand"/>
@@ -67,6 +73,7 @@
 
             <Setter Property="Template">
                 <ControlTemplate>
+
                     <Grid ColumnDefinitions="18,*"
                           VerticalAlignment="Top">
 
@@ -90,6 +97,7 @@
                                 IsVisible="False"
                                 HorizontalAlignment="Center"
                                 VerticalAlignment="Center"/>
+
                         </Border>
 
                         <!-- WRAPPING CHECKBOX TEXT -->
@@ -103,6 +111,7 @@
                             Margin="10,0,0,0"/>
 
                     </Grid>
+
                 </ControlTemplate>
             </Setter>
 
@@ -122,7 +131,22 @@
             <Style Selector="^:disabled">
                 <Setter Property="Foreground" Value="#667681"/>
             </Style>
+
         </ControlTheme>
+
+        <!-- DROPDOWN COLOR RESOURCES -->
+        <SolidColorBrush x:Key="ComboBoxDropDownGlyphForeground" Color="#FFFFFF"/>
+        <SolidColorBrush x:Key="ComboBoxDropDownGlyphForegroundFocused" Color="#FFFFFF"/>
+        <SolidColorBrush x:Key="ComboBoxDropDownGlyphForegroundFocusedPressed" Color="#FFFFFF"/>
+
+        <SolidColorBrush x:Key="ComboBoxDropDownBackground" Color="#1C2329"/>
+        <SolidColorBrush x:Key="ComboBoxDropDownBorderBrush" Color="#303A42"/>
+
+        <SolidColorBrush x:Key="ComboBoxItemBackground" Color="#1C2329"/>
+        <SolidColorBrush x:Key="ComboBoxItemBackgroundPointerOver" Color="#14181B"/>
+        <SolidColorBrush x:Key="ComboBoxItemBackgroundSelected" Color="#1C2329"/>
+        <SolidColorBrush x:Key="ComboBoxItemBackgroundSelectedPointerOver" Color="#14181B"/>
+
     </UserControl.Resources>
 
     <UserControl.Styles>
@@ -169,23 +193,69 @@
             <Setter Property="BorderBrush" Value="#95A2AD"/>
         </Style>
 
-        <!-- COMBOBOX -->
+        <!-- DROPDOWN -->
         <Style Selector="ComboBox">
             <Setter Property="MinHeight" Value="44"/>
             <Setter Property="Padding" Value="10,8"/>
             <Setter Property="FontSize" Value="14"/>
             <Setter Property="Foreground" Value="#FFFFFF"/>
-            <Setter Property="Background" Value="#14181B"/>
+            <Setter Property="Background" Value="#1C2329"/>
             <Setter Property="BorderBrush" Value="#303A42"/>
             <Setter Property="BorderThickness" Value="1"/>
         </Style>
 
+        <!-- COMBOBOX HOVER -->
         <Style Selector="ComboBox:pointerover">
-            <Setter Property="BorderBrush" Value="#667681"/>
+            <Setter Property="Foreground" Value="#FFFFFF"/>
+            <Setter Property="Background" Value="#14181B"/>
+            <Setter Property="BorderBrush" Value="#303A42"/>
         </Style>
 
-        <Style Selector="ComboBox:focus">
-            <Setter Property="BorderBrush" Value="#95A2AD"/>
+        <!-- DROPDOWN ARROW -->
+        <Style Selector="ComboBox /template/ PathIcon#DropDownGlyph">
+            <Setter Property="Foreground" Value="#FFFFFF"/>
+        </Style>
+
+        <!-- DROPDOWN OPTIONS -->
+        <Style Selector="ComboBoxItem">
+            <Setter Property="Foreground" Value="#FFFFFF"/>
+            <Setter Property="Background" Value="#1C2329"/>
+            <Setter Property="Padding" Value="12,9"/>
+            <Setter Property="FontSize" Value="14"/>
+        </Style>
+
+        <Style Selector="ComboBoxItem TextBlock">
+            <Setter Property="Foreground" Value="#FFFFFF"/>
+        </Style>
+
+        <!-- OPTION HOVER -->
+        <Style Selector="ComboBoxItem:pointerover">
+            <Setter Property="Foreground" Value="#FFFFFF"/>
+            <Setter Property="Background" Value="#14181B"/>
+        </Style>
+
+        <Style Selector="ComboBoxItem:pointerover TextBlock">
+            <Setter Property="Foreground" Value="#FFFFFF"/>
+        </Style>
+
+        <!-- SELECTED OPTION -->
+        <Style Selector="ComboBoxItem:selected">
+            <Setter Property="Foreground" Value="#FFFFFF"/>
+            <Setter Property="Background" Value="#1C2329"/>
+        </Style>
+
+        <Style Selector="ComboBoxItem:selected TextBlock">
+            <Setter Property="Foreground" Value="#FFFFFF"/>
+        </Style>
+
+        <!-- SELECTED OPTION HOVER -->
+        <Style Selector="ComboBoxItem:selected:pointerover">
+            <Setter Property="Foreground" Value="#FFFFFF"/>
+            <Setter Property="Background" Value="#14181B"/>
+        </Style>
+
+        <Style Selector="ComboBoxItem:selected:pointerover TextBlock">
+            <Setter Property="Foreground" Value="#FFFFFF"/>
         </Style>
 
     </UserControl.Styles>
@@ -244,6 +314,7 @@
                             Foreground="#95A2AD"/>
 
                         <StackPanel Spacing="6">
+
                             <TextBlock
                                 Text="Provinsi"
                                 FontSize="14"
@@ -252,6 +323,7 @@
                             <ComboBox
                                 ItemsSource="{Binding ProvinsiList}"
                                 SelectedItem="{Binding SelectedProvinsi, Mode=TwoWay}"/>
+
                         </StackPanel>
 
                         <TextBlock
@@ -275,6 +347,7 @@
                         </CheckBox>
 
                         <StackPanel Spacing="6">
+
                             <TextBlock
                                 Text="Peta dasar"
                                 FontSize="14"
@@ -283,6 +356,7 @@
                             <ComboBox
                                 ItemsSource="{Binding PetaDasarList}"
                                 SelectedItem="{Binding SelectedMap, Mode=TwoWay}"/>
+
                         </StackPanel>
 
                     </StackPanel>
@@ -306,6 +380,7 @@
                             Foreground="#95A2AD"/>
 
                         <StackPanel Spacing="6">
+
                             <TextBlock
                                 Text="MAP_KEY NASA FIRMS"
                                 FontSize="14"
@@ -314,9 +389,11 @@
                             <TextBox
                                 Text="{Binding FirmsApiKey, Mode=TwoWay}"
                                 PasswordChar="●"/>
+
                         </StackPanel>
 
                         <StackPanel Spacing="6">
+
                             <TextBlock
                                 Text="API key AccuWeather"
                                 FontSize="14"
@@ -325,6 +402,7 @@
                             <TextBox
                                 Text="{Binding WeatherApiKey, Mode=TwoWay}"
                                 PasswordChar="●"/>
+
                         </StackPanel>
 
                         <TextBlock
@@ -354,6 +432,7 @@
                             Foreground="#95A2AD"/>
 
                         <StackPanel Spacing="6">
+
                             <TextBlock
                                 Text="Server SMTP"
                                 FontSize="14"
@@ -361,9 +440,11 @@
 
                             <TextBox
                                 Text="{Binding SmtpServer, Mode=TwoWay}"/>
+
                         </StackPanel>
 
                         <StackPanel Spacing="6">
+
                             <TextBlock
                                 Text="Alamat pengirim"
                                 FontSize="14"
@@ -371,6 +452,7 @@
 
                             <TextBox
                                 Text="{Binding SenderEmail, Mode=TwoWay}"/>
+
                         </StackPanel>
 
                     </StackPanel>
@@ -394,6 +476,7 @@
                             Foreground="#95A2AD"/>
 
                         <StackPanel Spacing="6">
+
                             <TextBlock
                                 Text="Interval pengecekan"
                                 FontSize="14"
@@ -402,6 +485,7 @@
                             <ComboBox
                                 ItemsSource="{Binding IntervalList}"
                                 SelectedItem="{Binding SelectedInterval, Mode=TwoWay}"/>
+
                         </StackPanel>
 
                         <TextBlock

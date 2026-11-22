@@ -8,10 +8,25 @@
     Background="#14181B">
 
     <UserControl.Resources>
+
         <SolidColorBrush x:Key="PanelBrush" Color="#1C2329"/>
         <SolidColorBrush x:Key="BorderBrush" Color="#303A42"/>
         <SolidColorBrush x:Key="TextBrush" Color="#E5E9ED"/>
         <SolidColorBrush x:Key="MutedBrush" Color="#95A2AD"/>
+
+        <!-- DROPDOWN COLOR RESOURCES -->
+        <SolidColorBrush x:Key="ComboBoxDropDownGlyphForeground" Color="#FFFFFF"/>
+        <SolidColorBrush x:Key="ComboBoxDropDownGlyphForegroundFocused" Color="#FFFFFF"/>
+        <SolidColorBrush x:Key="ComboBoxDropDownGlyphForegroundFocusedPressed" Color="#FFFFFF"/>
+
+        <SolidColorBrush x:Key="ComboBoxDropDownBackground" Color="#1C2329"/>
+        <SolidColorBrush x:Key="ComboBoxDropDownBorderBrush" Color="#303A42"/>
+
+        <SolidColorBrush x:Key="ComboBoxItemBackground" Color="#1C2329"/>
+        <SolidColorBrush x:Key="ComboBoxItemBackgroundPointerOver" Color="#14181B"/>
+        <SolidColorBrush x:Key="ComboBoxItemBackgroundSelected" Color="#1C2329"/>
+        <SolidColorBrush x:Key="ComboBoxItemBackgroundSelectedPointerOver" Color="#14181B"/>
+
     </UserControl.Resources>
 
     <UserControl.Styles>
@@ -22,17 +37,63 @@
             <Setter Property="Padding" Value="10,8"/>
             <Setter Property="FontSize" Value="14"/>
             <Setter Property="Foreground" Value="#FFFFFF"/>
-            <Setter Property="Background" Value="#14181B"/>
+            <Setter Property="Background" Value="#1C2329"/>
             <Setter Property="BorderBrush" Value="#303A42"/>
             <Setter Property="BorderThickness" Value="1"/>
         </Style>
 
+        <!-- COMBOBOX HOVER -->
         <Style Selector="ComboBox:pointerover">
-            <Setter Property="BorderBrush" Value="#667681"/>
+            <Setter Property="Foreground" Value="#FFFFFF"/>
+            <Setter Property="Background" Value="#14181B"/>
+            <Setter Property="BorderBrush" Value="#303A42"/>
         </Style>
 
-        <Style Selector="ComboBox:focus">
-            <Setter Property="BorderBrush" Value="#95A2AD"/>
+        <!-- DROPDOWN ARROW -->
+        <Style Selector="ComboBox /template/ PathIcon#DropDownGlyph">
+            <Setter Property="Foreground" Value="#FFFFFF"/>
+        </Style>
+
+        <!-- DROPDOWN OPTIONS -->
+        <Style Selector="ComboBoxItem">
+            <Setter Property="Foreground" Value="#FFFFFF"/>
+            <Setter Property="Background" Value="#1C2329"/>
+            <Setter Property="Padding" Value="12,9"/>
+            <Setter Property="FontSize" Value="14"/>
+        </Style>
+
+        <Style Selector="ComboBoxItem TextBlock">
+            <Setter Property="Foreground" Value="#FFFFFF"/>
+        </Style>
+
+        <!-- OPTION HOVER -->
+        <Style Selector="ComboBoxItem:pointerover">
+            <Setter Property="Foreground" Value="#FFFFFF"/>
+            <Setter Property="Background" Value="#14181B"/>
+        </Style>
+
+        <Style Selector="ComboBoxItem:pointerover TextBlock">
+            <Setter Property="Foreground" Value="#FFFFFF"/>
+        </Style>
+
+        <!-- SELECTED OPTION -->
+        <Style Selector="ComboBoxItem:selected">
+            <Setter Property="Foreground" Value="#FFFFFF"/>
+            <Setter Property="Background" Value="#1C2329"/>
+        </Style>
+
+        <Style Selector="ComboBoxItem:selected TextBlock">
+            <Setter Property="Foreground" Value="#FFFFFF"/>
+        </Style>
+
+        <!-- SELECTED OPTION HOVER -->
+        <Style Selector="ComboBoxItem:selected:pointerover">
+            <Setter Property="Foreground" Value="#FFFFFF"/>
+            <Setter Property="Background" Value="#14181B"/>
+        </Style>
+
+        <Style Selector="ComboBoxItem:selected:pointerover TextBlock">
+            <Setter Property="Foreground" Value="#FFFFFF"/>
         </Style>
 
         <!-- BAR CHART NORMAL -->

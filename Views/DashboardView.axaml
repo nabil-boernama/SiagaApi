@@ -52,7 +52,6 @@
 
         </ControlTheme>
 
-
         <!-- TITIK BUTTON THEME -->
         <ControlTheme x:Key="MapToggleButtonTheme"
                       TargetType="Button">
@@ -89,7 +88,94 @@
 
         </ControlTheme>
 
+        <!-- DROPDOWN COLOR RESOURCES -->
+        <SolidColorBrush x:Key="ComboBoxDropDownGlyphForeground" Color="#FFFFFF"/>
+        <SolidColorBrush x:Key="ComboBoxDropDownGlyphForegroundFocused" Color="#FFFFFF"/>
+        <SolidColorBrush x:Key="ComboBoxDropDownGlyphForegroundFocusedPressed" Color="#FFFFFF"/>
+
+        <SolidColorBrush x:Key="ComboBoxDropDownBackground" Color="#1C2329"/>
+        <SolidColorBrush x:Key="ComboBoxDropDownBorderBrush" Color="#303A42"/>
+
+        <SolidColorBrush x:Key="ComboBoxItemBackground" Color="#1C2329"/>
+        <SolidColorBrush x:Key="ComboBoxItemBackgroundPointerOver" Color="#14181B"/>
+        <SolidColorBrush x:Key="ComboBoxItemBackgroundSelected" Color="#1C2329"/>
+        <SolidColorBrush x:Key="ComboBoxItemBackgroundSelectedPointerOver" Color="#14181B"/>
+
     </UserControl.Resources>
+
+    <!-- DROPDOWN STYLES -->
+    <UserControl.Styles>
+
+        <!-- COMBOBOX -->
+        <Style Selector="ComboBox">
+            <Setter Property="MinHeight" Value="44"/>
+            <Setter Property="Padding" Value="10,8"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Foreground" Value="#FFFFFF"/>
+            <Setter Property="Background" Value="#1C2329"/>
+            <Setter Property="BorderBrush" Value="#303A42"/>
+            <Setter Property="BorderThickness" Value="1"/>
+        </Style>
+
+        <!-- COMBOBOX HOVER -->
+        <Style Selector="ComboBox:pointerover">
+            <Setter Property="Foreground" Value="#FFFFFF"/>
+            <Setter Property="Background" Value="#14181B"/>
+            <Setter Property="BorderBrush" Value="#303A42"/>
+        </Style>
+
+        <!-- DROPDOWN ARROW -->
+        <Style Selector="ComboBox /template/ PathIcon#DropDownGlyph">
+            <Setter Property="Foreground" Value="#FFFFFF"/>
+        </Style>
+
+        <!-- DROPDOWN OPTIONS -->
+        <Style Selector="ComboBoxItem">
+            <Setter Property="Foreground" Value="#FFFFFF"/>
+            <Setter Property="Background" Value="#1C2329"/>
+            <Setter Property="Padding" Value="12,9"/>
+            <Setter Property="FontSize" Value="14"/>
+        </Style>
+
+        <!-- OPTION TEXT -->
+        <Style Selector="ComboBoxItem TextBlock">
+            <Setter Property="Foreground" Value="#FFFFFF"/>
+        </Style>
+
+        <!-- OPTION HOVER -->
+        <Style Selector="ComboBoxItem:pointerover">
+            <Setter Property="Foreground" Value="#FFFFFF"/>
+            <Setter Property="Background" Value="#14181B"/>
+        </Style>
+
+        <!-- OPTION HOVER TEXT -->
+        <Style Selector="ComboBoxItem:pointerover TextBlock">
+            <Setter Property="Foreground" Value="#FFFFFF"/>
+        </Style>
+
+        <!-- SELECTED OPTION -->
+        <Style Selector="ComboBoxItem:selected">
+            <Setter Property="Foreground" Value="#FFFFFF"/>
+            <Setter Property="Background" Value="#1C2329"/>
+        </Style>
+
+        <!-- SELECTED OPTION TEXT -->
+        <Style Selector="ComboBoxItem:selected TextBlock">
+            <Setter Property="Foreground" Value="#FFFFFF"/>
+        </Style>
+
+        <!-- SELECTED OPTION HOVER -->
+        <Style Selector="ComboBoxItem:selected:pointerover">
+            <Setter Property="Foreground" Value="#FFFFFF"/>
+            <Setter Property="Background" Value="#14181B"/>
+        </Style>
+
+        <!-- SELECTED OPTION HOVER TEXT -->
+        <Style Selector="ComboBoxItem:selected:pointerover TextBlock">
+            <Setter Property="Foreground" Value="#FFFFFF"/>
+        </Style>
+
+    </UserControl.Styles>
 
     <Grid ColumnDefinitions="250,*">
 
@@ -129,7 +215,6 @@
 
             </Grid>
 
-
             <!-- STATISTICS -->
             <Grid Grid.Row="1"
                   ColumnDefinitions="*,*,*,*"
@@ -153,7 +238,6 @@
                     DataContext="{Binding Statistics[3]}"/>
 
             </Grid>
-
 
             <!-- MAP AND DETAIL -->
             <Grid Grid.Row="2"
@@ -204,8 +288,6 @@
                                       Width="190"
                                       MinWidth="190"
                                       SelectedIndex="0"
-                                      Background="#14181B"
-                                      Foreground="#E5E9ED"
                                       HorizontalContentAlignment="Stretch">
 
                                 <ComboBoxItem Content="Tanpa peta dasar"/>
@@ -290,75 +372,87 @@
                                           StrokeThickness="2"/>
 
                                     <!-- REGION LABELS -->
-                                    <TextBlock Canvas.Left="105" Canvas.Top="115"
+                                    <TextBlock Canvas.Left="105"
+                                               Canvas.Top="115"
                                                Text="R. Hulu&#10;4"
                                                TextAlignment="Center"
                                                Foreground="#E5E9ED"
                                                FontSize="13"/>
 
-                                    <TextBlock Canvas.Left="265" Canvas.Top="90"
+                                    <TextBlock Canvas.Left="265"
+                                               Canvas.Top="90"
                                                Text="R. Hilir&#10;17"
                                                TextAlignment="Center"
                                                Foreground="#FFFFFF"
                                                FontSize="13"
                                                FontWeight="SemiBold"/>
 
-                                    <TextBlock Canvas.Left="360" Canvas.Top="45"
+                                    <TextBlock Canvas.Left="360"
+                                               Canvas.Top="45"
                                                Text="Dumai&#10;6"
                                                TextAlignment="Center"
                                                Foreground="#E5E9ED"
                                                FontSize="13"/>
 
-                                    <TextBlock Canvas.Left="460" Canvas.Top="70"
+                                    <TextBlock Canvas.Left="460"
+                                               Canvas.Top="70"
                                                Text="Bengkalis&#10;9"
                                                TextAlignment="Center"
                                                Foreground="#E5E9ED"
                                                FontSize="13"/>
 
-                                    <TextBlock Canvas.Left="225" Canvas.Top="210"
+                                    <TextBlock Canvas.Left="225"
+                                               Canvas.Top="210"
                                                Text="Kampar&#10;10"
                                                TextAlignment="Center"
                                                Foreground="#FFFFFF"
                                                FontSize="13"/>
 
-                                    <TextBlock Canvas.Left="390" Canvas.Top="165"
+                                    <TextBlock Canvas.Left="390"
+                                               Canvas.Top="165"
                                                Text="Siak&#10;6"
                                                TextAlignment="Center"
                                                Foreground="#E5E9ED"
                                                FontSize="13"/>
 
-                                    <TextBlock Canvas.Left="340" Canvas.Top="226"
+                                    <TextBlock Canvas.Left="340"
+                                               Canvas.Top="226"
                                                Text="Pekanbaru&#10;47"
                                                TextAlignment="Center"
                                                Foreground="#14181B"
                                                FontWeight="Bold"
                                                FontSize="13"/>
 
-                                    <TextBlock Canvas.Left="465" Canvas.Top="270"
+                                    <TextBlock Canvas.Left="465"
+                                               Canvas.Top="270"
                                                Text="Pelalawan&#10;18"
                                                TextAlignment="Center"
                                                Foreground="#FFFFFF"
                                                FontSize="13"/>
 
-                                    <TextBlock Canvas.Left="240" Canvas.Top="330"
+                                    <TextBlock Canvas.Left="240"
+                                               Canvas.Top="330"
                                                Text="Kuansing&#10;5"
                                                TextAlignment="Center"
                                                Foreground="#E5E9ED"
                                                FontSize="13"/>
 
-                                    <TextBlock Canvas.Left="405" Canvas.Top="360"
+                                    <TextBlock Canvas.Left="405"
+                                               Canvas.Top="360"
                                                Text="Inhu&#10;7"
                                                TextAlignment="Center"
                                                Foreground="#E5E9ED"
                                                FontSize="13"/>
 
-                                    <TextBlock Canvas.Left="555" Canvas.Top="390"
+                                    <TextBlock Canvas.Left="555"
+                                               Canvas.Top="390"
                                                Text="Inhil&#10;11"
                                                TextAlignment="Center"
                                                Foreground="#FFFFFF"
                                                FontSize="13"/>
 
-                                    <TextBlock Canvas.Left="615" Canvas.Top="85"
+                                    <TextBlock Canvas.Left="615"
+                                               Canvas.Top="85"
                                                Text="Meranti&#10;2"
                                                TextAlignment="Center"
                                                Foreground="#E5E9ED"
