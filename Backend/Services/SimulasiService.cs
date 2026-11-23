@@ -14,6 +14,7 @@ namespace SiagaApi.Backend.Services
             public Wilayah Wilayah { get; init; } = new();
             public List<TitikPanas> Klaster { get; init; } = new();
             public DataCuaca Cuaca { get; init; } = new();
+            public int JumlahHotspotWilayah { get; init; }
             public bool MemakaiRentang7Hari { get; init; }
 
             public int Baris { get; init; }
@@ -99,7 +100,7 @@ namespace SiagaApi.Backend.Services
                   var pemicu = sumber.OrderByDescending(t => Confidence.Tingkat(t.Confidence)).ThenByDescending(t => t.WaktuDeteksi).First();
                   var klaster = sumber.Where(t => Geo.JarakKm(pemicu.Lat, pemicu.Lon, t.Lat, t.Lon) <= RadiusKlasterKm).ToList();
 
-                  var hasil = await Task.Run(() => MonteCarlo(wilayah, klaster, cuaca, jumlahSimulasi, pakai7Hari));
+                  var hasil = await Task.Run(() => MonteCarlo(wilayah, klaster, cuaca, jumlahSimulasi, pakai7Hari, sumber.Count));
 
                   await _hasilRepo.SimpanAsync(new HasilSimulasi
                   {
@@ -126,7 +127,7 @@ namespace SiagaApi.Backend.Services
             }
 
             // Tidak menyentuh database, jadi bisa dites sendiri.
-            public static HasilMonteCarlo MonteCarlo(Wilayah wilayah, List<TitikPanas> klaster, DataCuaca cuaca, int jumlahSimulasi, bool pakai7Hari = false)
+            public static HasilMonteCarlo MonteCarlo(Wilayah wilayah, List<TitikPanas> klaster, DataCuaca cuaca, int jumlahSimulasi, bool pakai7Hari = false, int? jumlahHotspotWilayah = null)
             {
                   // Ruang di sekeliling klaster = jumlah jam + 2, supaya api yang merambat
                   // satu sel per jam tidak terpotong tepi grid.
@@ -178,6 +179,7 @@ namespace SiagaApi.Backend.Services
                         Klaster = klaster,
                         Cuaca = cuaca,
                         MemakaiRentang7Hari = pakai7Hari,
+                        JumlahHotspotWilayah = jumlahHotspotWilayah ?? klaster.Count,
                         Baris = baris,
                         Kolom = kolom,
                         LatAsal = latAsal,

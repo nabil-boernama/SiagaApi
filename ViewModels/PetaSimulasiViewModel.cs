@@ -247,7 +247,7 @@ public class PetaSimulasiViewModel : ViewModelBase, INavigationViewModel
             var c = Hasil.Cuaca;
             HeaderTitle = $"Simulasi penyebaran: Klaster {Hasil.Wilayah.Nama}";
             HeaderSubtitle =
-                $"Klaster {Hasil.Klaster.Count} hotspot dalam 10 km dari titik pemicu, {(Hasil.MemakaiRentang7Hari ? "7 hari terakhir (tidak ada yang 24 jam)" : "24 jam terakhir")}" +
+                $"{Hasil.Klaster.Count} dari {Hasil.JumlahHotspotWilayah} hotspot masuk radius 10 km dari titik pemicu, {(Hasil.MemakaiRentang7Hari ? "7 hari terakhir (tidak ada yang 24 jam)" : "24 jam terakhir")}" +
                 $" · {Hasil.JumlahSimulasi} kali simulasi · sel sekitar {Hasil.UkuranSel * 111320:0} m · skenario hipotetis";
             AnginRingkas = string.Create(Id,
                 $"Angin dari {Geo.NamaArah(c.ArahAngin).ToLowerInvariant()} ke {Geo.NamaArah(c.ArahAngin + 180).ToLowerInvariant()} · {c.KecepatanAngin:0.#} km/j");
@@ -299,26 +299,18 @@ public class PetaSimulasiViewModel : ViewModelBase, INavigationViewModel
             return;
         }
 
-        double luasTerjangkau = Hasil.LuasHa(Jam, 0.10);
-        double luasMungkin = Hasil.LuasHa(Jam, 0.50);
-        SimulationArea = string.Create(Id, $"≈ {luasTerjangkau:N0} ha");
-        SimulationAreaNote = "luas dengan peluang terbakar ≥ 10%";
-        LuasMungkin = string.Create(Id, $"±{luasMungkin:N0} ha");
-        LuasJangkauan = string.Create(Id, $"±{Hasil.LuasHa(Hasil.Jam, 0.10):N0} ha");
+        double luasAwal = Hasil.LuasHa(0, 0.10);
+        double tambahan = Math.Max(0, Hasil.LuasHa(Jam, 0.10) - luasAwal);
+        SimulationArea = string.Create(Id, $"{tambahan:N0} ha");
+        SimulationAreaNote = "tambahan area dengan peluang terjangkau ≥ 10%";
+        LuasMungkin = string.Create(Id, $"≈ {luasAwal:N0} ha");
+        LuasJangkauan = string.Create(Id, $"≈ {Hasil.LuasHa(Jam, 0.10):N0} ha");
 
-        var c = Hasil.Cuaca;
-        string dari = Geo.NamaArah(c.ArahAngin).ToLowerInvariant();
-        string ke = Geo.NamaArah(c.ArahAngin + 180).ToLowerInvariant();
-        // Udara sangat lembap dan angin lemah membuat peluang rambat di model jadi nol.
-        bool tidakMerambat = Hasil.LuasHa(Hasil.Jam, 0.10) <= Hasil.LuasHa(0, 0.10);
-
-        SimulationDescription = tidakMerambat
-            ? string.Create(Id,
-                $"Pada kelembapan {c.Kelembapan:0}% dan angin {c.KecepatanAngin:0.#} km/jam, model memperkirakan api tidak merambat keluar dari sel hotspot dalam {Hasil.Jam} jam. Luas di atas adalah luas sel hotspot itu sendiri.")
-            : Jam == 0
-            ? $"Kondisi awal: {Hasil.Klaster.Count} titik hotspot. Geser waktu untuk melihat perkiraan penyebaran."
-            : string.Create(Id,
-                $"Jika klaster ini kebakaran aktif, api cenderung merambat ke {ke} (angin {c.KecepatanAngin:0.#} km/jam dari {dari}, kelembapan {c.Kelembapan:0}%). Estimasi simulasi, bukan pengukuran.");
+        SimulationDescription = Jam == 0
+            ? "Kondisi awal. Bulatan adalah deteksi satelit; luas petak awal berasal dari ukuran grid."
+            : tambahan == 0
+                ? $"Model tidak memperkirakan perluasan di luar petak awal hingga t+{Jam} pada ambang 10%."
+                : $"Hingga t+{Jam}, model memperkirakan perluasan jika klaster ini merupakan kebakaran aktif.";
 
         GridBerubah?.Invoke();
     }

@@ -28,9 +28,14 @@
                     <!-- Digambar dari hasil simulasi: lihat PetaSimulasiView.axaml.cs. Atas = utara. -->
                     <Viewbox Stretch="Uniform"
                              Margin="24,84,24,96">
-                        <Canvas x:Name="GridKanvas"
-                                Width="900"
-                                Height="620"/>
+                        <Grid Width="900" Height="620" ClipToBounds="True">
+                            <Canvas x:Name="PetaKanvas" IsHitTestVisible="False"/>
+                            <Canvas x:Name="GridKanvas" Width="900" Height="620"/>
+                            <TextBlock x:Name="AtribusiPeta" Text="© OpenStreetMap contributors"
+                                       IsVisible="{Binding AdaHasil}" HorizontalAlignment="Right"
+                                       VerticalAlignment="Bottom" Background="#D0000000" Foreground="White"
+                                       Padding="5,2" FontSize="12"/>
+                        </Grid>
                     </Viewbox>
 
                     <!-- Arah dorongan angin: panah diputar sesuai data cuaca -->
@@ -83,9 +88,9 @@
                                 Margin="0,26,20,0"
                                 Spacing="14">
                         <StackPanel Orientation="Horizontal" Spacing="6"><Ellipse Width="10" Height="10" Fill="{StaticResource Tinggi}" Stroke="White" StrokeThickness="1.5" VerticalAlignment="Center"/><TextBlock Text="hotspot asli" Classes="redup" FontSize="11.5"/></StackPanel>
-                        <StackPanel Orientation="Horizontal" Spacing="6"><Border Width="11" Height="11" CornerRadius="2" Background="{StaticResource Aksen}" VerticalAlignment="Center"/><TextBlock Text="peluang ≥ 50%" Classes="redup" FontSize="11.5"/></StackPanel>
-                        <StackPanel Orientation="Horizontal" Spacing="6"><Border Width="11" Height="11" CornerRadius="2" Background="{StaticResource Nominal}" VerticalAlignment="Center"/><TextBlock Text="10–50%" Classes="redup" FontSize="11.5"/></StackPanel>
-                        <StackPanel Orientation="Horizontal" Spacing="6"><Border Width="11" Height="11" CornerRadius="2" BorderBrush="#66FFFFFF" BorderThickness="1" VerticalAlignment="Center"/><TextBlock Text="jangkauan t+6" Classes="redup" FontSize="11.5"/></StackPanel>
+                        <StackPanel Orientation="Horizontal" Spacing="6"><Border Width="11" Height="11" CornerRadius="2" Background="{StaticResource Aksen}" VerticalAlignment="Center"/><TextBlock Text="luas petak awal" Classes="redup" FontSize="11.5"/></StackPanel>
+                        <StackPanel Orientation="Horizontal" Spacing="6"><Border Width="11" Height="11" CornerRadius="2" Background="{StaticResource Nominal}" VerticalAlignment="Center"/><TextBlock Text="10–&lt;50%" Classes="redup" FontSize="11.5"/></StackPanel>
+                        <StackPanel Orientation="Horizontal" Spacing="6"><Border Width="11" Height="11" CornerRadius="2" BorderBrush="#66FFFFFF" BorderThickness="1" VerticalAlignment="Center"/><TextBlock Text="potensi hingga t+6" Classes="redup" FontSize="11.5"/></StackPanel>
                     </StackPanel>
 
                     <!-- Garis waktu: klik jam, atau putar otomatis -->
@@ -222,7 +227,7 @@
                                             Padding="12,10">
                                         <StackPanel Spacing="2">
                                             <TextBlock Text="{Binding LuasMungkin}" Classes="mono" FontSize="15" FontWeight="SemiBold" Foreground="{StaticResource Aksen}"/>
-                                            <TextBlock Text="peluang ≥ 50%" Classes="samar" FontSize="11.5"/>
+                                            <TextBlock Text="luas petak awal" Classes="samar" FontSize="11.5"/>
                                         </StackPanel>
                                     </Border>
                                     <Border Grid.Column="2"
@@ -231,7 +236,7 @@
                                             Padding="12,10">
                                         <StackPanel Spacing="2">
                                             <TextBlock Text="{Binding LuasJangkauan}" Classes="mono" FontSize="15" FontWeight="SemiBold" Foreground="{StaticResource Teks}"/>
-                                            <TextBlock Text="jangkauan t+6" Classes="samar" FontSize="11.5"/>
+                                            <TextBlock Text="total hingga jam ini" Classes="samar" FontSize="11.5"/>
                                         </StackPanel>
                                     </Border>
                                 </Grid>
