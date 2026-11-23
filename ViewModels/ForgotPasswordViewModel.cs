@@ -2,26 +2,23 @@ using System;
 
 namespace SiagaApi.ViewModels;
 
+// Halaman "Lupa kata sandi". Aplikasi tidak mengirim kata sandi lewat email:
+// pemulihan dilakukan admin posko dari panel akun (AutentikasiService.ResetKataSandiAsync),
+// jadi halaman ini hanya menjelaskan langkahnya.
 public class ForgotPasswordViewModel : ViewModelBase
 {
     private readonly Action _navigateToLogin;
 
-    private string _email = string.Empty;
-
-    public string Email
+    public LangkahPemulihan[] Langkah { get; } =
     {
-        get => _email;
-        set => SetProperty(ref _email, value);
-    }
+        new("1", "Hubungi admin posko dan sebutkan username Anda."),
+        new("2", "Admin membuka Pengaturan, tab Akun operator, lalu menekan Reset sandi pada akun Anda."),
+        new("3", "Masuk dengan kata sandi sementara yang diberikan admin."),
+        new("4", "Ganti kata sandi di Pengaturan, tab Keamanan.")
+    };
 
-    private string _statusMessage =
-        "Tautan pemulihan akan dikirim ke email yang terdaftar.";
-
-    public string StatusMessage
-    {
-        get => _statusMessage;
-        set => SetProperty(ref _statusMessage, value);
-    }
+    public string StatusMessage =>
+        "Lima kali salah kata sandi mengunci akun selama 5 menit. Reset oleh admin juga membuka kunci itu.";
 
     public ForgotPasswordViewModel(Action navigateToLogin)
     {
@@ -32,22 +29,6 @@ public class ForgotPasswordViewModel : ViewModelBase
     {
         _navigateToLogin();
     }
-
-    public void RequestReset()
-    {
-        if (string.IsNullOrWhiteSpace(Email))
-        {
-            StatusMessage = "Silakan masukkan alamat email terlebih dahulu.";
-            return;
-        }
-
-        if (!Email.Contains('@') || !Email.Contains('.'))
-        {
-            StatusMessage = "Format alamat email belum valid.";
-            return;
-        }
-
-        StatusMessage =
-            "Email berhasil divalidasi. Pengiriman tautan pemulihan akan aktif setelah API backend tersedia.";
-    }
 }
+
+public record LangkahPemulihan(string Nomor, string Teks);

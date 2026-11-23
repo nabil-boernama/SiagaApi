@@ -4,11 +4,18 @@
     <TargetFramework>net10.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ApplicationManifest>app.manifest</ApplicationManifest>
+    <!-- Ikon berkas SiagaApi.exe di Windows -->
+    <ApplicationIcon>Assets\siagaapi.ico</ApplicationIcon>
   </PropertyGroup>
 
   <ItemGroup>
     <Folder Include="Models\" />
     <AvaloniaResource Include="Assets\**" />
+  </ItemGroup>
+
+  <!-- Konfigurasi database lokal (tidak di-commit). Kalau ada, ikut disalin ke sebelah SiagaApi.exe. -->
+  <ItemGroup Condition="Exists('appsettings.json')">
+    <None Update="appsettings.json" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" ExcludeFromSingleFile="true" />
   </ItemGroup>
 
   <ItemGroup>

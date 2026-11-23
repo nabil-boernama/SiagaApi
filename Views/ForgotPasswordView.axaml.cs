@@ -11,23 +11,10 @@ public partial class ForgotPasswordView : UserControl
         InitializeComponent();
     }
 
-    private void SendResetLink_Click(
+    private void KembaliKeLogin_Click(
         object? sender,
         RoutedEventArgs e)
     {
-        if (DataContext is ForgotPasswordViewModel viewModel)
-        {
-            viewModel.RequestReset();
-        }
-    }
-
-    private void BackToLogin_Click(
-        object? sender,
-        Avalonia.Input.PointerPressedEventArgs e)
-    {
-        if (DataContext is ForgotPasswordViewModel viewModel)
-        {
-            viewModel.NavigateToLogin();
-        }
+        (DataContext as ForgotPasswordViewModel)?.NavigateToLogin();
     }
 }

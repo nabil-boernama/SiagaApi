@@ -1,290 +1,118 @@
 <UserControl
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:vm="using:SiagaApi.ViewModels"
+    xmlns:components="using:SiagaApi.Views.Components"
     x:Class="SiagaApi.Views.RegisterView"
-    Background="#14181B">
+    x:DataType="vm:RegisterViewModel"
+    Background="{StaticResource Latar}">
 
-    <UserControl.Resources>
-        <SolidColorBrush x:Key="BackgroundBrush" Color="#14181B"/>
-        <SolidColorBrush x:Key="PanelBrush" Color="#1C2329"/>
-        <SolidColorBrush x:Key="InputBrush" Color="#14181B"/>
-        <SolidColorBrush x:Key="BorderBrush" Color="#303A42"/>
-        <SolidColorBrush x:Key="AccentBrush" Color="#F15A24"/>
-        <SolidColorBrush x:Key="AccentHoverBrush" Color="#E64F1F"/>
-        <SolidColorBrush x:Key="AccentPressedBrush" Color="#D94C1C"/>
-        <SolidColorBrush x:Key="TextBrush" Color="#E5E9ED"/>
-        <SolidColorBrush x:Key="MutedBrush" Color="#95A2AD"/>
+    <Grid ColumnDefinitions="5*,4*">
 
-        <ControlTheme x:Key="PrimaryButtonTheme" TargetType="Button">
-            <Setter Property="Background" Value="#F15A24"/>
-            <Setter Property="Foreground" Value="#14181B"/>
-            <Setter Property="FontSize" Value="15"/>
-            <Setter Property="FontWeight" Value="Bold"/>
-            <Setter Property="Height" Value="46"/>
-            <Setter Property="Padding" Value="12,10"/>
-            <Setter Property="HorizontalAlignment" Value="Stretch"/>
-            <Setter Property="HorizontalContentAlignment" Value="Center"/>
-            <Setter Property="VerticalContentAlignment" Value="Center"/>
-            <Setter Property="BorderThickness" Value="0"/>
-            <Setter Property="Cursor" Value="Hand"/>
+        <components:PanelSampulView Grid.Column="0"/>
 
-            <Setter Property="Template">
-                <ControlTemplate>
-                    <Border Background="{TemplateBinding Background}"
-                            CornerRadius="7">
-                        <ContentPresenter
-                            Content="{TemplateBinding Content}"
-                            ContentTemplate="{TemplateBinding ContentTemplate}"
-                            HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                            VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-                            Margin="{TemplateBinding Padding}"/>
-                    </Border>
-                </ControlTemplate>
-            </Setter>
+        <Border Grid.Column="1"
+                BorderBrush="{StaticResource Garis}"
+                BorderThickness="1,0,0,0">
 
-            <Style Selector="^:pointerover">
-                <Setter Property="Background" Value="#E64F1F"/>
-            </Style>
+            <ScrollViewer VerticalScrollBarVisibility="Auto">
+                <StackPanel Width="420"
+                            Spacing="16"
+                            Margin="0,32"
+                            VerticalAlignment="Center">
 
-            <Style Selector="^:pressed">
-                <Setter Property="Background" Value="#D94C1C"/>
-            </Style>
-
-            <Style Selector="^:disabled">
-                <Setter Property="Background" Value="#713B2A"/>
-                <Setter Property="Foreground" Value="#95A2AD"/>
-            </Style>
-        </ControlTheme>
-    </UserControl.Resources>
-
-    <UserControl.Styles>
-        <Style Selector="TextBox">
-            <Setter Property="Height" Value="44"/>
-            <Setter Property="Padding" Value="12,10"/>
-            <Setter Property="FontSize" Value="14"/>
-            <Setter Property="Foreground" Value="#FFFFFF"/>
-            <Setter Property="Background" Value="#14181B"/>
-            <Setter Property="BorderBrush" Value="#303A42"/>
-            <Setter Property="BorderThickness" Value="1"/>
-            <Setter Property="CaretBrush" Value="#FFFFFF"/>
-            <Setter Property="SelectionBrush" Value="#805A3528"/>
-            <Setter Property="VerticalContentAlignment" Value="Center"/>
-        </Style>
-
-        <Style Selector="TextBox:pointerover">
-            <Setter Property="Background" Value="#14181B"/>
-            <Setter Property="Foreground" Value="#FFFFFF"/>
-            <Setter Property="BorderBrush" Value="#667681"/>
-        </Style>
-
-        <Style Selector="TextBox:focus">
-            <Setter Property="Background" Value="#14181B"/>
-            <Setter Property="Foreground" Value="#FFFFFF"/>
-            <Setter Property="BorderBrush" Value="#95A2AD"/>
-            <Setter Property="BorderThickness" Value="1.5"/>
-        </Style>
-
-        <Style Selector="TextBox /template/ Border#PART_BorderElement">
-            <Setter Property="Background" Value="#14181B"/>
-            <Setter Property="BorderBrush" Value="#303A42"/>
-        </Style>
-
-        <Style Selector="TextBox:pointerover /template/ Border#PART_BorderElement">
-            <Setter Property="Background" Value="#14181B"/>
-            <Setter Property="BorderBrush" Value="#667681"/>
-        </Style>
-
-        <Style Selector="TextBox:focus /template/ Border#PART_BorderElement">
-            <Setter Property="Background" Value="#14181B"/>
-            <Setter Property="BorderBrush" Value="#95A2AD"/>
-        </Style>
-
-        <Style Selector="TextBlock.login-link">
-            <Setter Property="Foreground" Value="{StaticResource AccentBrush}"/>
-            <Setter Property="FontSize" Value="14"/>
-            <Setter Property="FontWeight" Value="Bold"/>
-            <Setter Property="Cursor" Value="Hand"/>
-        </Style>
-
-        <Style Selector="TextBlock.login-link:pointerover">
-            <Setter Property="Foreground" Value="{StaticResource AccentHoverBrush}"/>
-            <Setter Property="TextDecorations" Value="Underline"/>
-        </Style>
-    </UserControl.Styles>
-
-    <Grid ColumnDefinitions="1*,1*">
-
-        <!-- LEFT BRANDING PANEL -->
-        <Border Grid.Column="0"
-                Background="#1C2329"
-                Padding="52,65,65,40">
-
-            <Grid RowDefinitions="Auto,*,Auto">
-
-                <StackPanel Spacing="0">
-                    <TextBlock Text="SiagaApi"
-                               FontSize="32"
-                               FontWeight="Bold"
-                               Foreground="{StaticResource AccentBrush}"
-                               Margin="0,0,0,30"/>
-
-                    <TextBlock Text="Dari sinyal satelit&#10;menuju keputusan."
-                               FontSize="38"
-                               FontWeight="Bold"
-                               Foreground="{StaticResource TextBrush}"
-                               TextWrapping="Wrap"
-                               LineHeight="46"
-                               Margin="0,0,0,24"/>
-
-                    <TextBlock Text="Pusat pemantauan karhutla untuk operator posko: hotspot, prediksi arah rambat, dan peringatan ke warga."
-                               FontSize="17"
-                               Foreground="{StaticResource MutedBrush}"
-                               TextWrapping="Wrap"
-                               LineHeight="27"
-                               Margin="0,0,0,28"/>
-
-                    <StackPanel Spacing="20">
-                        <StackPanel Orientation="Horizontal" Spacing="12">
-                            <TextBlock Text="●" Foreground="{StaticResource AccentBrush}" FontSize="16"/>
-                            <TextBlock Text="Prediksi arah rambat api"
-                                       Foreground="{StaticResource TextBrush}" FontSize="16"/>
-                        </StackPanel>
-
-                        <StackPanel Orientation="Horizontal" Spacing="12">
-                            <TextBlock Text="●" Foreground="{StaticResource AccentBrush}" FontSize="16"/>
-                            <TextBlock Text="Peringatan email ke warga terdampak"
-                                       Foreground="{StaticResource TextBrush}" FontSize="16"/>
-                        </StackPanel>
-
-                        <StackPanel Orientation="Horizontal" Spacing="12">
-                            <TextBlock Text="●" Foreground="{StaticResource AccentBrush}" FontSize="16"/>
-                            <TextBlock Text="Verifikasi lewat laporan lapangan"
-                                       Foreground="{StaticResource TextBrush}" FontSize="16"/>
-                        </StackPanel>
-                    </StackPanel>
-                </StackPanel>
-
-                <TextBlock Grid.Row="2"
-                           Text="Hotspot adalah indikasi anomali panas, bukan kebakaran terverifikasi."
-                           FontSize="14"
-                           Foreground="{StaticResource MutedBrush}"
-                           TextWrapping="Wrap"/>
-            </Grid>
-        </Border>
-
-        <!-- RIGHT REGISTRATION PANEL -->
-        <Grid Grid.Column="1"
-              Background="{StaticResource BackgroundBrush}">
-
-            <ScrollViewer VerticalScrollBarVisibility="Auto"
-                          HorizontalScrollBarVisibility="Disabled">
-
-                <Border Width="455"
-                        MaxWidth="455"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Center"
-                        Background="{StaticResource PanelBrush}"
-                        BorderBrush="{StaticResource BorderBrush}"
-                        BorderThickness="1"
-                        CornerRadius="12"
-                        Padding="30"
-                        Margin="24">
-
-                    <StackPanel Spacing="0">
-
-                        <TextBlock Text="DAFTAR AKUN OPERATOR"
-                                   FontSize="13"
-                                   FontWeight="Bold"
-                                   Foreground="{StaticResource MutedBrush}"
-                                   Margin="0,0,0,10"/>
-
-                        <TextBlock Text="Buat akun baru"
-                                   FontSize="25"
-                                   FontWeight="Bold"
-                                   Foreground="{StaticResource TextBrush}"
-                                   Margin="0,0,0,5"/>
-
-                        <TextBlock Text="Akun aktif setelah disetujui admin posko."
+                    <StackPanel Spacing="4"
+                                Margin="0,0,0,4">
+                        <TextBlock Text="Buat akun operator"
+                                   FontSize="30"
+                                   FontWeight="SemiBold"
+                                   Foreground="{StaticResource Teks}"/>
+                        <TextBlock Text="Butuh kode undangan dari admin posko. Akun aktif setelah disetujui admin."
                                    FontSize="14"
-                                   Foreground="{StaticResource MutedBrush}"
                                    TextWrapping="Wrap"
-                                   Margin="0,0,0,22"/>
-
-                        <!-- FULL NAME -->
-                        <TextBlock Text="Nama lengkap"
-                                   FontSize="14"
-                                   Foreground="{StaticResource MutedBrush}"
-                                   Margin="0,0,0,7"/>
-                        <TextBox x:Name="FullNameTextBox"
-                                 Margin="0,0,0,16"/>
-
-                        <!-- USERNAME -->
-                        <TextBlock Text="Username"
-                                   FontSize="14"
-                                   Foreground="{StaticResource MutedBrush}"
-                                   Margin="0,0,0,7"/>
-                        <TextBox x:Name="UsernameTextBox"
-                                 Margin="0,0,0,16"/>
-
-                        <!-- EMAIL -->
-                        <TextBlock Text="Email"
-                                   FontSize="14"
-                                   Foreground="{StaticResource MutedBrush}"
-                                   Margin="0,0,0,7"/>
-                        <TextBox x:Name="EmailTextBox"
-                                 Margin="0,0,0,16"/>
-
-                        <!-- PASSWORD -->
-                        <TextBlock Text="Kata sandi"
-                                   FontSize="14"
-                                   Foreground="{StaticResource MutedBrush}"
-                                   Margin="0,0,0,7"/>
-                        <TextBox x:Name="PasswordTextBox"
-                                 PasswordChar="●"
-                                 Margin="0,0,0,5"/>
-
-                        <TextBlock Text="Minimal 8 karakter"
-                                   FontSize="12"
-                                   Foreground="{StaticResource MutedBrush}"
-                                   Margin="0,0,0,16"/>
-
-                        <!-- CONFIRM PASSWORD -->
-                        <TextBlock Text="Konfirmasi kata sandi"
-                                   FontSize="14"
-                                   Foreground="{StaticResource MutedBrush}"
-                                   Margin="0,0,0,7"/>
-                        <TextBox x:Name="ConfirmPasswordTextBox"
-                                 PasswordChar="●"
-                                 Margin="0,0,0,16"/>
-
-                        <!-- INVITATION CODE -->
-                        <TextBlock Text="Kode undangan posko"
-                                   FontSize="14"
-                                   Foreground="{StaticResource MutedBrush}"
-                                   Margin="0,0,0,7"/>
-                        <TextBox x:Name="InvitationCodeTextBox"
-                                 Margin="0,0,0,20"/>
-
-                        <Button Theme="{StaticResource PrimaryButtonTheme}"
-                                Content="Buat akun"
-                                Margin="0,0,0,18"/>
-
-                        <StackPanel Orientation="Horizontal"
-                                    HorizontalAlignment="Center"
-                                    Spacing="5">
-                            <TextBlock Text="Sudah punya akun?"
-                                       FontSize="14"
-                                       Foreground="{StaticResource MutedBrush}"/>
-                            <TextBlock
-                                x:Name="LoginLink"
-                                Text="Masuk"
-                                Classes="login-link"
-                                Cursor="Hand"/>
-                        </StackPanel>
-
+                                   Classes="redup"/>
                     </StackPanel>
-                </Border>
+
+                    <StackPanel Spacing="6">
+                        <TextBlock Text="Nama lengkap"
+                                   Classes="medan"/>
+                        <TextBox x:Name="FullNameTextBox"/>
+                    </StackPanel>
+
+                    <Grid ColumnDefinitions="*,12,*">
+                        <StackPanel Spacing="6">
+                            <TextBlock Text="Username"
+                                       Classes="medan"/>
+                            <TextBox x:Name="UsernameTextBox"/>
+                        </StackPanel>
+                        <StackPanel Grid.Column="2"
+                                    Spacing="6">
+                            <TextBlock Text="Email"
+                                       Classes="medan"/>
+                            <TextBox x:Name="EmailTextBox"/>
+                        </StackPanel>
+                    </Grid>
+
+                    <Grid ColumnDefinitions="*,12,*">
+                        <StackPanel Spacing="6">
+                            <TextBlock Text="Kata sandi (min. 8 karakter)"
+                                       Classes="medan"/>
+                            <TextBox x:Name="PasswordTextBox"
+                                     PasswordChar="●"/>
+                        </StackPanel>
+                        <StackPanel Grid.Column="2"
+                                    Spacing="6">
+                            <TextBlock Text="Ulangi kata sandi"
+                                       Classes="medan"/>
+                            <TextBox x:Name="ConfirmPasswordTextBox"
+                                     PasswordChar="●"/>
+                        </StackPanel>
+                    </Grid>
+
+                    <StackPanel Spacing="6">
+                        <TextBlock Text="Kode undangan posko"
+                                   Classes="medan"/>
+                        <TextBox x:Name="InvitationCodeTextBox"
+                                 FontFamily="{StaticResource HurufMono}"
+                                 PlaceholderText="XXXX-XXXX"/>
+                    </StackPanel>
+
+                    <!-- Pesan hasil pendaftaran -->
+                    <TextBlock Text="{Binding Message}"
+                               IsVisible="{Binding Message, Converter={x:Static StringConverters.IsNotNullOrEmpty}}"
+                               Foreground="{Binding MessageForeground}"
+                               FontSize="13"
+                               TextWrapping="Wrap"/>
+
+                    <Button Content="Buat akun"
+                            Theme="{StaticResource TombolUtama}"
+                            Height="48"
+                            FontSize="15"
+                            HorizontalAlignment="Stretch"
+                            IsEnabled="{Binding !IsBusy}"
+                            Click="CreateAccount_Click"/>
+
+                    <StackPanel Orientation="Horizontal"
+                                HorizontalAlignment="Center"
+                                Spacing="2">
+                        <TextBlock Text="Sudah punya akun?"
+                                   FontSize="13"
+                                   Classes="redup"
+                                   VerticalAlignment="Center"/>
+                        <Button x:Name="LoginLink"
+                                Theme="{StaticResource TombolSenyap}"
+                                Padding="5,2"
+                                Click="Login_Click">
+                            <TextBlock Text="Masuk"
+                                       FontSize="13"
+                                       FontWeight="SemiBold"
+                                       Foreground="{StaticResource Aksen}"/>
+                        </Button>
+                    </StackPanel>
+
+                </StackPanel>
             </ScrollViewer>
-        </Grid>
+        </Border>
     </Grid>
+
 </UserControl>

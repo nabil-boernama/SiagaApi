@@ -1,0 +1,61 @@
+<UserControl
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    x:Class="SiagaApi.Views.Components.BilahAtasView"
+    x:Name="Akar"
+    Height="60"
+    Loaded="BilahAtas_Loaded"
+    Unloaded="BilahAtas_Unloaded">
+
+    <!-- Bilah atas tiap halaman: judul, provinsi posko, status sumber data,
+         dan (opsional) satu aksi utama halaman lewat properti Aksi. -->
+    <Border BorderBrush="{StaticResource Garis}"
+            BorderThickness="0,0,0,1"
+            Padding="24,0,20,0">
+
+        <Grid ColumnDefinitions="Auto,*,Auto">
+
+            <StackPanel Orientation="Horizontal"
+                        Spacing="14"
+                        VerticalAlignment="Center">
+
+                <TextBlock Text="{Binding #Akar.Judul}"
+                           FontSize="18"
+                           FontWeight="SemiBold"
+                           Foreground="{StaticResource Teks}"
+                           VerticalAlignment="Center"/>
+
+                <Border x:Name="KotakProvinsi"
+                        BorderBrush="{StaticResource Garis}"
+                        BorderThickness="1"
+                        CornerRadius="6"
+                        Padding="12,6"
+                        VerticalAlignment="Center"
+                        ToolTip.Tip="Provinsi posko. Diubah admin di Pengaturan.">
+                    <TextBlock x:Name="ProvinsiText"
+                               FontSize="13"
+                               Foreground="{StaticResource Teks2}"/>
+                </Border>
+
+            </StackPanel>
+
+            <StackPanel Grid.Column="2"
+                        Orientation="Horizontal"
+                        Spacing="18"
+                        VerticalAlignment="Center">
+
+                <!-- Diisi dari StatusSumber di BilahAtasView.axaml.cs -->
+                <StackPanel x:Name="StatusPanel"
+                            Orientation="Horizontal"
+                            Spacing="18"
+                            VerticalAlignment="Center"/>
+
+                <ContentPresenter Content="{Binding #Akar.Aksi}"
+                                  VerticalAlignment="Center"/>
+
+            </StackPanel>
+
+        </Grid>
+    </Border>
+
+</UserControl>

@@ -6,12 +6,14 @@
     x:Class="SiagaApi.Views.MainWindow"
     x:DataType="vm:MainViewModel"
     Title="SiagaApi"
-    Width="1280"
-    Height="850"
-    MinWidth="950"
-    MinHeight="700"
+    Width="1440"
+    Height="900"
+    MinWidth="1180"
+    MinHeight="720"
     WindowStartupLocation="CenterScreen"
-    Background="#14181B">
+    Icon="/Assets/siagaapi.ico"
+    FontFamily="{StaticResource HurufUi}"
+    Background="{StaticResource Latar}">
 
     <Window.DataTemplates>
         <local:ViewLocator/>

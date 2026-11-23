@@ -9,43 +9,39 @@ public partial class LoginView : UserControl
     public LoginView()
     {
         InitializeComponent();
-
-        DataContextChanged += (_, _) =>
-        {
-            if (DataContext is LoginViewModel viewModel)
-            {
-                RegisterLink.PointerPressed += (_, _) =>
-                {
-                    viewModel.NavigateToRegister();
-                };
-            }
-        };
     }
 
-    private void PreviewDashboard_Click(
+    private async void LoginButton_Click(
         object? sender,
         RoutedEventArgs e)
     {
-        if (DataContext is LoginViewModel viewModel)
-        {
-            viewModel.NavigateToDashboard();
-        }
+        if (DataContext is not LoginViewModel viewModel)
+            return;
+
+        // Kegagalan (sandi salah, database mati) ditangani di dalam MasukAsync
+        // dan tampil lewat Message, jadi tidak ada exception yang lolos ke sini.
+        bool berhasil = await viewModel.MasukAsync(
+            UsernameTextBox.Text ?? "",
+            PasswordTextBox.Text ?? "",
+            RememberMeCheckBox.IsChecked == true);
+
+        if (!berhasil)
+            PasswordTextBox.Text = "";
     }
 
-    private void LoginButton_Click(
-        object? sender,
-        RoutedEventArgs e)
+    private void LihatSandi_Click(object? sender, RoutedEventArgs e)
     {
-        // Autentikasi akan diimplementasikan nanti.
+        PasswordTextBox.RevealPassword = !PasswordTextBox.RevealPassword;
+        IkonLihatSandi.Nama = PasswordTextBox.RevealPassword ? "eye-off" : "eye";
     }
 
-    private void ForgotPassword_Click(
-    object? sender,
-    Avalonia.Input.PointerPressedEventArgs e)
-{
-    if (DataContext is LoginViewModel viewModel)
+    private void Register_Click(object? sender, RoutedEventArgs e)
     {
-        viewModel.NavigateToForgotPassword();
+        (DataContext as LoginViewModel)?.NavigateToRegister();
     }
-}
+
+    private void ForgotPassword_Click(object? sender, RoutedEventArgs e)
+    {
+        (DataContext as LoginViewModel)?.NavigateToForgotPassword();
+    }
 }

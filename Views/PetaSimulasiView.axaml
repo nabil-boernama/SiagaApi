@@ -3,504 +3,266 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:vm="using:SiagaApi.ViewModels"
     xmlns:components="using:SiagaApi.Views.Components"
-    xmlns:primitives="using:Avalonia.Controls.Primitives"
-    xmlns:controls="using:Avalonia.Controls"
     x:Class="SiagaApi.Views.PetaSimulasiView"
     x:DataType="vm:PetaSimulasiViewModel"
-    Background="#14181B">
+    Background="{StaticResource Latar}">
 
-    <UserControl.Resources>
-
-        <!-- BUTTON THEME -->
-        <ControlTheme x:Key="SimulationButtonTheme"
-                      TargetType="Button">
-
-            <Setter Property="Background" Value="#F15A24"/>
-            <Setter Property="Foreground" Value="#14181B"/>
-            <Setter Property="BorderThickness" Value="0"/>
-            <Setter Property="Cursor" Value="Hand"/>
-
-            <Setter Property="Template">
-                <ControlTemplate>
-                    <Border Background="{TemplateBinding Background}"
-                            CornerRadius="7">
-                        <ContentPresenter
-                            Content="{TemplateBinding Content}"
-                            ContentTemplate="{TemplateBinding ContentTemplate}"
-                            HorizontalAlignment="Center"
-                            VerticalAlignment="Center"
-                            Margin="{TemplateBinding Padding}"/>
-                    </Border>
-                </ControlTemplate>
-            </Setter>
-
-            <Style Selector="^:pointerover">
-                <Setter Property="Background" Value="#E64F1F"/>
-                <Setter Property="Foreground" Value="#14181B"/>
-            </Style>
-
-            <Style Selector="^:pressed">
-                <Setter Property="Background" Value="#D94C1C"/>
-            </Style>
-
-            <Style Selector="^:disabled">
-                <Setter Property="Background" Value="#713B2A"/>
-                <Setter Property="Foreground" Value="#95A2AD"/>
-            </Style>
-
-        </ControlTheme>
-
-    </UserControl.Resources>
-
-
-    <!-- ROOT -->
-    <Grid ColumnDefinitions="260,*">
+    <Grid ColumnDefinitions="Auto,*">
 
         <components:SidebarView Grid.Column="0"/>
 
         <Grid Grid.Column="1"
-              Margin="38,34,38,30"
               RowDefinitions="Auto,*">
 
-            <!-- HEADER -->
-            <StackPanel Grid.Row="0"
-                        Spacing="3"
-                        Margin="0,0,0,22">
+            <components:BilahAtasView Grid.Row="0"
+                                      Judul="Simulasi penyebaran"/>
 
-                <TextBlock
-                    Text="Simulasi penyebaran — Klaster Rumbai"
-                    FontSize="28"
-                    FontWeight="Bold"
-                    Foreground="#E5E9ED"/>
-
-                <TextBlock
-                    Text="47 titik · skenario hipotetis yang dipicu operator, 50 kali simulasi · sel 375 m"
-                    FontSize="14"
-                    Foreground="#95A2AD"/>
-
-            </StackPanel>
-
-
-            <!-- CONTENT -->
             <Grid Grid.Row="1"
-                  ColumnDefinitions="2.65*,0.95*"
-                  ColumnSpacing="22">
+                  ColumnDefinitions="*,368">
 
-
-                <!-- MAP -->
+                <!-- ================= PETA PELUANG ================= -->
                 <Grid Grid.Column="0"
-                      RowDefinitions="*,Auto"
-                      RowSpacing="12">
+                      ClipToBounds="True"
+                      Background="#0E1513">
 
-                    <Border Grid.Row="0"
-                            Background="#1C2329"
-                            BorderBrush="#303A42"
-                            BorderThickness="1"
-                            CornerRadius="12"
-                            Padding="15">
+                    <!-- Digambar dari hasil simulasi: lihat PetaSimulasiView.axaml.cs. Atas = utara. -->
+                    <Viewbox Stretch="Uniform"
+                             Margin="24,84,24,96">
+                        <Canvas x:Name="GridKanvas"
+                                Width="900"
+                                Height="620"/>
+                    </Viewbox>
 
-                        <Border Background="#1B2D23"
+                    <!-- Arah dorongan angin: panah diputar sesuai data cuaca -->
+                    <StackPanel HorizontalAlignment="Left"
+                                VerticalAlignment="Top"
+                                Margin="16"
+                                Spacing="8">
+
+                        <Border IsVisible="{Binding AdaHasil}"
+                                Background="{StaticResource PanelApung}"
+                                BorderBrush="{StaticResource Garis}"
+                                BorderThickness="1"
                                 CornerRadius="8"
-                                ClipToBounds="True">
-
-                            <Viewbox Stretch="Uniform">
-
-                                <Canvas Width="760" Height="580">
-
-                                    <!-- GRID -->
-                                    <Path
-                                        Data="M 0,48 L 760,48 M 0,96 L 760,96 M 0,144 L 760,144 M 0,192 L 760,192 M 0,240 L 760,240 M 0,288 L 760,288 M 0,336 L 760,336 M 0,384 L 760,384 M 0,432 L 760,432 M 0,480 L 760,480 M 0,528 L 760,528 M 48,0 L 48,580 M 96,0 L 96,580 M 144,0 L 144,580 M 192,0 L 192,580 M 240,0 L 240,580 M 288,0 L 288,580 M 336,0 L 336,580 M 384,0 L 384,580 M 432,0 L 432,580 M 480,0 L 480,580 M 528,0 L 528,580 M 576,0 L 576,580 M 624,0 L 624,580 M 672,0 L 672,580 M 720,0 L 720,580"
-                                        Stroke="#FFFFFF"
-                                        StrokeThickness="0.7"
-                                        Opacity="0.055"/>
-
-                                    <!-- RIVER -->
-                                    <Path
-                                        Data="M -20,420 C 100,385 175,445 280,480 C 400,535 540,560 780,520"
-                                        Stroke="#397BB8"
-                                        StrokeThickness="15"
-                                        Fill="Transparent"/>
-
-                                    <!-- T+6 AREA -->
-                                    <Path
-                                        Data="M 180,355 C 160,265 245,150 365,115 C 465,85 535,120 535,195 C 540,280 455,360 350,410 C 265,450 195,425 180,355 Z"
-                                        Fill="#E5A72B"
-                                        Opacity="0.13"
-                                        Stroke="#E5A72B"
-                                        StrokeThickness="2"
-                                        StrokeDashArray="5,5"/>
-
-                                    <!-- T+3 AREA -->
-                                    <Path
-                                        Data="M 215,340 C 200,285 260,220 335,205 C 410,185 465,210 450,270 C 435,330 365,375 290,370 C 245,368 225,360 215,340 Z"
-                                        Fill="#E5A72B"
-                                        Opacity="0.32"
-                                        Stroke="#F4C65E"
-                                        StrokeThickness="2.5"/>
-
-                                    <!-- T+1 AREA -->
-                                    <Path
-                                        Data="M 235,345 C 225,315 260,280 300,270 C 340,258 365,278 355,310 C 345,340 305,360 270,365 C 250,365 240,358 235,345 Z"
-                                        Fill="#E46C37"
-                                        Opacity="0.75"
-                                        Stroke="#F2A17D"
-                                        StrokeThickness="1.5"/>
-
-                                    <!-- HOTSPOTS -->
-                                    <Ellipse Canvas.Left="240" Canvas.Top="330"
-                                             Width="14" Height="14"
-                                             Fill="#E7462D"
-                                             Stroke="#14181B"
-                                             StrokeThickness="2"/>
-
-                                    <Ellipse Canvas.Left="250" Canvas.Top="315"
-                                             Width="14" Height="14"
-                                             Fill="#E7462D"
-                                             Stroke="#14181B"
-                                             StrokeThickness="2"/>
-
-                                    <Ellipse Canvas.Left="265" Canvas.Top="300"
-                                             Width="14" Height="14"
-                                             Fill="#E7462D"
-                                             Stroke="#14181B"
-                                             StrokeThickness="2"/>
-
-                                    <Ellipse Canvas.Left="290" Canvas.Top="285"
-                                             Width="14" Height="14"
-                                             Fill="#E7462D"
-                                             Stroke="#14181B"
-                                             StrokeThickness="2"/>
-
-                                    <!-- TIME LABELS -->
-                                    <Border Canvas.Left="340" Canvas.Top="335"
-                                            Background="#14181B"
-                                            CornerRadius="5"
-                                            Padding="8,4">
-                                        <TextBlock Text="t+1"
-                                                   FontSize="12"
-                                                   Foreground="#E5E9ED"/>
-                                    </Border>
-
-                                    <Border Canvas.Left="440" Canvas.Top="270"
-                                            Background="#14181B"
-                                            CornerRadius="5"
-                                            Padding="8,4">
-                                        <TextBlock Text="t+3"
-                                                   FontSize="12"
-                                                   Foreground="#E5E9ED"/>
-                                    </Border>
-
-                                    <Border Canvas.Left="535" Canvas.Top="125"
-                                            Background="#14181B"
-                                            CornerRadius="5"
-                                            Padding="8,4">
-                                        <TextBlock Text="t+6"
-                                                   FontSize="12"
-                                                   Foreground="#E5E9ED"/>
-                                    </Border>
-
-                                    <!-- DESTINATION -->
-                                    <Rectangle Canvas.Left="525" Canvas.Top="168"
-                                               Width="13" Height="13"
-                                               Fill="#E5E9ED"
-                                               Stroke="#14181B"
-                                               StrokeThickness="1"/>
-
-                                    <Border Canvas.Left="545" Canvas.Top="160"
-                                            Background="#14181B"
-                                            CornerRadius="5"
-                                            Padding="8,5">
-                                        <TextBlock Text="Desa Palas ±4 km"
-                                                   FontSize="12"
-                                                   Foreground="#E5E9ED"/>
-                                    </Border>
-
-                                    <!-- WIND -->
-                                    <Border Canvas.Left="12" Canvas.Top="12"
-                                            Background="#14181B"
-                                            CornerRadius="7"
-                                            Padding="12,7">
-                                        <TextBlock
-                                            Text="Angin barat daya → timur laut · 18 km/j"
-                                            FontSize="13"
-                                            Foreground="#E5E9ED"/>
-                                    </Border>
-
-                                    <!-- SCALE -->
-                                    <StackPanel Canvas.Left="620"
-                                                Canvas.Top="535"
-                                                Spacing="3">
-                                        <TextBlock Text="≈ 2 km"
-                                                   FontSize="11"
-                                                   Foreground="#E5E9ED"/>
-                                        <Border Width="90"
-                                                Height="2"
-                                                Background="#E5E9ED"/>
-                                    </StackPanel>
-
-                                </Canvas>
-                            </Viewbox>
-
+                                Padding="12,9,14,9"
+                                HorizontalAlignment="Left">
+                            <StackPanel Orientation="Horizontal"
+                                        Spacing="10">
+                                <components:Ikon x:Name="PanahAngin"
+                                                 Nama="arrow-up"
+                                                 Ukuran="18"
+                                                 Warna="{StaticResource Teks}"/>
+                                <TextBlock Text="{Binding AnginRingkas}"
+                                           FontSize="13"
+                                           FontWeight="Medium"
+                                           Foreground="{StaticResource Teks}"
+                                           VerticalAlignment="Center"/>
+                            </StackPanel>
                         </Border>
+
+                        <!-- Belum ada hotspot, belum ada cuaca, atau simulasi gagal -->
+                        <Border IsVisible="{Binding Message, Converter={x:Static StringConverters.IsNotNullOrEmpty}}"
+                                Background="{StaticResource PanelApung}"
+                                BorderBrush="{StaticResource Garis}"
+                                BorderThickness="1"
+                                CornerRadius="8"
+                                Padding="12,8"
+                                MaxWidth="560"
+                                HorizontalAlignment="Left">
+                            <TextBlock Text="{Binding Message}"
+                                       Foreground="{Binding MessageForeground}"
+                                       FontSize="12.5"
+                                       TextWrapping="Wrap"/>
+                        </Border>
+
+                    </StackPanel>
+
+                    <StackPanel Orientation="Horizontal"
+                                HorizontalAlignment="Right"
+                                VerticalAlignment="Top"
+                                Margin="0,26,20,0"
+                                Spacing="14">
+                        <StackPanel Orientation="Horizontal" Spacing="6"><Ellipse Width="10" Height="10" Fill="{StaticResource Tinggi}" Stroke="White" StrokeThickness="1.5" VerticalAlignment="Center"/><TextBlock Text="hotspot asli" Classes="redup" FontSize="11.5"/></StackPanel>
+                        <StackPanel Orientation="Horizontal" Spacing="6"><Border Width="11" Height="11" CornerRadius="2" Background="{StaticResource Aksen}" VerticalAlignment="Center"/><TextBlock Text="peluang ≥ 50%" Classes="redup" FontSize="11.5"/></StackPanel>
+                        <StackPanel Orientation="Horizontal" Spacing="6"><Border Width="11" Height="11" CornerRadius="2" Background="{StaticResource Nominal}" VerticalAlignment="Center"/><TextBlock Text="10–50%" Classes="redup" FontSize="11.5"/></StackPanel>
+                        <StackPanel Orientation="Horizontal" Spacing="6"><Border Width="11" Height="11" CornerRadius="2" BorderBrush="#66FFFFFF" BorderThickness="1" VerticalAlignment="Center"/><TextBlock Text="jangkauan t+6" Classes="redup" FontSize="11.5"/></StackPanel>
+                    </StackPanel>
+
+                    <!-- Garis waktu: klik jam, atau putar otomatis -->
+                    <Border HorizontalAlignment="Center"
+                            VerticalAlignment="Bottom"
+                            Margin="0,0,0,18"
+                            Width="660"
+                            Background="{StaticResource PanelApung}"
+                            BorderBrush="{StaticResource Garis}"
+                            BorderThickness="1"
+                            CornerRadius="10"
+                            Padding="10,8,18,8">
+                        <Grid ColumnDefinitions="Auto,*,Auto">
+                            <Button x:Name="TombolPutar"
+                                    Theme="{StaticResource TombolSenyap}"
+                                    Width="36"
+                                    Height="36"
+                                    Padding="0"
+                                    CornerRadius="18"
+                                    Background="{StaticResource Permukaan2}"
+                                    ToolTip.Tip="Putar dari t+0 sampai t+6"
+                                    Click="Putar_Click">
+                                <components:Ikon x:Name="IkonPutar"
+                                                 Nama="play"
+                                                 Ukuran="16"
+                                                 Warna="{StaticResource Teks}"/>
+                            </Button>
+                            <!-- Tujuh tombol jam dibuat di PetaSimulasiView.axaml.cs -->
+                            <UniformGrid x:Name="Langkah"
+                                         Grid.Column="1"
+                                         Rows="1"
+                                         Margin="10,0"/>
+                            <TextBlock Grid.Column="2"
+                                       Text="jam"
+                                       Classes="samar"
+                                       FontSize="11.5"
+                                       VerticalAlignment="Center"/>
+                        </Grid>
                     </Border>
-
-
-                    <!-- LEGEND -->
-                    <WrapPanel Grid.Row="1"
-                               Orientation="Horizontal"
-                               VerticalAlignment="Center">
-
-                        <TextBlock Text="● Hotspot asli"
-                                   Foreground="#95A2AD"
-                                   FontSize="12"
-                                   Margin="0,0,18,0"/>
-
-                        <TextBlock Text="Oranye: peluang tinggi (t+1)"
-                                   Foreground="#95A2AD"
-                                   FontSize="12"
-                                   Margin="0,0,18,0"/>
-
-                        <TextBlock Text="Kuning: peluang sedang (t+3)"
-                                   Foreground="#95A2AD"
-                                   FontSize="12"
-                                   Margin="0,0,18,0"/>
-
-                        <TextBlock Text="Garis putus: jangkauan t+6"
-                                   Foreground="#95A2AD"
-                                   FontSize="12"
-                                   Margin="0,0,18,0"/>
-
-                        <TextBlock Text="Biru: sungai / sekat"
-                                   Foreground="#95A2AD"
-                                   FontSize="12"/>
-
-                    </WrapPanel>
 
                 </Grid>
 
+                <!-- ================= PANEL: klaster, cuaca, hasil ================= -->
+                <Border Grid.Column="1"
+                        Background="{StaticResource Permukaan}"
+                        BorderBrush="{StaticResource Garis}"
+                        BorderThickness="1,0,0,0">
 
-                <!-- RIGHT PANEL -->
-                <Grid Grid.Column="1"
-                      RowDefinitions="Auto,Auto,*"
-                      RowSpacing="16">
+                    <Grid RowDefinitions="Auto,Auto,*,Auto">
 
+                        <Border Grid.Row="0"
+                                BorderBrush="{StaticResource Garis}"
+                                BorderThickness="0,0,0,1"
+                                Padding="22,20,22,18">
+                            <StackPanel Spacing="10">
+                                <TextBlock Text="KLASTER YANG DISIMULASIKAN"
+                                           Classes="label"/>
+                                <ComboBox x:Name="PilihanKabupaten"
+                                          ItemsSource="{Binding WilayahList}"
+                                          SelectedItem="{Binding SelectedWilayah, Mode=TwoWay}"
+                                          IsEnabled="{Binding !IsBusy}"
+                                          MinHeight="46"
+                                          FontSize="14"
+                                          Background="{StaticResource Permukaan2}"/>
+                                <TextBlock Text="{Binding HeaderSubtitle}"
+                                           Classes="samar"
+                                           TextWrapping="Wrap"/>
+                            </StackPanel>
+                        </Border>
 
-                    <!-- TIME CONTROL -->
-                    <Border Grid.Row="0"
-                            Background="#1C2329"
-                            BorderBrush="#303A42"
-                            BorderThickness="1"
-                            CornerRadius="11"
-                            Padding="18">
+                        <Border Grid.Row="1"
+                                BorderBrush="{StaticResource Garis}"
+                                BorderThickness="0,0,0,1"
+                                Padding="22,16">
+                            <StackPanel Spacing="12">
+                                <TextBlock Text="CUACA DI LOKASI"
+                                           Classes="label"/>
+                                <Grid ColumnDefinitions="*,*"
+                                      RowDefinitions="Auto,Auto"
+                                      RowSpacing="12">
+                                    <StackPanel Orientation="Horizontal" Spacing="10">
+                                        <components:Ikon Nama="wind" Ukuran="17" Warna="{StaticResource Teks3}"/>
+                                        <StackPanel Spacing="1">
+                                            <TextBlock Text="{Binding WindSpeedText}" Classes="mono" FontSize="14.5" FontWeight="SemiBold" Foreground="{StaticResource Teks}"/>
+                                            <TextBlock Text="angin" Classes="samar" FontSize="11.5"/>
+                                        </StackPanel>
+                                    </StackPanel>
+                                    <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="10">
+                                        <components:Ikon Nama="compass" Ukuran="17" Warna="{StaticResource Teks3}"/>
+                                        <StackPanel Spacing="1">
+                                            <TextBlock Text="{Binding WindDirectionText}" Classes="mono" FontSize="14.5" FontWeight="SemiBold" Foreground="{StaticResource Teks}"/>
+                                            <TextBlock Text="arah datang" Classes="samar" FontSize="11.5"/>
+                                        </StackPanel>
+                                    </StackPanel>
+                                    <StackPanel Grid.Row="1" Orientation="Horizontal" Spacing="10">
+                                        <components:Ikon Nama="droplets" Ukuran="17" Warna="{StaticResource Teks3}"/>
+                                        <StackPanel Spacing="1">
+                                            <TextBlock Text="{Binding HumidityText}" Classes="mono" FontSize="14.5" FontWeight="SemiBold" Foreground="{StaticResource Teks}"/>
+                                            <TextBlock Text="kelembapan" Classes="samar" FontSize="11.5"/>
+                                        </StackPanel>
+                                    </StackPanel>
+                                    <StackPanel Grid.Row="1" Grid.Column="1" Orientation="Horizontal" Spacing="10">
+                                        <components:Ikon Nama="thermometer" Ukuran="17" Warna="{StaticResource Teks3}"/>
+                                        <StackPanel Spacing="1">
+                                            <TextBlock Text="{Binding TemperatureText}" Classes="mono" FontSize="14.5" FontWeight="SemiBold" Foreground="{StaticResource Teks}"/>
+                                            <TextBlock Text="suhu" Classes="samar" FontSize="11.5"/>
+                                        </StackPanel>
+                                    </StackPanel>
+                                </Grid>
+                                <TextBlock Text="{Binding WeatherSourceText}"
+                                           Classes="samar"
+                                           FontSize="11.5"/>
+                            </StackPanel>
+                        </Border>
 
-                        <StackPanel Spacing="12">
+                        <ScrollViewer Grid.Row="2"
+                                      VerticalScrollBarVisibility="Auto">
+                            <StackPanel Margin="22,18"
+                                        Spacing="8">
+                                <TextBlock Text="{Binding SimulationResultLabel}"
+                                           Classes="label"/>
+                                <TextBlock Text="{Binding SimulationArea}"
+                                           Classes="mono"
+                                           FontSize="36"
+                                           FontWeight="SemiBold"
+                                           Foreground="{StaticResource Teks}"/>
+                                <TextBlock Text="{Binding SimulationAreaNote}"
+                                           FontSize="12.5"
+                                           Classes="redup"/>
+                                <Grid ColumnDefinitions="*,10,*"
+                                      Margin="0,8,0,4">
+                                    <Border CornerRadius="8"
+                                            Background="{StaticResource Permukaan2}"
+                                            Padding="12,10">
+                                        <StackPanel Spacing="2">
+                                            <TextBlock Text="{Binding LuasMungkin}" Classes="mono" FontSize="15" FontWeight="SemiBold" Foreground="{StaticResource Aksen}"/>
+                                            <TextBlock Text="peluang ≥ 50%" Classes="samar" FontSize="11.5"/>
+                                        </StackPanel>
+                                    </Border>
+                                    <Border Grid.Column="2"
+                                            CornerRadius="8"
+                                            Background="{StaticResource Permukaan2}"
+                                            Padding="12,10">
+                                        <StackPanel Spacing="2">
+                                            <TextBlock Text="{Binding LuasJangkauan}" Classes="mono" FontSize="15" FontWeight="SemiBold" Foreground="{StaticResource Teks}"/>
+                                            <TextBlock Text="jangkauan t+6" Classes="samar" FontSize="11.5"/>
+                                        </StackPanel>
+                                    </Border>
+                                </Grid>
+                                <TextBlock Text="{Binding SimulationDescription}"
+                                           FontSize="13"
+                                           Classes="redup"
+                                           TextWrapping="Wrap"/>
+                            </StackPanel>
+                        </ScrollViewer>
 
-                            <TextBlock
-                                Text="{Binding SimulationTimeText}"
-                                FontSize="12"
-                                FontWeight="SemiBold"
-                                Foreground="#95A2AD"/>
+                        <Border Grid.Row="3"
+                                BorderBrush="{StaticResource Garis}"
+                                BorderThickness="0,1,0,0"
+                                Padding="22,16,22,20">
+                            <!-- Aksi utama halaman -->
+                            <Button Theme="{StaticResource TombolUtama}"
+                                    HorizontalAlignment="Stretch"
+                                    Padding="0,12"
+                                    IsEnabled="{Binding !IsBusy}"
+                                    Click="RunSimulation_Click">
+                                <StackPanel Orientation="Horizontal"
+                                            Spacing="8">
+                                    <components:Ikon Nama="rotate-cw" Ukuran="16" Warna="{StaticResource AksenTinta}"/>
+                                    <TextBlock Text="Jalankan ulang simulasi"
+                                               FontSize="14"/>
+                                </StackPanel>
+                            </Button>
+                        </Border>
 
-
-                            <Slider
-                                Minimum="0"
-                                Maximum="6"
-                                TickFrequency="1"
-                                IsSnapToTickEnabled="True"
-                                Value="{Binding SimulationHour, Mode=TwoWay}"
-                                Background="#493A32"
-                                Foreground="#F15A24"
-                                HorizontalAlignment="Stretch">
-
-                                <Slider.Resources>
-                                    <SolidColorBrush x:Key="SliderThumbBackground" Color="#F15A24"/>
-                                    <SolidColorBrush x:Key="SliderThumbBackgroundPointerOver" Color="#E64F1F"/>
-                                    <SolidColorBrush x:Key="SliderThumbBackgroundPressed" Color="#D94C1C"/>
-                                </Slider.Resources>
-
-                                <Slider.Styles>
-
-                                    <!-- NORMAL: bagian aktif -->
-                                    <Style Selector="Slider /template/ RepeatButton#PART_DecreaseButton">
-                                        <Setter Property="Background" Value="#F15A24"/>
-                                    </Style>
-
-                                    <!-- NORMAL: bagian belum aktif -->
-                                    <Style Selector="Slider /template/ RepeatButton#PART_IncreaseButton">
-                                        <Setter Property="Background" Value="#493A32"/>
-                                    </Style>
-
-                                    <!-- NORMAL: lingkaran -->
-                                    <Style Selector="Slider /template/ Thumb">
-                                        <Setter Property="Background" Value="#F15A24"/>
-                                        <Setter Property="BorderBrush" Value="#F15A24"/>
-                                    </Style>
-
-                                    <!-- HOVER: bagian aktif -->
-                                    <Style Selector="Slider:pointerover /template/ RepeatButton#PART_DecreaseButton">
-                                        <Setter Property="Background" Value="#E64F1F"/>
-                                    </Style>
-
-                                    <!-- HOVER: bagian belum aktif tetap gelap -->
-                                    <Style Selector="Slider:pointerover /template/ RepeatButton#PART_IncreaseButton">
-                                        <Setter Property="Background" Value="#493A32"/>
-                                    </Style>
-
-                                    <!-- HOVER: lingkaran -->
-                                    <Style Selector="Slider:pointerover /template/ Thumb">
-                                        <Setter Property="Background" Value="#E64F1F"/>
-                                        <Setter Property="BorderBrush" Value="#E64F1F"/>
-                                    </Style>
-
-                                    <!-- PRESSED: bagian aktif -->
-                                    <Style Selector="Slider:pressed /template/ RepeatButton#PART_DecreaseButton">
-                                        <Setter Property="Background" Value="#D94C1C"/>
-                                    </Style>
-
-                                    <!-- PRESSED: bagian belum aktif tetap gelap -->
-                                    <Style Selector="Slider:pressed /template/ RepeatButton#PART_IncreaseButton">
-                                        <Setter Property="Background" Value="#493A32"/>
-                                    </Style>
-
-                                    <!-- PRESSED: lingkaran -->
-                                    <Style Selector="Slider:pressed /template/ Thumb">
-                                        <Setter Property="Background" Value="#D94C1C"/>
-                                        <Setter Property="BorderBrush" Value="#D94C1C"/>
-                                    </Style>
-
-                                </Slider.Styles>
-                            </Slider>
-
-
-                            <Grid ColumnDefinitions="*,*">
-
-                                <TextBlock Text="t+0"
-                                           FontSize="12"
-                                           Foreground="#95A2AD"/>
-
-                                <TextBlock Grid.Column="1"
-                                           Text="t+6"
-                                           FontSize="12"
-                                           Foreground="#95A2AD"
-                                           HorizontalAlignment="Right"/>
-
-                            </Grid>
-
-                        </StackPanel>
-                    </Border>
-
-
-                    <!-- WEATHER -->
-                    <Border Grid.Row="1"
-                            Background="#1C2329"
-                            BorderBrush="#303A42"
-                            BorderThickness="1"
-                            CornerRadius="11"
-                            Padding="18">
-
-                        <StackPanel Spacing="0">
-
-                            <Grid ColumnDefinitions="*,Auto"
-                                  Margin="0,9,0,13">
-                                <TextBlock Text="Kecepatan&#10;angin"
-                                           Foreground="#95A2AD"
-                                           FontSize="13"/>
-                                <TextBlock Grid.Column="1"
-                                           Text="18 km/jam"
-                                           Foreground="#E5E9ED"
-                                           FontSize="14"/>
-                            </Grid>
-
-                            <Border Height="1" Background="#303A42"/>
-
-                            <Grid ColumnDefinitions="*,Auto"
-                                  Margin="0,13">
-                                <TextBlock Text="Arah angin"
-                                           Foreground="#95A2AD"
-                                           FontSize="13"/>
-                                <TextBlock Grid.Column="1"
-                                           Text="Barat daya&#10;(225°)"
-                                           Foreground="#E5E9ED"
-                                           FontSize="14"/>
-                            </Grid>
-
-                            <Border Height="1" Background="#303A42"/>
-
-                            <Grid ColumnDefinitions="*,Auto"
-                                  Margin="0,13">
-                                <TextBlock Text="Kelembapan"
-                                           Foreground="#95A2AD"
-                                           FontSize="13"/>
-                                <TextBlock Grid.Column="1"
-                                           Text="38%"
-                                           Foreground="#E5E9ED"
-                                           FontSize="14"/>
-                            </Grid>
-
-                            <Border Height="1" Background="#303A42"/>
-
-                            <Grid ColumnDefinitions="*,Auto"
-                                  Margin="0,13,0,9">
-                                <TextBlock Text="Hari tanpa&#10;hujan"
-                                           Foreground="#95A2AD"
-                                           FontSize="13"/>
-                                <TextBlock Grid.Column="1"
-                                           Text="11 hari"
-                                           Foreground="#E5E9ED"
-                                           FontSize="14"/>
-                            </Grid>
-
-                        </StackPanel>
-                    </Border>
-
-
-                    <!-- SIMULATION RESULT -->
-                    <Border Grid.Row="2"
-                            Background="#1C2329"
-                            BorderBrush="#303A42"
-                            BorderThickness="1"
-                            CornerRadius="11"
-                            Padding="18">
-
-                        <StackPanel Spacing="10">
-
-                            <TextBlock
-                                Text="{Binding SimulationResultLabel}"
-                                FontSize="12"
-                                FontWeight="SemiBold"
-                                Foreground="#95A2AD"/>
-
-                            <TextBlock
-                                Text="{Binding SimulationArea}"
-                                FontSize="31"
-                                FontWeight="Bold"
-                                Foreground="#E5E9ED"/>
-
-                            <TextBlock
-                                Text="Peluang ≥ 50% di ±140 ha · estimasi simulasi, bukan pengukuran"
-                                FontSize="12"
-                                Foreground="#95A2AD"
-                                TextWrapping="Wrap"/>
-
-                            <TextBlock
-                                Text="{Binding SimulationDescription}"
-                                FontSize="14"
-                                Foreground="#E5E9ED"
-                                TextWrapping="Wrap"
-                                Margin="0,4,0,6"/>
-
-                            <Button
-                                Content="Jalankan ulang simulasi"
-                                Theme="{StaticResource SimulationButtonTheme}"
-                                FontWeight="SemiBold"
-                                HorizontalAlignment="Left"
-                                Padding="17,11"
-                                Click="RunSimulation_Click"/>
-
-                        </StackPanel>
-                    </Border>
-
-                </Grid>
+                    </Grid>
+                </Border>
 
             </Grid>
         </Grid>
