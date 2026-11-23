@@ -1,5 +1,8 @@
 using System;
 using System.Linq;
+using System.IO;
+using System.Threading.Tasks;
+using Avalonia.Media.Imaging;
 using Avalonia;
 using Avalonia.Collections;
 using Avalonia.Controls;
@@ -13,14 +16,16 @@ namespace SiagaApi.Views;
 
 public partial class PetaSimulasiView : UserControl
 {
+    private static readonly PetaDasarService Ubin = new();
     private PetaSimulasiViewModel? _viewModel;
+    private HasilMonteCarlo? _petaUntuk;
 
     public PetaSimulasiView()
     {
         InitializeComponent();
 
         DataContextChanged += (_, _) => PasangViewModel(DataContext as PetaSimulasiViewModel);
-        DetachedFromVisualTree += (_, _) => PasangViewModel(null);
+        DetachedFromVisualTree += (_, _) => { PasangViewModel(null); BersihkanPeta(); };
     }
 
     private void PasangViewModel(PetaSimulasiViewModel? viewModel)
@@ -111,6 +116,7 @@ public partial class PetaSimulasiView : UserControl
         var hasil = _viewModel?.Hasil;
         if (hasil is null || _viewModel is null)
         {
+            BersihkanPeta();
             Tulis("Belum ada hasil simulasi untuk ditampilkan.", 300, 300, 14, "#9AA7B2");
             return;
         }
@@ -120,9 +126,27 @@ public partial class PetaSimulasiView : UserControl
 
         const double tepi = 46;
         double lebar = GridKanvas.Width, tinggi = GridKanvas.Height;
-        double sel = Math.Min(Math.Min((lebar - 2 * tepi) / hasil.Kolom, (tinggi - 2 * tepi) / hasil.Baris), 32);
-        double asalX = (lebar - sel * hasil.Kolom) / 2;
-        double asalY = (tinggi - sel * hasil.Baris) / 2;
+        double utara = hasil.LatAsal + hasil.Baris * hasil.UkuranSel;
+        double timur = hasil.LonAsal + hasil.Kolom * hasil.UkuranSel;
+        double zoom = PetaDasarService.ZoomPas(hasil.LatAsal, utara, hasil.LonAsal, timur,
+            lebar - 2 * tepi, tinggi - 2 * tepi);
+        var baratLaut = PetaDasarService.KePiksel(utara, hasil.LonAsal, zoom);
+        var tenggara = PetaDasarService.KePiksel(hasil.LatAsal, timur, zoom);
+        double asalX = (baratLaut.X + tenggara.X - lebar) / 2;
+        double asalY = (baratLaut.Y + tenggara.Y - tinggi) / 2;
+
+        Point KeKanvas(double lat, double lon)
+        {
+            var piksel = PetaDasarService.KePiksel(lat, lon, zoom);
+            return new Point(piksel.X - asalX, piksel.Y - asalY);
+        }
+
+        if (!ReferenceEquals(_petaUntuk, hasil))
+        {
+            BersihkanPeta();
+            _petaUntuk = hasil;
+            GambarUbin(zoom, asalX, asalY, lebar, tinggi);
+        }
 
         double[] sekarang = hasil.Peluang[Math.Clamp(_viewModel.Jam, 0, hasil.Jam)];
         double[] akhir = hasil.Peluang[hasil.Jam];
@@ -134,11 +158,15 @@ public partial class PetaSimulasiView : UserControl
                 int i = b * hasil.Kolom + k;
                 double p = sekarang[i];
 
+                double selatan = hasil.LatAsal + b * hasil.UkuranSel;
+                double barat = hasil.LonAsal + k * hasil.UkuranSel;
+                var kiriAtas = KeKanvas(selatan + hasil.UkuranSel, barat);
+                var kananBawah = KeKanvas(selatan, barat + hasil.UkuranSel);
                 var kotak = new Rectangle
                 {
-                    Width = sel,
-                    Height = sel,
-                    Stroke = new SolidColorBrush(Colors.White, 0.05),
+                    Width = kananBawah.X - kiriAtas.X,
+                    Height = kananBawah.Y - kiriAtas.Y,
+                    Stroke = new SolidColorBrush(Colors.Black, 0.22),
                     StrokeThickness = 1
                 };
 
@@ -156,10 +184,10 @@ public partial class PetaSimulasiView : UserControl
                 }
 
                 if (p > 0)
-                    ToolTip.SetTip(kotak, $"Peluang terbakar pada t+{_viewModel.Jam}: {p:P0}");
+                    ToolTip.SetTip(kotak, $"Peluang sudah terjangkau hingga t+{_viewModel.Jam}: {p:P0}");
 
-                Canvas.SetLeft(kotak, asalX + k * sel);
-                Canvas.SetTop(kotak, asalY + (hasil.Baris - 1 - b) * sel);
+                Canvas.SetLeft(kotak, kiriAtas.X);
+                Canvas.SetTop(kotak, kiriAtas.Y);
                 GridKanvas.Children.Add(kotak);
             }
         }
@@ -167,8 +195,7 @@ public partial class PetaSimulasiView : UserControl
         // Hotspot asli di posisi sebenarnya di dalam grid.
         foreach (var t in hasil.Klaster)
         {
-            double kolom = (t.Lon - hasil.LonAsal) / hasil.UkuranSel;
-            double baris = (t.Lat - hasil.LatAsal) / hasil.UkuranSel;
+            var lokasi = KeKanvas(t.Lat, t.Lon);
             var titik = new Ellipse
             {
                 Width = 13,
@@ -179,15 +206,58 @@ public partial class PetaSimulasiView : UserControl
             };
             ToolTip.SetTip(titik, FormattableString.Invariant(
                 $"Hotspot {t.Lat:0.000}, {t.Lon:0.000} · confidence {Confidence.Label(t.Confidence)} · {t.WaktuDeteksi + DasborService.Wib:dd MMM HH.mm} WIB"));
-            Canvas.SetLeft(titik, asalX + kolom * sel - 6.5);
-            Canvas.SetTop(titik, asalY + (hasil.Baris - baris) * sel - 6.5);
+            Canvas.SetLeft(titik, lokasi.X - 6.5);
+            Canvas.SetTop(titik, lokasi.Y - 6.5);
             GridKanvas.Children.Add(titik);
         }
 
-        // Skala: panjang 2 km di grid ini.
-        double pikselPerKm = sel / (hasil.UkuranSel * 111.32);
-        Garis(new Point(asalX, tinggi - 14), new Point(asalX + 2 * pikselPerKm, tinggi - 14), "#9AA7B2", 3);
-        Tulis("2 km", asalX, tinggi - 36, 12, "#9AA7B2");
+        double latTengah = (utara + hasil.LatAsal) / 2;
+        double lonDuaKm = 2 / (111.32 * Math.Cos(latTengah * Math.PI / 180));
+        double skala = KeKanvas(latTengah, hasil.LonAsal + lonDuaKm).X - KeKanvas(latTengah, hasil.LonAsal).X;
+        Garis(new Point(tepi, tinggi - 14), new Point(tepi + skala, tinggi - 14), "#19232A", 3);
+        Tulis("2 km", tepi, tinggi - 36, 12, "#19232A");
+    }
+
+    private void BersihkanPeta()
+    {
+        foreach (var gambar in PetaKanvas.Children.OfType<Image>())
+        {
+            var bitmap = gambar.Source as Bitmap;
+            gambar.Source = null;
+            bitmap?.Dispose();
+        }
+        PetaKanvas.Children.Clear();
+        _petaUntuk = null;
+    }
+
+    private void GambarUbin(double zoom, double x, double y, double lebar, double tinggi)
+    {
+        int z = (int)Math.Clamp(Math.Floor(zoom), 0, PetaDasarService.ZoomMaks);
+        double sisi = PetaDasarService.UkuranUbin * Math.Pow(2, zoom - z);
+        for (int tx = (int)Math.Floor(x / sisi); tx * sisi < x + lebar; tx++)
+        for (int ty = (int)Math.Floor(y / sisi); ty * sisi < y + tinggi; ty++)
+        {
+            var gambar = new Image { Width = sisi + 0.5, Height = sisi + 0.5, Stretch = Stretch.Fill };
+            Canvas.SetLeft(gambar, tx * sisi - x);
+            Canvas.SetTop(gambar, ty * sisi - y);
+            PetaKanvas.Children.Add(gambar);
+            _ = MuatUbinAsync(gambar, z, tx, ty);
+        }
+    }
+
+    private async Task MuatUbinAsync(Image gambar, int z, int x, int y)
+    {
+        try
+        {
+            var isi = await Ubin.AmbilUbinAsync(PengaturanPosko.PetaJalan, z, x, y);
+            if (isi is null || !PetaKanvas.Children.Contains(gambar)) return;
+            using var aliran = new MemoryStream(isi);
+            gambar.Source = new Bitmap(aliran);
+        }
+        catch (Exception)
+        {
+            // Grid tetap terlihat saat ubin rusak atau jaringan tidak tersedia.
+        }
     }
 
     private void Garis(Point dari, Point ke, string warna, double tebal)
